@@ -2,12 +2,12 @@
 
 #define MAXNODE 256
 
-struct {
+static struct {
     int child[2];
 } node[MAXNODE + 1];
 
 
-int usqU8(content_t *content) {
+static int usqU8(content_t *content) {
     int i;
     int cbit;
 

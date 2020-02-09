@@ -89,7 +89,8 @@ typedef struct _content {
 } content_t;
 
 enum {
-    stored = 1, squeezed, crunched, crLzh, library, skipped, missing, mapping
+    stored = 1, squeezed, crunched, crunchV1, crunchV2,
+    crLzh, crLzhV1, crLzhV2, library, skipped, missing, mapping
 };
 
 

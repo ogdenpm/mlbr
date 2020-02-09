@@ -14,7 +14,11 @@ char const *methodName(content_t *content) {
     switch (content->type) {
     case squeezed: return "Squeezed";
     case crunched: return "Crunched";
+    case crunchV1: return "CrunchV1";
+    case crunchV2: return "CrunchV2";
     case crLzh:    return "Cr-Lzh";
+    case crLzhV1:  return "Cr-LzhV1";
+    case crLzhV2:  return "Cr-LzhV2";
     case library:  return "Library";
     case stored:   return "Stored";
     case skipped:  return "Skipped";
@@ -105,6 +109,7 @@ void list(content_t *content) {
         printf("%-12s %7ld %-9s", p->out.fname, p->out.pos, methodName(p));
         switch (p->type) {
         case crunched: case squeezed: case crLzh:
+        case crunchV1: case crunchV2: case crLzhV1: case crLzhV2:
             printf(" (%-12s %7ld) ", p->in.fname, p->in.bufSize);
             break;
         default:
@@ -253,6 +258,8 @@ int main(int argc, char **argv) {
                 if (dir = resolveDir(userDir, subDir)) {
                     mkOsNames(content);
                     ok &= saveContent(content, dir);
+                    if (subDir)
+                        setFileTime(dir, file->fdate);
                 } else
                     ok = false;
             }

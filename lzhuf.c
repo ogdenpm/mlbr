@@ -23,7 +23,7 @@
 #define EOF_CODE	256
 
 
-uint8_t text_buf[LZ_N + LZ_F - 1];
+static uint8_t text_buf[LZ_N + LZ_F - 1];
 
 
 /* Huffman coding parameters */
@@ -34,7 +34,7 @@ uint8_t text_buf[LZ_N + LZ_F - 1];
 #define MAX_FREQ	0x8000		/* updates tree when the */
                    /* root frequency comes to this value. */
 
-uint8_t oldver;
+static uint8_t oldver;
 
 /*
  * Tables for decoding upper 6 bits of
@@ -42,7 +42,7 @@ uint8_t oldver;
  */
 
 /* decoder table */
-uint8_t d_code[256] = {
+static uint8_t d_code[256] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -77,7 +77,7 @@ uint8_t d_code[256] = {
     0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
 };
 
-uint8_t d_len[256] = {
+static uint8_t d_len[256] = {
     0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
     0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
     0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
@@ -112,21 +112,21 @@ uint8_t d_len[256] = {
     0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08,
 };
 
-unsigned freq[LZ_T + 1];	/* cumulative freq table */
+static unsigned freq[LZ_T + 1];	/* cumulative freq table */
 
 /*
  * pointing parent nodes.
  * area [LZ_T..(LZ_T + N_CHAR - 1)] are pointers for leaves
  */
-int prnt[LZ_T + N_CHAR];
+static int prnt[LZ_T + N_CHAR];
 
 /* pointing children nodes (son[], son[] + 1)*/
-int son[LZ_T + 1];              // getcode could access son[LZ_T]
+static int son[LZ_T + 1];              // getcode could access son[LZ_T]
 
 
 /* initialize freq tree */
 
-void startHuff() {
+static void startHuff() {
 
     for (int i = 0; i < N_CHAR; i++) {
         freq[i] = 1;
@@ -145,7 +145,7 @@ void startHuff() {
 
 /* reconstruct freq tree */
 
-void reconst() {
+static void reconst() {
     /* halven cumulative freq for leaf nodes */
 
     for (int i = 0, j = 0; i < LZ_T; i++) {
@@ -180,7 +180,7 @@ void reconst() {
 
 /* update freq tree */
 
-void update(unsigned c) {
+static void update(unsigned c) {
     unsigned i, j, k, l;
 
     if (freq[LZ_R] == MAX_FREQ)
@@ -216,7 +216,7 @@ void update(unsigned c) {
     } while ((c = prnt[c]) != 0);	/* do it until reaching the root */
 }
 
-unsigned DecodeChar(content_t *content) {
+static unsigned DecodeChar(content_t *content) {
     unsigned c;
 
     c = son[LZ_R];
@@ -234,7 +234,7 @@ unsigned DecodeChar(content_t *content) {
 }
 
 
-unsigned DecodePosition(content_t *content) {
+static unsigned DecodePosition(content_t *content) {
     int i;
     unsigned j, c;
 
@@ -273,6 +273,7 @@ bool uncrLzh(content_t *content) { /* Decoding/Uncompressing */
         return false;
 
     oldver = siglevel < 0x20;
+    content->type = siglevel < 0x20 ? crLzhV1 : crLzhV2;
 
     startHuff();
     r = LZ_N - LZ_F;

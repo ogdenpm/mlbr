@@ -38,58 +38,39 @@ typedef struct {
     uint16_t suffix;	/*character suffixed to previous entries*/
 } entry_t;
 
-entry_t table[TABLE_SIZE];
+static entry_t table[TABLE_SIZE];
 
 /*auxilliary physical translation table*/
 /*translates hash to main table index*/
-uint16_t xlatbl[XLATBL_SIZE];
+static uint16_t xlatbl[XLATBL_SIZE];
 
 
 
 /*other global variables*/
-unsigned char	codlen;		/*variable code length in bits (9-12)*/
-unsigned char	fulflg;		/*full flag - set once main table is full*/
-uint16_t	entry;			/*next available main table entry*/
-bool	entflg; 	/*inhibit main loop from entering this code*/
-int	finchar;		/*first character of last substring output*/
-uint16_t lastpr;    // previous predecessor
-bool corrupt = false;
+static uint8_t codlen;		/*variable code length in bits (9-12)*/
+static uint8_t fulflg;		/*full flag - set once main table is full*/
+static uint16_t entry;			/*next available main table entry*/
+static bool	entflg; 	/*inhibit main loop from entering this code*/
+static int	finchar;		/*first character of last substring output*/
+static uint16_t lastpr;    // previous predecessor
+static bool corrupt = false;
+static bool isV2;                  // true if V2 of Crunch
+static int endcode;                // code to mark end of input stream
 
 /*hash pred/suff into xlatbl pointer*/
 /*duplicates the hash algorithm used by CRUNCH 2.3*/
-uint16_t hash(uint16_t pred, uint8_t suff) {
+uint16_t hashV2(uint16_t pred, uint8_t suff) {
     // returns hash value 1-4096
     if (suff == IMPRED)
         suff = 0;
     return ((((pred >> 4) & 0xff) ^ suff) | ((pred & 0xf) << 8)) + 1;
 }
 
-/*find an empty entry in xlatbl which hashes from this predecessor/suffix*/
-/*combo, and store the index of the next available lzw table entry in it*/
-void figure(uint16_t pred, uint8_t suff) {
-    uint16_t hashval = hash(pred, suff);
-    uint16_t curhash;
-
-    /*follow secondary hash chain as necessary to find an empty slot*/
-    for (curhash = hashval; xlatbl[curhash] != EMPTY; curhash = (curhash + hashval) % XLATBL_SIZE)
-        ;
-
-    /*stuff next available index into this slot*/
-    xlatbl[curhash] = entry;
-}
-
-void enterxV1(uint16_t pred, uint8_t chr) {
-    uint16_t lasthash, hashval;
-
-    /* in ver 1.x crunched files, we hash the code into the array. This
-     * means we don't have a real entry, but entry is used to count
-     * how many hashs have been created
-     */
-    if (entry >= MAXSTR)
-        return;
-    entry++;
-
-    if (pred == 0xffff && chr == 0)
+// hash function for V1
+// generatel initial hash, then get new hash value from xlatbl if already inuse
+static uint16_t hashV1(uint16_t pred, uint8_t chr) {
+    uint16_t hashval;
+    if (pred == IMPRED && chr == 0)
         hashval = 0x800;   /* special case (leaving the zero code free for EOF) */
     else {
         /* normally we do a slightly awkward mid-square thing */
@@ -98,50 +79,62 @@ void enterxV1(uint16_t pred, uint8_t chr) {
         hashval = (((b * (b + (a & 1))) >> 4) & 0xfff);
     }
 
-    /* first, check link chain from there */
-    while (table[hashval].suffix != EMPTY && xlatbl[hashval] != IMPRED)
+    // use link chain to find free slot
+    while (table[hashval].suffix != EMPTY && xlatbl[hashval] != EMPTY)
         hashval = xlatbl[hashval];
+    return hashval;
+}
+
+static uint16_t getInsertPtV1(uint16_t pred, uint8_t chr) {
+    uint16_t hashval = hashV1(pred, chr);
 
     /* make sure we return early if possible to avoid adding link */
     if (table[hashval].suffix != EMPTY) {
-        lasthash = hashval;
+        // probe for an empty slot starting 101 slots from initial slot
+        uint16_t initialHash = hashval;
 
-        /* slightly odd approach if it's not in that - first try skipping
-         * 101 entries, then try them one-by-one. If should be impossible
-         * for this to loop indefinitely, since we made sure with the entry
-         * test at the start
-         */
-        hashval = (hashval + 101) % TABLE_SIZE;
-
-        for (int f = 0; f < MAXSTR && table[hashval].suffix != EMPTY; f++, hashval = (hashval + 1) % TABLE_SIZE)
+        for (hashval = (hashval + 101) % TABLE_SIZE; table[hashval].suffix != EMPTY; hashval = (hashval + 1) % TABLE_SIZE)
             ;
-
-        /* add link to here from the end of the chain */
-        //printf("xlatbl[%04X] was %04X now %04X\n", lasthash, xlatbl[lasthash], hashval);
-        xlatbl[lasthash] = hashval;
+        // add link to here from the end of the chain
+        xlatbl[initialHash] = hashval;
     }
-    //printf("Enter %04X %02X %04X\n", hashval, chr, pred);
-    table[hashval].suffix = chr;
-    if (pred < MAXSTR)
-        table[hashval].predecessor = pred;
+    return hashval;
+}
+
+
+// find an empty entry in xlatbl which hashes from this predecessor/suffix
+// combo, and store the index of the next available lzw table entry in it
+// returns entry is always the the insert point into table
+static uint16_t getInsertPtV2(uint16_t pred, uint8_t suff) {
+    uint16_t hashval = hashV2(pred, suff);
+    uint16_t rehash;
+
+    /*follow secondary hash chain as necessary to find an empty slot*/
+    for (rehash = hashval; xlatbl[rehash] != EMPTY; rehash = (rehash + hashval) % XLATBL_SIZE)
+        ;
+
+    /*stuff next available index into this slot*/
+    xlatbl[rehash] = entry;
+    return entry;
 }
 
 /*enter the next code into the lzw table*/
-void enterxV2(uint16_t pred, uint8_t suff) {
-    // pred table index of predecessor
-    // suff suffix byte represented by this enty
-
-    /*update xlatbl to point to this entry*/
-    figure(pred, suff);
+/* in ver 1.x crunched files, we hash the code into the array. This-
+ * means we don't have a real entry, but entry is used to count
+ * how many hashs have been created
+ */
+static void enterx(uint16_t pred, uint8_t suff) {
+    uint16_t insertPt = isV2 ? getInsertPtV2(pred, suff) : getInsertPtV1(pred, suff);
 
     /*make the new entry*/
-    table[entry].predecessor = pred;
-    table[entry++].suffix = suff;
+    table[insertPt].suffix = suff;
+    if (isV2 || pred < MAXSTR)
+        table[insertPt].predecessor = pred;
 
 
     /*if only one entry of the current code length remains, update to*/
     /*next code length because main loop is reading one code ahead*/
-    if (entry >= ~(~0U << codlen))
+    if (++entry >= ~(~0U << codlen))
         if (codlen < 12) // table not full, just make length one more bit
             codlen++;
         else            // table almost full (fulflg==0) or full (fulflg==1)
@@ -149,100 +142,73 @@ void enterxV2(uint16_t pred, uint8_t suff) {
 }
 
 
+/*initialize the lzw and physical translation tables and key decoder parameters */
+static void initDecoder() {
 
-/*initialize the lzw and physical translation tables*/
-void initb2() {
+    codlen = isV2 ? 9 : 12;     // initial code length V1 is always 12
+    fulflg = 0;	                // flag as empty table
+    entry = isV2 ? 0 : 1;       // V1 pre allocated entry 0
+    entflg = true;	            // first code is always atomic
+    endcode = isV2 ? EOFCOD : 0; // end of date code
+
     /*first mark all entries of xlatbl as empty*/
-    for (int i = 0; i < XLATBL_SIZE; i++)
+    for (int i = 0; i < XLATBL_SIZE; i++)               // v1 only really needs MAXSTR
         xlatbl[i] = EMPTY;
 
-    /*enter atomic and reserved codes into lzw table*/
+    for (int i = 0; i < TABLE_SIZE; i++)
+        table[i].suffix = table[i].predecessor = EMPTY; // v2 only really needs suffix
+
+    if (!isV2)
+        table[0].predecessor = table[0].suffix = IMPRED;	/* reserved */
+
+    /*enter the 256 atomic into lzw table*/
     for (int i = 0; i < 0x100; i++)
-        enterxV2(NOPRED, i);	/*first 256 atomic codes*/
-    for (int i = 0; i < 4; i++)
-        enterxV2(IMPRED, 0);	/*reserved codes*/
+        enterx(isV2 ? NOPRED : IMPRED, i);
+    if (isV2)                   // enter the 4 reserve codes
+        for (int i = 0; i < 4; i++)
+            enterx(IMPRED, 0);	/*reserved codes*/
 }
 
 
-
-
-
-
-
-/*initialize variables for each file to be uncrunched*/
-void intram() {
-    codlen = 9;	/*    "    */
-    fulflg = 0;	/*table empty*/
-    entry = 0;	/*    "      */
-    entflg = true;	/*first code always atomic*/
-}
-
-
-/*return a code of length "codlen" bits from the input file bit-stream*/
-int getcode(content_t *content) {
+// get the next codlen bits from the input stream
+// for V2 skip the filler codes
+// errors or end codes are seen then return EOF instead
+static int getcode(content_t *content) {
     int code;
     do {
         code = inBits(content, codlen);
-    } while (code == NULCOD || code == SPRCOD);
-    return code >= 0 ? code : EOFCOD;
+    } while (isV2 && (code == NULCOD || code == SPRCOD));
+    return code == endcode ? EOF : code;
 }
 
-/*decode this code*/
-bool decodeV1(uint16_t code, content_t *content) {
+// emit the byte string for this code
+static bool decode(uint16_t code, content_t *content) {
     if (table[code].suffix ==  EMPTY) {
-        /*the ugly exception, "WsWsW"*/
-        entflg = true;
-        enterxV1(lastpr, finchar);
+        // we need to insert this code before using it
+        entflg = true;                  // prevent main loop inserting again
+        enterx(lastpr, finchar);
     }
+    if (isV2)
+        table[code].predecessor |= REFERENCED;
 
-    /*walk back the lzw table starting with this code*/
-    uint8_t stack[TABLE_SIZE];
+    uint8_t stack[MAXSTR];
     uint8_t *stackp = stack;
-    while (table[code].predecessor != EMPTY) { /*i.e. code not atomic*/
+    // pick up the byte string from the tables which are stored in reverse order
+    // V1 uses empty predecessor to note last
+    // V2 uses code in range 0-255
+    while ((!isV2 && table[code].predecessor != EMPTY) || (isV2 && code > 255)) {
         *stackp++ = (uint8_t)table[code].suffix;
-        code = table[code].predecessor;
-        if (stackp >= &stack[TABLE_SIZE]) {
+        code = table[code].predecessor % TABLE_SIZE;
+        if (stackp >= &stack[MAXSTR]) {
             corrupt = true;
             return(entflg);
         }
     }
 
-    /*then emit all bytes corresponding to this code in forward order*/
-    outRle(finchar = table[code].suffix, content); /*first byte*/
+    // send the first byte and record if for later processing
+    outRle(finchar = table[code].suffix, content);
 
-    while (stackp > stack)		 /*the rest*/
-        outRle(*--stackp, content);
-
-    return(entflg);
-}
-/*decode this code*/
-bool decodeV2(uint16_t code, content_t *content) {
-
-    if (code >= entry) {
-        /*the ugly exception, "WsWsW"*/
-        entflg = true;
-        enterxV2(lastpr, finchar);
-    }
-
-    entry_t *ep = &table[code];
-    /*mark corresponding table entry as referenced*/
-    ep->predecessor |= REFERENCED;
-
-    /*walk back the lzw table starting with this code*/
-    uint8_t stack[TABLE_SIZE];
-    uint8_t *stackp = stack;
-    while (ep > &table[255]) { /*i.e. code not atomic*/
-        *stackp++ = (uint8_t)ep->suffix;
-        ep = &table[ep->predecessor % TABLE_SIZE];
-        if (stackp >= &stack[TABLE_SIZE]) {
-            corrupt = true;
-            return(entflg);
-        }
-    }
-
-    /*then emit all bytes corresponding to this code in forward order*/
-    outRle(finchar = ep->suffix, content); /*first byte*/
-
+    // emit the rest of the byte string
     while (stackp > stack)		 /*the rest*/
         outRle(*--stackp, content);
 
@@ -250,21 +216,17 @@ bool decodeV2(uint16_t code, content_t *content) {
 }
 
 
-/*attempt to reassign an existing code which has*/
-/*been defined, but never referenced*/
-void entfil(uint16_t pred, uint8_t suff)
-// pred     table index of predecessor
-// suff     suffix byte represented by this entry
-{
-    uint16_t hashval = hash(pred, suff);
+
+// attempt to reassign an existing code which has been defined, but never referenced
+static void entfil(uint16_t pred, uint8_t suff) {
+    uint16_t hashval = hashV2(pred, suff);
 
     /*search the candidate codes (all those which hash from this new*/
     /*predecessor and suffix) for an unreferenced one*/
     for (uint16_t curhash = hashval; xlatbl[curhash] != EMPTY; curhash = (curhash + hashval) % XLATBL_SIZE) {
         /*candidate code*/
         entry_t *ep = table + xlatbl[curhash];
-        if (!(ep->predecessor & REFERENCED)) {
-            /*entry reassignable, so do it!*/
+        if (!(ep->predecessor & REFERENCED)) { // entry reassignable, so do it!
             ep->predecessor = pred;
             ep->suffix = suff;
             /*discontinue search*/
@@ -276,66 +238,37 @@ void entfil(uint16_t pred, uint8_t suff)
 
 
 
-void initb1() {
-    for (int f = 0; f < MAXSTR; f++) {
-        xlatbl[f] = IMPRED;
-        table[f].suffix = EMPTY;
-        table[f].predecessor = EMPTY;
-    }
+// this is the main loop to process the crunched data
 
-    table[0].predecessor = table[0].suffix = IMPRED;	/* reserved */
-    entry = 1;			                                /* since it's a counter, for 1.x */
+static bool uncrunchData(content_t *content) {
+    initDecoder();              // set up atomic code definitions etc
+    outRle(-1, content);        // reset rle engine
+    corrupt = false;            // no corruption detected yet
 
-    for (int f = 0; f < 256; f++)
-        enterxV1(0xffff, f);
-}
-
-
-void uncrunchV1(content_t *content) {
     int pred;
-    entflg = true;      // 1st code is always atomic
-    initb1();
-
-    for (lastpr = 0xffff; (pred = inBits(content, 12)) > 0 && pred < MAXSTR; lastpr = pred) {
-        if (decodeV1(pred, content) == false)
-            enterxV1(lastpr, finchar);
-        else
-            entflg = false;
-
-    }
-}
-
-
-void uncrunchV2(content_t *content) {
-    intram();   // initialize variables for uncrunching a file
-    initb2();   // set up atomic code definitions
-    /*main decoding loop*/
-    int pred;
-    for (lastpr = NOPRED; !corrupt && (pred = getcode(content)) != EOFCOD; lastpr = pred) {
-        if (pred == RSTCOD) { /*reset code*/
-            entry = 0;
-            fulflg = 0;
-            codlen = 9;
+    for (lastpr = NOPRED; !corrupt && (pred = getcode(content)) >= 0; lastpr = pred) {
+        if (isV2 && pred == RSTCOD) {       // reset code
+            initDecoder();
             pred = NOPRED;
-            entflg = true;
-            initb2();
-        } else if (fulflg != 2) {       /*a normal code - check for table full*/
-            if (decodeV2(pred, content) == false)      /*strategy if table not full*/
-                enterxV2(lastpr, finchar);
+        } else if (fulflg != 2) {           // a normal code room in table
+            if (decode(pred, content) == false)
+                enterx(lastpr, finchar);    // enter code if decode didn't already do so
             else
-                entflg = false;
-        } else {                        /*strategy if table is full*/
-            decodeV2(pred, content);
-            entfil(lastpr, finchar);    /*attempt to reassign*/
+                entflg = false;             // reset the toggle so next enterx works
+        } else {                            // table is full
+            decode(pred, content);
+            if (isV2)                       // V2 attempts to reassign
+                entfil(lastpr, finchar);
         }
     }
+    return !corrupt;
 }
 
 /*uncrunch a single file return true for successful uncrunch */
 bool uncrunch(content_t *content) {
-    unsigned char reflevel;		/*ref rev level from input file*/
-    unsigned char siglevel;		/*sig rev level from input file*/
-    unsigned char errdetect;	/*error detection flag from input file*/
+    uint8_t reflevel;		/*ref rev level from input file*/
+    uint8_t siglevel;		/*sig rev level from input file*/
+    uint8_t errdetect;	/*error detection flag from input file*/
 
     if (!parseHeader(content))		// shared header processing
         return false;
@@ -348,22 +281,17 @@ bool uncrunch(content_t *content) {
     if (inU8(content) < 0) /*skip spare but check for eof*/
         return false;
 
-    /*make sure we can uncrunch this format file*/
-    /*note: this program does not support CRUNCH 1.x format */
-    // example 1.1 H:/BEEHIVE/ZCAT/FINDF26.LBR
+    // check uncrunch version is supported
     if (siglevel < 0x10 || siglevel > 0x2f) {
         printf("%s unsupported version of crunch\n", content->in.fname);
         return false;
     }
-    outRle(-1, content);        // reset rle engine
-    corrupt = false;            // no corruption detected yet
 
-    if (siglevel >= 0x20)
-        uncrunchV2(content);
-    else
-        uncrunchV1(content);
+    isV2 = siglevel >= 0x20;                    // file global that reflects version of crunch
 
-    if (corrupt)
+    content->type = isV2 ? crunchV2 : crunchV1; // update the type to reflect we know the version
+
+    if (!uncrunchData(content))                 // go do the decode
         return false;
 
     /*verify checksum if required*/
