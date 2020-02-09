@@ -1,0 +1,13 @@
+﻿extensions: designer.cs generated.cs
+extensions: .cs .cpp .h .c
+// Copyright (c) 2020 Mark Ogden 
+extensions: .aspx .ascx
+<%-- 
+Copyright (c) 2020 Mark Ogden
+--%>
+extensions: .vb
+'Sample license text.
+extensions:  .xml .config .xsd
+<!--
+Sample license text.
+-->
