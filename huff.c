@@ -1,3 +1,7 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "mlbr.h"
 
 #define MAXNODE 256
@@ -19,8 +23,6 @@ static int usqU8(content_t *content) {
 }
 
 
-
-
 bool unsqueeze(content_t *content) {
     int nodeCnt;
     int c;
@@ -36,7 +38,7 @@ bool unsqueeze(content_t *content) {
     
     for (int i = 0; i < nodeCnt; i++) {
         node[i].child[0] = inI16(content);
-        node[i].child[1] = inI16(content);
+        node[i].child[1] = inI16(content); //-V656
     }
     if (isEof(content))
         return false;

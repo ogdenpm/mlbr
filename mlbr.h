@@ -1,3 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 // Copyright (c) 2020 Mark Ogden 
 #ifndef MLBR_H
 #define MLBR_H
@@ -15,11 +23,10 @@
 #include <assert.h>
 
 
-
 #ifdef _MSC_VER
 #include <sys/utime.h>
 #include <direct.h>
-#define ISDIRSEP(c) (c == '/' || c == '\\')
+#define ISDIRSEP(c) ((c) == '/' || (c) == '\\')
 #define DIRSEP  "/\\"
 #define mkdir(path, mode)   _mkdir(path)
 #define fileno  _fileno
@@ -32,7 +39,7 @@
 #include <unistd.h>
 #include <utime.h>
 #include <limits.h>     // for PATH_MAX
-#define ISDIRSEP(c) (c == '/')
+#define ISDIRSEP(c) ((c) == '/')
 #define DIRSEP  "/"
 char *strlwr(char *str);
 #define _MAX_PATH   PATH_MAX
@@ -148,4 +155,6 @@ bool parseHeader(content_t *content);
 bool rmkdir(char const *dir);
 void usage(char const *fmt, ...);
 char *mapCase(char *s);
+bool saveZipContent(content_t const *content, char const *dir, char const *name);
+char *replaceExt(char const *name, char const *ext);
 #endif

@@ -87,6 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,9 +167,13 @@
     <ClCompile Include="support.c" />
     <ClCompile Include="ulbr.c" />
     <ClCompile Include="uncrunch.c" />
+    <ClCompile Include="zip.c" />
+    <ClCompile Include="zipfile.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="miniz.h" />
     <ClInclude Include="mlbr.h" />
+    <ClInclude Include="zip.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mlbr.sln.licenseheader" />

@@ -1,3 +1,7 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 /*----------------------------------------------------------------------------*/
 /*  UNCRunch/C - LZW uncruncher compatible with Z-80 CP/M program CRUNCH 2.3  */
 /*			(C) Copyright 1986 - Frank Prindle		      */
@@ -59,7 +63,7 @@ static int endcode;                // code to mark end of input stream
 
 /*hash pred/suff into xlatbl pointer*/
 /*duplicates the hash algorithm used by CRUNCH 2.3*/
-uint16_t hashV2(uint16_t pred, uint8_t suff) {
+uint16_t hashV2(uint16_t pred, uint16_t suff) {
     // returns hash value 1-4096
     if (suff == IMPRED)
         suff = 0;
@@ -68,7 +72,7 @@ uint16_t hashV2(uint16_t pred, uint8_t suff) {
 
 // hash function for V1
 // generatel initial hash, then get new hash value from xlatbl if already inuse
-static uint16_t hashV1(uint16_t pred, uint8_t chr) {
+static uint16_t hashV1(uint16_t pred, uint16_t chr) {
     uint16_t hashval;
     if (pred == IMPRED && chr == 0)
         hashval = 0x800;   /* special case (leaving the zero code free for EOF) */
@@ -196,7 +200,7 @@ static bool decode(uint16_t code, content_t *content) {
     // pick up the byte string from the tables which are stored in reverse order
     // V1 uses empty predecessor to note last
     // V2 uses code in range 0-255
-    while ((!isV2 && table[code].predecessor != EMPTY) || (isV2 && code > 255)) {
+    while ((!isV2 && table[code].predecessor != EMPTY) || (isV2 && code > 255)) { //-V781
         *stackp++ = (uint8_t)table[code].suffix;
         code = table[code].predecessor % TABLE_SIZE;
         if (stackp >= &stack[MAXSTR]) {

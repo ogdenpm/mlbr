@@ -1,3 +1,7 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 /*
  * LZHUF.C English version 1.0
  * Based on Japanese version 29-NOV-1988
@@ -277,7 +281,7 @@ bool uncrLzh(content_t *content) { /* Decoding/Uncompressing */
 
     startHuff();
     r = LZ_N - LZ_F;
-    memset(text_buf, ' ', r);
+    memset(text_buf, ' ', r); //-V512
 
     // if we reach EOF then we don't have the CRC info
     while ((c = DecodeChar(content)) != EOF_CODE && !isEof(content)) {  // EOF or no more bytes (need 2 for CRC)

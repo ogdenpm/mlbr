@@ -1,3 +1,7 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 // Copyright (c) 2020 Mark Ogden 
 #include "mlbr.h"
 #include <stdarg.h>
@@ -99,7 +103,7 @@ int processFile(content_t *content, bool force) {
 
 
 static void displayDate(const time_t date) {
-        struct tm const *timeptr = localtime(&date);
+        struct tm const *timeptr = gmtime(&date);
         printf("%04d-%02d-%02d %02d:%02d", 1900 + timeptr->tm_year, timeptr->tm_mon + 1, timeptr->tm_mday, timeptr->tm_hour, timeptr->tm_min);
 }
 
@@ -140,10 +144,11 @@ void usage(char const *fmt, ...) {
     fprintf(stderr, "mlbr 1.0 - copyright (c) 2020 Mark Ogden.\n\n** ");
     vfprintf(stderr, fmt, args);
     fprintf(stderr, "\n"
-        "Usage: mlbr [-x | -d]  [-D dir]] [-f] [-k] [--] file+\n"
+        "Usage: mlbr [-x | -d | -z]  [-D dir]] [-f] [-k] [--] file+\n"
 
         "   -x  extract to directory\n"
         "   -d  extract to sub directory {name} - see below\n"
+        "   -z  convert to zip file {name}.zip\n"
         "   -D  override target directory\n"
         "   -f  forces write of skipped library content\n"
         "   -k  retains case of original file names (default is lower case)\n"
@@ -166,29 +171,21 @@ void usage(char const *fmt, ...) {
 
 
 char *resolveDir(char const *dir, char const *subDir) {
-    static char path[_MAX_PATH + 2];
-    path[0] = 0;
+    char *path = xmalloc(strlen(dir) + (subDir ? strlen(subDir) : 0) + 2);
 
-    if ((dir ? strlen(dir) : 0) + (subDir ? strlen(subDir) : 0) < _MAX_PATH) {   // can build name
-        if (dir)
-            strcpy(path, dir);
-        if (subDir) {
-            char *s = strchr(path, '\0');           // end of path so far
-            if (s != path && !ISDIRSEP(s[-1]))      // need to add separator
-                *s++ = '/';
-            strcpy(s, subDir);                      // append the subDir
-        }
-        if (path[0] == 0)
-            return path;
-        if (strlen(path) <= _MAX_PATH)
-            if (rmkdir(path))
-                return path;
-            else {
-                printf("problems creating target directory %s\n", path);
-                return NULL;
-            }
+    strcpy(path, dir);
+    if (subDir) {
+        char *s = strchr(path, '\0');           // end of path so far
+        if (s != path && !ISDIRSEP(s[-1]))      // need to add separator
+            *s++ = '/';
+        strcpy(s, subDir);                      // append the subDir
     }
-    printf("target directory path too long\n");
+    if (path[0] == 0)
+        return path;
+    if (rmkdir(path))
+       return path;
+    printf("problems creating target directory %s\n", path);
+    free(path);
     return NULL;
 }
 
@@ -198,9 +195,10 @@ int main(int argc, char **argv) {
     bool xopt = false;
     bool dopt = false;
     bool fopt = false;
+    bool zopt = false;
     int ok = 0;
-    char const *userDir = NULL;
-    char *subDir = NULL;
+    char const *userDir = "";
+    char *stem = NULL;
     char *dir = NULL;
 
     int arg;
@@ -218,6 +216,9 @@ int main(int argc, char **argv) {
         case 'd':
             dopt = true;
             break;
+        case 'z':
+            zopt = true;
+            break;
         case 'f':
             fopt = true;
             break;
@@ -234,8 +235,8 @@ int main(int argc, char **argv) {
             usage("Invalid option %s\n", argv[arg]);
         }
     }
-    if (xopt && dopt)
-        usage("Only one of -x and -d allowed\n");
+    if (xopt + dopt + zopt > 1)
+        usage("Only one of -x, -d and -z allowed\n");
 
     if (arg >= argc)
         usage("No file specified\n");
@@ -243,28 +244,38 @@ int main(int argc, char **argv) {
     for (; arg < argc; arg++) {
         printf("%s:\n", argv[arg]);
         file = loadFile(argv[arg]);
+        if (!file)
+            continue;
         content = makeDescriptor(file, file->fname, file->buf, file->bufSize);
         int saveCnt = processFile(content, fopt);
 
         list(content);
         if (saveCnt != 0) {
-            if (dopt) {
-                char *s;
-                subDir = xstrdup(file->fname);
-                if (s = strrchr(subDir, '.'))
-                    *s = 0;
-            }
+            if (dopt)
+                stem = replaceExt(file->fname, "");
+            else if (zopt)
+                stem = replaceExt(file->fname, ".zip");
+            else
+                stem = NULL;
             if (xopt || dopt) {
-                if (dir = resolveDir(userDir, subDir)) {
+                if (dir = resolveDir(userDir, stem)) {
                     mkOsNames(content);
                     ok &= saveContent(content, dir);
-                    if (subDir)
+                    if (dopt)
                         setFileTime(dir, file->fdate);
+                    free(dir);
+                } else
+                    ok = false;
+            } else if (zopt) {
+                if (dir = resolveDir(userDir, "")) {
+                    mkOsNames(content);
+                    saveZipContent(content, dir, stem);
+                    free(dir);
                 } else
                     ok = false;
             }
-            if (subDir)
-                free(subDir);
+            if (stem)
+                free(stem);
         }
         freeAllDescriptors(content);
 

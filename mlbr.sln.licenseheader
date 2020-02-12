@@ -1,5 +1,7 @@
 ﻿extensions: designer.cs generated.cs
 extensions: .cs .cpp .h .c
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 // Copyright (c) 2020 Mark Ogden 
 extensions: .aspx .ascx
 <%-- 

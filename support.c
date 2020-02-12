@@ -1,5 +1,32 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 // Copyright (c) 2020 Mark Ogden 
 #include "mlbr.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+
+#ifndef _WIN32
+// simulate windows _mkgmtime by seting env TZ to UTC, calling mktime & restoring TZ
+time_t _mkgmtime(struct tm *tm) {
+    time_t ret;     // simulate windows _mkgmtime 
+    char *tz;
+
+    tz = getenv("TZ");
+    setenv("TZ", "", 1);
+    tzset();
+    ret = mktime(tm);
+    if (tz)
+        setenv("TZ", tz, 1);
+    else
+        unsetenv("TZ");
+    tzset();
+    return ret;
+}
+#endif
 uint16_t crc16(uint8_t const *data, long len) {
     uint16_t x;
     uint16_t crc = 0;
@@ -27,10 +54,41 @@ time_t getFileTime(FILE *fp) {
     return buf.st_mtime;
 }
 
+#ifdef _WIN32
+// unfortunately utime does not appear to work with directories in windows
+// so using Windows API instead, also allows create time to be set
+uint64_t const unixDay0 = 116444736000000000;   // 1-Jan-1970 in FILETIME format
 void setFileTime(char const *path, time_t ftime) {
+
+    ULARGE_INTEGER hiresTime = { .QuadPart = unixDay0 + (uint64_t)ftime * 10000000ULL };
+    FILETIME filetm = { hiresTime.LowPart, hiresTime.HighPart };  
+
+    wchar_t wPath[_MAX_PATH + 1];               // CreateFile needs wchar path name so convert
+    MultiByteToWideChar(CP_ACP, 0, path, -1, wPath, _MAX_PATH);
+
+    // open the  file to allow update of the attributes
+    HANDLE hFile = CreateFile(wPath,
+        GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+        NULL,
+        OPEN_EXISTING,
+        FILE_FLAG_BACKUP_SEMANTICS,
+        NULL);
+    if (hFile == INVALID_HANDLE_VALUE)      // quietly ignore if we could note open
+        return;
+    SetFileTime(hFile, &filetm, &filetm, &filetm);   // set time, quietly ignore errors
+    CloseHandle(hFile);
+
+}
+#else
+// simple version for none windows systems
+void setFileTime(char const *path, time_t ftime) {
+
     struct utimbuf times = { ftime, ftime };
     utime(path, &times);
+
 }
+#endif
+
 
 int u16At(uint8_t const *buf, long offset) {
     return buf[offset] + buf[offset + 1] * 256;
@@ -71,7 +129,6 @@ time_t getCrunchTime(uint8_t const *dateStamp) {
     for (int i = 0; i < 5; i++)
         if ((dateValue[i] = bcd2Int(dateStamp[i])) < check[i].low || dateValue[i] > check[i].high)
             return 0;
-   
     timebuf.tm_year = dateValue[0] + (dateValue[0] < 78 ? 100 : 0);
     timebuf.tm_mon = dateValue[1] - 1;
     timebuf.tm_mday = dateValue[2];
@@ -79,25 +136,22 @@ time_t getCrunchTime(uint8_t const *dateStamp) {
     timebuf.tm_min = dateValue[4];
     timebuf.tm_sec = 0;
     timebuf.tm_isdst = -1;
-    return mktime(&timebuf);
+    return _mkgmtime(&timebuf);
 }
 
 time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs) {
     static time_t timeZero;
 
     if (timeZero == 0) {                            // get CP/M base time for this system
-        struct tm timebuf = { 0, 0, 0, 31, 11, 77, -1 };
+        struct tm timebuf = { 0, 0, 0, 31, 11, 77 };
 
-        timeZero = mktime(&timebuf);
+        timeZero = _mkgmtime(&timebuf);
     }
 
 
-    if (cpmDay || timeInSecs) {
-        time_t osTime = timeZero + cpmDay * (24 * 3600) + timeInSecs;
-        // see if the os thinks DST was in effect, if so remove the DST hour
-        struct tm const *timeptr = localtime(&osTime);
-        return timeptr->tm_isdst == 1 ? osTime - 3600 : osTime;
-    } else
+    if (cpmDay || timeInSecs)
+        return timeZero + cpmDay * (24 * 3600) + timeInSecs;
+    else
         return 0;
 }
 
@@ -253,7 +307,7 @@ void *xcalloc(size_t count, size_t size) {
 }
 
 void *xrealloc(void *p, size_t size) {
-    p = realloc(p, size);
+    p = realloc(p, size); //-V701
     if (p)
         return p;
     fprintf(stderr, "Fatal Error: Out of memory\n");
@@ -362,6 +416,16 @@ bool rmkdir(char const *dir) {
     }
     free(path);
     return ok;
+}
+
+char *replaceExt(char const *name, char const *ext) {
+    const char *s = strrchr(name, '.');         // start of extent
+    if (!s)
+        s = strchr(name, '\0');                 // no extent so end of name
+    char *newName = xmalloc(s - name + strlen(ext) + 1);
+    strncpy(newName, name, s - name);
+    strcpy(newName + (s - name), ext);
+    return newName;
 }
 
 #ifndef _MSC_VER

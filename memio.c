@@ -1,10 +1,14 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 // Copyright (c) 2020 Mark Ogden 
 #include "mlbr.h"
 
 char const *nameOnly(char const *fname) {
     char const *s;
     
-    if (s = strrchr(fname, '/'))                   // find file name assuming / directory separator
+    if (s = strrchr(fname, '/'))                   // find file name assuming / directory separator //-V525
         fname = s + 1;
 
 #ifdef _WIN32
@@ -23,23 +27,28 @@ char const *nameOnly(char const *fname) {
 file_t *loadFile(char const *name) {
     FILE *fp;
     struct stat statBuf;
+    file_t *file = NULL;
 
-    if ((fp = fopen(name, "rb")) == NULL || fstat(fileno(fp), &statBuf) != 0) {
-        if (fp)
-            fclose(fp);
-        usage("Cannot open %s\n", name);
+    if ((fp = fopen(name, "rb")) == NULL) {
+        fprintf(stderr, "Cannot open %s\n", name);
+        return NULL;
     }
-
-    file_t *file = xcalloc(1, sizeof(file_t));
-    file->bufSize = statBuf.st_size;
-    file->buf = xmalloc(file->bufSize);
-    if (fread(file->buf, 1, file->bufSize, fp) != file->bufSize) {
-        fclose(fp);
-        free(file->buf);
-        usage("Problem reading %s\n", name);
+    if (fstat(fileno(fp), &statBuf) != 0)
+        fprintf(stderr, "Problems reading %s\n", name);
+    else {
+        file = xcalloc(1, sizeof(file_t));
+        file->bufSize = statBuf.st_size;
+        file->buf = xmalloc(file->bufSize);
+        if (fread(file->buf, 1, file->bufSize, fp) == file->bufSize) {
+            file->fdate = getFileTime(fp);
+            file->fname = mapCase(xstrdup(nameOnly(name)));
+        } else {
+            free(file->buf);
+            free(file);
+            file = NULL;
+            fprintf(stderr, "Problem reading %s\n", name);
+        }
     }
-    file->fdate = getFileTime(fp);
-    file->fname = mapCase(xstrdup(nameOnly(name)));
     fclose(fp);
     return file;
 }
@@ -191,7 +200,7 @@ int inU16(content_t *content) {
 
 int inI16(content_t *content) {
     int low = inU8(content);
-    int high = inU8(content);
+    int high = inU8(content); //-V656
     return high < 0 ? EOF : (int16_t)(low + high * 256);
 }
 
@@ -215,7 +224,7 @@ int inBits(content_t *content, uint8_t count) {
 }
 
 int inBitRev(content_t *content) {
-    if ((content->bitStream >>= 1) <= 1) {  // no data left
+    if ((content->bitStream >>= 1) <= 1) {  // no data left //-V1019
         if (isEof(content))
             return EOF;
         content->bitStream = content->in.buf[content->in.pos++] + 0x100;    // byte + marker

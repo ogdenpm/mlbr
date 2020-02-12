@@ -36,9 +36,21 @@
     <ClCompile Include="uncrunch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zipfile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mlbr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
