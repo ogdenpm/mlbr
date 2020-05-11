@@ -160,7 +160,7 @@ void usage(char const *fmt, ...) {
     fprintf(stderr, "mlbr 1.0 - copyright (c) 2020 Mark Ogden.\n\n** ");
     vfprintf(stderr, fmt, args);
     fprintf(stderr, "\n"
-        "Usage: mlbr [-x | -d | -z]  [-D dir]] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
+        "Usage: mlbr [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
 
         "   -x  extract to directory\n"
         "   -d  extract lbr to sub directory {name} - see below\n"
