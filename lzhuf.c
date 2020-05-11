@@ -258,7 +258,7 @@ static unsigned DecodePosition(content_t *content) {
 
 
 
-bool uncrLzh(content_t *content) { /* Decoding/Uncompressing */
+int uncrLzh(content_t *content) { /* Decoding/Uncompressing */
     unsigned c, i, j, k, r;
     uint8_t reflevel;		/*ref rev level from input file*/
     uint8_t siglevel;		/*sig rev level from input file*/
@@ -266,18 +266,18 @@ bool uncrLzh(content_t *content) { /* Decoding/Uncompressing */
 
 
     if (!parseHeader(content))
-        return false;
+        return BADHEADER;
     reflevel = inU8(content);
     siglevel = inU8(content);
     errdetect = inU8(content);
     if (inU8(content) < 0)  // skip spare but check for eof
-        return false;
+        return BADHEADER;
 
     if (siglevel < 0x10 || siglevel > 0x2f)
-        return false;
+        return BADHEADER;
 
     oldver = siglevel < 0x20;
-    content->type = siglevel < 0x20 ? crLzhV1 : crLzhV2;
+    content->type = siglevel < 0x20 ? CrLzhV1 : CrLzhV2;
 
     startHuff();
     r = LZ_N - LZ_F;
@@ -303,11 +303,13 @@ bool uncrLzh(content_t *content) { /* Decoding/Uncompressing */
     /*verify checksum if required*/
     int fileCrc = inU16(content);
     if (fileCrc < 0)
-        return false;
+        return CORRUPT;
+
+    // tests below will return BADCRC or GOOD
     if (errdetect == 1)
         return crc16(content->out.buf, content->out.pos) == fileCrc;
-    else if (errdetect == 0)
+    if (errdetect == 0)
         return crc(content->out.buf, content->out.pos) == fileCrc;
-    return true;
+    return GOOD;
 }
 

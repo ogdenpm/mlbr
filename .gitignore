@@ -339,3 +339,21 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /CompilationDump.gz
+/cmp30
+/con20
+/con20.zip
+/decompil.zip
+/zipfile.o
+/zip.o
+/uncrunch.o
+/ulbr.o
+/syslib.zip
+/support.o
+/mlbr.plog
+/mlbr
+/memory.o
+/memio.o
+/main.o
+/lzhuf.o
+/huff.o
+/PVS-Studio-log.plog

@@ -1,47 +1,75 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 #include "mlbr.h"
 #define MINIZ_HEADER_FILE_ONLY
 #include "miniz.h"
 #include "zip.h"
 
 
-bool saveZipContent(content_t const *content, char const *dir, char const *name) {
+static bool saveZipContent(content_t *content, struct zip_t *zip) {
     bool ok = true;
-    struct zip_t *zip = NULL;
-    
-    char *path = xmalloc(strlen(dir) + strlen(name) + 2);
-    strcpy(path, dir);
-    char *s = strchr(path, '\0');
-    if (s != path && !ISDIRSEP(s[-1]))
-        *s++ = '/';
-    strcpy(s, name);
-
-    for (content_t const *p = content; p; p = p->next) {
-        if (p->type == skipped || p->type == library || p->type == missing)
-            continue;
-        if (zip == NULL)
-            zip = zip_open(path, ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
-
-        if (zip == NULL)
+    char const *err;
+    for (content_t *p = content; p; p = p->next) {
+        switch (p->type) {
+        case Skipped: case Missing:
             break;
+        case Library:
+            ok = saveZipContent(p->lbrHead, zip) && ok;
+            break;
+        }
+        if (p->type == Skipped || p->type == Library || p->type == Missing)
+            continue;
+        // zip names should have / directory separator
+        // also savePaths have an initial directory so this should be ignored
+#ifdef _WIN32
+        for (char *s = strchr(p->savePath, '\\'); s; s = strchr(s, '\\'))
+            *s = '/';
+#endif
+        char const *zpath = strchr(p->savePath, '/');
+        if (zpath)
+            zpath++;
+        else
+            zpath = p->savePath;
 
-        printf("%-12s", p->out.fname);
-
-        if (strcmp(path, p->out.fname) != 0)
-            printf(" ->%s %s", p->out.fname == p->saveName ? "" : "*", p->saveName);
-        putchar('\n');
-        zip_entry_open(zip, p->saveName);
-        zip_entry_write(zip, p->out.buf, p->out.pos);
-        zip_entry_close(zip, p->out.fdate);
+        err = "";
+        if (zip_entry_open(zip, zpath) != 0) {
+            err = " - failed to open";
+            ok = false;
+        } else if (zip_entry_write(zip, p->out.buf, (size_t) p->out.pos) != 0) {
+            err = " - failed to write";
+            zip_entry_close(zip, p->out.fdate);
+            ok = false;
+        } else if (zip_entry_close(zip, p->out.fdate) != 0) {
+            err = " - failed to close";
+            ok = false;
+        }
+        if (nameCmp(nameOnly(zpath), p->out.fname) != 0)
+            printf("%s -> %s%s\n", p->out.fname, zpath, err);
+        else if (*err)
+            printf("%s%s\n", zpath, err);
     }
+    return ok;
+}
 
-    if (zip) {
-        zip_close(zip);
-        setFileTime(path, content->in.fdate);
-    } else {
-        printf("could not create %s\n", path);
-        ok = false;
+bool saveZip(content_t *content, char const *targetDir, char const *zipfile) {
+    bool ok = true;
+    char const *zipPath = concat(targetDir, OSDIRSEP, zipfile, NULL);
+
+    struct zip_t *zip = zip_open(zipPath, ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
+    if (zip == NULL) {
+        printf("%s - cannot create zip file\n", zipPath);
+        return false;
     }
-    free(path);
-    putchar('\n');
+    ok = saveZipContent(content, zip);
+    zip_close(zip);
+    
+    setFileTime(zipPath, content->in.fdate);
+    
+    if (!ok) {
+        printf("%s - problems processing file, deleting\n", zipPath);
+        unlink(zipPath);
+    }
     return ok;
 }

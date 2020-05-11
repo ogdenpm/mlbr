@@ -44,7 +44,7 @@ static char *getLbrName(uint8_t const *lbrItem) {
                 break;
     }
     *s = 0;
-    return strdup(mapCase(name));
+    return xstrdup(mapCase(name));
 }
 
 
@@ -60,24 +60,26 @@ bool parseLbr(content_t *content) {
     lbrBuf[Crc] = 0;                   // for directories CRC is handled specially (replace CRC with 0)
     lbrBuf[Crc + 1] = 0;
 
-    if (crc16(lbrBuf, dirSize) != crc)
-        content->status |= (crc && crc != 0xffff) ? BADCRC : NOCRC;
-    
-    for (int off = dirSize - LBRDIR_SIZE; off > 0; off -= LBRDIR_SIZE) {        // process backwards as chain inserts at front
+    if (crc16(lbrBuf, dirSize) != crc) {
+        content->status |= (crc && crc != 0xffff) ? F_BADCRC : F_NOCRC;
+        logErr(content, "!! %s library CRC is %s\n", content->in.fname, (content->status & F_BADCRC) ? "bad" : "missing");
+    }
+    content->out.fdate = getLbrTime(lbrBuf);
+
+    for (long off = dirSize - LBRDIR_SIZE; off > 0; off -= LBRDIR_SIZE) {        // process backwards as chain inserts at front
         if ((lbrBuf + off)[Status] == 0) {
-            uint8_t *start = lbrBuf + u16At(lbrBuf + off, Index) * 128;
+            uint8_t *start = lbrBuf + (size_t)u16At(lbrBuf + off, Index) * 128;
             long length = u16At(lbrBuf + off, Length) * 128;
 
             content_t *descriptor = makeDescriptor(&content->in, getLbrName(lbrBuf + off), start, length);
             descriptor->in.fdate = descriptor->out.fdate = getLbrTime(lbrBuf + off);  // use the lbr directory date may be over written by crunch date
-            descriptor->status |= INCONTAINER;
-            descriptor->next = content->next;           // insert in chain
-            content->next = descriptor;
+            descriptor->next = content->lbrHead;           // insert in chain
+            content->lbrHead = descriptor;
 
 
             crc = u16At(lbrBuf + off, Crc);
             if (crc16(descriptor->in.buf, descriptor->in.bufSize) != crc)
-                descriptor->status |= (crc && crc != 0xffff) ? BADCRC : NOCRC;
+                descriptor->status |= (crc && crc != 0xffff) ? F_BADCRC : F_NOCRC;
 
             // pad count adjustment is NOT done since in the files I have seen
             // is isn't reliable and sometimes invalid

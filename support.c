@@ -4,29 +4,8 @@
 
 // Copyright (c) 2020 Mark Ogden 
 #include "mlbr.h"
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
-
-#ifndef _WIN32
-// simulate windows _mkgmtime by seting env TZ to UTC, calling mktime & restoring TZ
-time_t _mkgmtime(struct tm *tm) {
-    time_t ret;     // simulate windows _mkgmtime 
-    char *tz;
-
-    tz = getenv("TZ");
-    setenv("TZ", "", 1);
-    tzset();
-    ret = mktime(tm);
-    if (tz)
-        setenv("TZ", tz, 1);
-    else
-        unsetenv("TZ");
-    tzset();
-    return ret;
-}
-#endif
+#include <stdarg.h>
+#if 0
 uint16_t crc16(uint8_t const *data, long len) {
     uint16_t x;
     uint16_t crc = 0;
@@ -38,6 +17,52 @@ uint16_t crc16(uint8_t const *data, long len) {
     }
     return crc;
 }
+#else
+uint16_t crc16(uint8_t const *data, long len) {
+    static unsigned int crc_lookup[256] =
+    {
+    0x0000,0x1021,0x2042,0x3063,0x4084,0x50A5,0x60C6,0x70E7,
+    0x8108,0x9129,0xA14A,0xB16B,0xC18C,0xD1AD,0xE1CE,0xF1EF,
+    0x1231,0x0210,0x3273,0x2252,0x52B5,0x4294,0x72F7,0x62D6,
+    0x9339,0x8318,0xB37B,0xA35A,0xD3BD,0xC39C,0xF3FF,0xE3DE,
+    0x2462,0x3443,0x0420,0x1401,0x64E6,0x74C7,0x44A4,0x5485,
+    0xA56A,0xB54B,0x8528,0x9509,0xE5EE,0xF5CF,0xC5AC,0xD58D,
+    0x3653,0x2672,0x1611,0x0630,0x76D7,0x66F6,0x5695,0x46B4,
+    0xB75B,0xA77A,0x9719,0x8738,0xF7DF,0xE7FE,0xD79D,0xC7BC,
+    0x48C4,0x58E5,0x6886,0x78A7,0x0840,0x1861,0x2802,0x3823,
+    0xC9CC,0xD9ED,0xE98E,0xF9AF,0x8948,0x9969,0xA90A,0xB92B,
+    0x5AF5,0x4AD4,0x7AB7,0x6A96,0x1A71,0x0A50,0x3A33,0x2A12,
+    0xDBFD,0xCBDC,0xFBBF,0xEB9E,0x9B79,0x8B58,0xBB3B,0xAB1A,
+    0x6CA6,0x7C87,0x4CE4,0x5CC5,0x2C22,0x3C03,0x0C60,0x1C41,
+    0xEDAE,0xFD8F,0xCDEC,0xDDCD,0xAD2A,0xBD0B,0x8D68,0x9D49,
+    0x7E97,0x6EB6,0x5ED5,0x4EF4,0x3E13,0x2E32,0x1E51,0x0E70,
+    0xFF9F,0xEFBE,0xDFDD,0xCFFC,0xBF1B,0xAF3A,0x9F59,0x8F78,
+    0x9188,0x81A9,0xB1CA,0xA1EB,0xD10C,0xC12D,0xF14E,0xE16F,
+    0x1080,0x00A1,0x30C2,0x20E3,0x5004,0x4025,0x7046,0x6067,
+    0x83B9,0x9398,0xA3FB,0xB3DA,0xC33D,0xD31C,0xE37F,0xF35E,
+    0x02B1,0x1290,0x22F3,0x32D2,0x4235,0x5214,0x6277,0x7256,
+    0xB5EA,0xA5CB,0x95A8,0x8589,0xF56E,0xE54F,0xD52C,0xC50D,
+    0x34E2,0x24C3,0x14A0,0x0481,0x7466,0x6447,0x5424,0x4405,
+    0xA7DB,0xB7FA,0x8799,0x97B8,0xE75F,0xF77E,0xC71D,0xD73C,
+    0x26D3,0x36F2,0x0691,0x16B0,0x6657,0x7676,0x4615,0x5634,
+    0xD94C,0xC96D,0xF90E,0xE92F,0x99C8,0x89E9,0xB98A,0xA9AB,
+    0x5844,0x4865,0x7806,0x6827,0x18C0,0x08E1,0x3882,0x28A3,
+    0xCB7D,0xDB5C,0xEB3F,0xFB1E,0x8BF9,0x9BD8,0xABBB,0xBB9A,
+    0x4A75,0x5A54,0x6A37,0x7A16,0x0AF1,0x1AD0,0x2AB3,0x3A92,
+    0xFD2E,0xED0F,0xDD6C,0xCD4D,0xBDAA,0xAD8B,0x9DE8,0x8DC9,
+    0x7C26,0x6C07,0x5C64,0x4C45,0x3CA2,0x2C83,0x1CE0,0x0CC1,
+    0xEF1F,0xFF3E,0xCF5D,0xDF7C,0xAF9B,0xBFBA,0x8FD9,0x9FF8,
+    0x6E17,0x7E36,0x4E55,0x5E74,0x2E93,0x3EB2,0x0ED1,0x1EF0,
+    };
+
+    uint16_t crc = 0;
+    while (len-- > 0)
+        crc = (crc << 8) ^ crc_lookup[(crc >> 8) ^ *data++];
+
+    return crc;
+}
+#endif
+
 
 uint16_t crc(uint8_t const *data, long len) {
     uint16_t crc = 0;
@@ -46,98 +71,12 @@ uint16_t crc(uint8_t const *data, long len) {
     return crc;
 }
 
-time_t getFileTime(FILE *fp) {
-    struct stat buf;
-
-    if (fstat(fileno(fp), &buf) != 0)
-        return 0;
-    return buf.st_mtime;
-}
-
-#ifdef _WIN32
-// unfortunately utime does not appear to work with directories in windows
-// so using Windows API instead, also allows create time to be set
-uint64_t const unixDay0 = 116444736000000000;   // 1-Jan-1970 in FILETIME format
-void setFileTime(char const *path, time_t ftime) {
-
-    ULARGE_INTEGER hiresTime = { .QuadPart = unixDay0 + (uint64_t)ftime * 10000000ULL };
-    FILETIME filetm = { hiresTime.LowPart, hiresTime.HighPart };  
-
-    wchar_t wPath[_MAX_PATH + 1];               // CreateFile needs wchar path name so convert
-    MultiByteToWideChar(CP_ACP, 0, path, -1, wPath, _MAX_PATH);
-
-    // open the  file to allow update of the attributes
-    HANDLE hFile = CreateFile(wPath,
-        GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-        NULL,
-        OPEN_EXISTING,
-        FILE_FLAG_BACKUP_SEMANTICS,
-        NULL);
-    if (hFile == INVALID_HANDLE_VALUE)      // quietly ignore if we could note open
-        return;
-    SetFileTime(hFile, &filetm, &filetm, &filetm);   // set time, quietly ignore errors
-    CloseHandle(hFile);
-
-}
-#else
-// simple version for none windows systems
-void setFileTime(char const *path, time_t ftime) {
-
-    struct utimbuf times = { ftime, ftime };
-    utime(path, &times);
-
-}
-#endif
-
 
 int u16At(uint8_t const *buf, long offset) {
     return buf[offset] + buf[offset + 1] * 256;
 }
 
 
-
-/*
-    Crunch time is stored in 3 fields
-    createTime  0-4
-    accessTime  5-9
-    modifyTime  10-14
-
-    each field is encoded in bcd
-    year     - assume < 78 is 2000 onwards
-    month
-    day
-    hour
-    minute
-    0xff -> 0
-*/
-static int bcd2Int(uint8_t n) {
-    if (n == 0xff)
-        return 0;
-    if (n > 0x99 || n % 16 > 9)
-        return -1;
-    return (n / 16) * 10 + n % 16;
-}
-
-time_t getCrunchTime(uint8_t const *dateStamp) {
-    struct tm timebuf;
-    static struct { uint8_t low, high; } check[] = { {0, 99}, {1, 12}, {1, 31}, {0, 23}, {0, 59} };
-    int16_t dateValue[5];
-
-    if (bcd2Int(dateStamp[11]) > 0)     // is modify specified
-        dateStamp += 10;                // is so use it as the base
-
-    for (int i = 0; i < 5; i++)
-        if ((dateValue[i] = bcd2Int(dateStamp[i])) < check[i].low || dateValue[i] > check[i].high)
-            return 0;
-    timebuf.tm_year = dateValue[0] + (dateValue[0] < 78 ? 100 : 0);
-    timebuf.tm_mon = dateValue[1] - 1;
-    timebuf.tm_mday = dateValue[2];
-    timebuf.tm_hour = dateValue[3];
-    timebuf.tm_min = dateValue[4];
-    timebuf.tm_sec = 0;
-    timebuf.tm_isdst = -1;
-    return _mkgmtime(&timebuf);
-}
 
 time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs) {
     static time_t timeZero;
@@ -150,182 +89,91 @@ time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs) {
 
 
     if (cpmDay || timeInSecs)
-        return timeZero + cpmDay * (24 * 3600) + timeInSecs;
+        return timeZero + (time_t)cpmDay * (24 * 3600) + timeInSecs;
     else
         return 0;
 }
 
-// check the file specified by fn for illegal chars and for windows, reserved words
-// note CPM 2.2 checks for the following illegal chars "=_:;<>?*" although many of DR's CPM apps also use [] for options
-#ifndef _WIN32
-static const char illegal[] = "/";
-#else
-static const char illegal[] = "/\\|\"<>:?*";        // as a safety measure check for all illegal windows chars
-static const char *res3[] = { "con", "prn", "aux", "nul", NULL };
-static const char *res4[] = { "com", "lpt", NULL };
-#endif
 
-int chkName(char const *fn) {
-    char const *s;
-    int result = 0;
 
-    if (strpbrk(fn, illegal))
-        result |= ILLEGALCHAR;
-#ifdef _WIN32
-    (s = strchr(fn, '.')) || (s = strchr(fn, '\0'));        // s -> extent or if none end of string
-    int flen = (int)(s - fn);                               // length of filename part
 
-    if ((flen == 4 && isdigit(fn[3])) || flen == 3) {       // reserved words are 3 chars or 4 where 4th is a digit
-        for (char const **r = flen == 3 ? res3 : res4; *r; r++)
-            if (strncmp(*r, fn, 3) == 0) {
-                result |= RESERVED;
-                break;
-            }
+// mappings, errors and comments are written to a file origname.info if necessary
+
+content_t *addInfoFile(content_t *content) {
+    if (content->type == Mapping)
+        return content;
+
+    char const *infoName = concat(content->in.fname, ".info", NULL);
+
+    content_t *infoContent = makeDescriptor(&content->in, infoName, NULL, 0);
+    infoContent->out = infoContent->in;
+    infoContent->type = Mapping;
+    if (content->type == Library) {
+        infoContent->next = content->lbrHead;
+        content->lbrHead = infoContent;
+        infoContent->msg = content->msg;     // make library errors appear in its info file
+        content->msg = NULL;                // and don't duplicate
+    } else {
+        infoContent->next = content->next;
+        content->next = infoContent;
     }
-#endif
-    return result;
+    return infoContent;
 }
 
+static void writeMapping(content_t *infoContent, content_t const *p) {
+    bool nameMapped = p->savePath && nameCmp(p->out.fname, nameOnly(p->savePath)) != 0;
+    bool skipped = p->type == Skipped || p->type == Missing;
 
-bool nameClash(content_t *content, char const *name) {
-    for (content_t *p = content; p; p = p->next) {
-        if (p->saveName && p->saveName != name && nameCmp(p->saveName, name) == 0)
-            return true;
-    }
-    return false;
-}
-
-
-
-// identify an os safe file name to store the file
-// if the original filename is safe it will be used unless there is a clash with other names for example
-//      upper/lower case clash for unix created files as names are mapped to lower case before saving
-//          e.g. compressed files ABC.COM and abc.com would clash
-//      the original file names clash with others in the container or the container name itself
-//      although unlikely very very long names with directory paths (> 255 chars) are truncated
-//      the C implementations of squeeze would allow spaces in file names and multiple dots. As parseHeader removes
-//      trailing spaces and dots, this may also potentially result in a name clash
-// if the file name is not os safe or clashes the follow is done to create a safe name
-//      reserved file names in windows have an _ prefixed e.g. aux.c -> _aux.c
-//      os reserved file name chars are  mapped to _ e.g. game/0.com -> game_0.com
-//      if the above generated name clashes with other save names a (number) is added until no clash - number 0-99
-//      e.g. hello.asm -> hello(1).asm
-// Note, there is nothing in the specification of squeeze, crunch or lzh that would prevent directory paths
-// however most are generated under cpm, hence the mapping of / (and \ for windows) to _
-// if files are mapped then a file origname._map_ is writen containing the details
-
-content_t *addMappingFile(content_t *content) {
-    char *mapname = xmalloc(strlen(content->in.fname) + 6);                   // worst case is origname + .info when original has no ext
-    strcpy(mapname, content->in.fname);
-    char *s;
-    if (s = strrchr(mapname, '.'))                                          // remove any existing extent;
-        *s = 0;
-    strcat(mapname, ".info");
-
-    content_t *mapcontent = makeDescriptor(&content->in, mapname, NULL, 0);
-    mapcontent->out = mapcontent->in;
-    mapcontent->type = mapping;
-    mapcontent->next = content->next;                                       // add to list & set type
-    content->next = mapcontent;
-    
-    free(mapname);
-    return mapcontent;
-}
-
-void mkOsNames(content_t *content) {
-    int nameFlags;
-    // no longer needed
-    // if original file name is safe for OS and not duplicate, then use it
-    content_t *mapcontent = addMappingFile(content);
-
-    for (content_t *p = content; p; p = p->next) {
-        if ((nameFlags = chkName(p->out.fname)) == 0) {                       // assigned name is ok for OS so use it
-            if (nameClash(content, p->saveName = p->out.fname))
-                p->saveName = NULL;                                           // expanded file has same name clashes with container or other file
-        }  else
-            p->status |= nameFlags;
+    if (p->msg)
+        outStr(infoContent, "%s", p->msg);
+    if (p->comment || nameMapped || skipped) {
+        outStr(infoContent, "%s", p->out.fname);
+        if (nameMapped)
+            outStr(infoContent, " <=> %s", nameOnly(p->savePath));
+        if (skipped)
+            outStr(infoContent, " - not saved");
         if (p->comment) {
-            outStr(mapcontent, p->out.fname);
-            outStr(mapcontent, " ");
-            outStr(mapcontent, p->comment);
-            outStr(mapcontent, "\r\n");
+            outStr(infoContent, " -- %s", p->comment);
         }
+        outStr(infoContent, "\n");
     }
+}
 
-    // if we still don't have an OS save name then generate a safe one
+
+void mkOsNames(content_t *content, char const *targetDir, int flags) {
+    content_t *infoContent = addInfoFile(content);
+
     for (content_t *p = content; p; p = p->next) {
-        if (p->saveName || p->type == skipped)
-            continue;
-        // no need to generate safe name for skipped files
-        p->saveName = xmalloc(strlen(p->out.fname) + 6);                // might grow to include _ prefix and (nn) suffix to name part
-        char *ext;
-        (ext = strrchr(p->out.fname, '.')) || (ext = strchr(p->out.fname, '\0'));       // ext in original name if present
-
-
-        int i;
-        for (i = 0; i <= 100; i++) {
-            char suffix[5] = "";
-            if (i)
-                sprintf(suffix, "(%d)", i - 1);
-
-            sprintf(p->saveName, "%s%.*s%s%s", (p->status & RESERVED) ? "_" : "", (int)(ext - p->out.fname), p->out.fname, suffix, ext);
-
-            if (p->status & ILLEGALCHAR)      // map any illegal chars
-                for (char *s = p->saveName; s = strpbrk(s, illegal); )
-                    *s = '_';
-            mapCase(p->saveName);
-            if (!nameClash(content, p->saveName))
-                break;
-        }
-        if (i > 100) {
-            fprintf(stderr, "Fatal: Too many name OS conflicts\n");
-            exit(1);
-        }
-        outStr(mapcontent, p->saveName);
-        outStr(mapcontent, " <=> ");
-        outStr(mapcontent, p->out.fname);
-        outStr(mapcontent, "\r\n");
+        if (p->type == Library) {
+            if (flags & EXTRACT) {
+                mkOsNames(p->lbrHead, "", flags);
+            } else {
+                p->out.fname = replaceExt(p->out.fname, "");
+                p->savePath = uniqueName(targetDir, p->out.fname);
+                writeMapping(infoContent, p);
+                mkOsNames(p->lbrHead, p->savePath, flags);
+            }
+        } else if (p->type != Skipped && p->type != Missing && p->type != Mapping) {
+            p->savePath = uniqueName(targetDir, p->out.fname);
+            writeMapping(infoContent, p);
+        } else
+            writeMapping(infoContent, p);
     }
-    if (mapcontent->out.pos == 0)
-        mapcontent->type = skipped;
+    if (infoContent->out.pos == 0)
+        infoContent->type = Skipped;
+    else {
+        infoContent->savePath = uniqueName(targetDir, infoContent->out.fname);
+        writeMapping(infoContent, infoContent);
+    }
 }
 
-void *xmalloc(size_t size) {
-    void *p = malloc(size);
-    if (p)
-        return p;
-    fprintf(stderr, "Fatal Error: Out of memory\n");
-    exit(1);
-}
-
-void *xcalloc(size_t count, size_t size) {
-    void *p = calloc(count, size);
-    if (p)
-        return p;
-    fprintf(stderr, "Fatal Error: Out of memory\n");
-    exit(1);
-}
-
-void *xrealloc(void *p, size_t size) {
-    p = realloc(p, size); //-V701
-    if (p)
-        return p;
-    fprintf(stderr, "Fatal Error: Out of memory\n");
-    exit(1);
-}
-
-char *xstrdup(char const *s) {
-    char *dup = xmalloc(strlen(s) + 1);
-    strcpy(dup, s);
-    return dup;
-}
 
 bool parseHeader(content_t *content) {
     uint8_t buf[MAX_HEADER + 4];        // worst case is . at buf[MAX_HEADER - 1], we may set null at buf[MAX_HEADER + 3]
     int c;
     int len;
 
-    inSeek(content, content->type == squeezed ? 4 : 2);
+    inSeek(content, content->type == Squeezed ? 4 : 2);
     for (len = 0; (c = inU8(content)) > 0; len++)
         if (len < MAX_HEADER)
             buf[len] = c;
@@ -333,7 +181,7 @@ bool parseHeader(content_t *content) {
         return false;
     buf[len <= MAX_HEADER ? len : MAX_HEADER] = 0;  // terminate buffer
 
-    if (content->type != squeezed) {
+    if (content->type != Squeezed) {
         uint8_t *stamp;
         if ((stamp = strchr(buf, '.')) && strlen(stamp) > 4) { // if .xxx allow comment/date
             stamp += 4;                                        // standard says .xxx but be flexible
@@ -381,57 +229,37 @@ bool parseHeader(content_t *content) {
 }
 
 
-bool rmkdir(char const *dir) {
-    char const *s;
+void logErr(content_t *content, char const *fmt, ...) {
 
-#ifdef _WIN32
-    if (s = strchr(dir, ':'))                   // disk also allows for unc access
-        ;
-    else if (strncmp(dir, "\\\\", 2) == 0) {
-        if ((s = strchr(dir + 2, '\\')) == NULL || *++s == '\0')       // skip past server name and check we have a host dir
-            return false;                       // only server name
-    } else
-        s = ISDIRSEP(*dir) ? dir + 1 : dir;     // leading / or \ for root
-#else
-    s = ISDIRSEP(*dir) ? dir : dir + 1;         // leading / for root
-#endif
-    bool ok = true;
-    char *path = xcalloc(strlen(dir) + 2, 1);   // allow for adding a . on end of disk only spec for windows
-    struct stat info;
-
-    while (ok && *s) {                          // a dir of root will skip while but return ok
-        char const *t = strpbrk(s, DIRSEP);
-        s = t ? t : strchr(s, '\0');
-        memcpy(path, dir, s - dir);             // try subpath
-#ifdef _WIN32
-        if (path[s - dir - 1] == ':')           // disk only given
-            path[s - dir] = '.';                // make it look at the directory so stat works
-#endif
-        if (stat(path, &info) == 0)
-            ok = info.st_mode & S_IFDIR;
-        else
-            ok = mkdir(path, 0774) == 0;
-        while (ISDIRSEP(*s))                    // skip potentially multiple dir separators
-            s++;
-    }
-    free(path);
-    return ok;
+    va_list args;
+    va_start(args, fmt);
+    int  msgLen = _vscprintf(fmt, args);                    // length of new message
+    msgLen += (int)(content->msg ? strlen(content->msg) : 0) + 1; // allow for \0
+    char *msg = sAlloc(msgLen);
+    strcpy(msg, content->msg ? content->msg : "");
+    char *s = strchr(msg, '\0');     // append point for new msg
+    vsprintf(s, fmt, args);
+    va_end(args);
+    content->msg = msg;
 }
 
-char *replaceExt(char const *name, char const *ext) {
-    const char *s = strrchr(name, '.');         // start of extent
-    if (!s)
-        s = strchr(name, '\0');                 // no extent so end of name
-    char *newName = xmalloc(s - name + strlen(ext) + 1);
-    strncpy(newName, name, s - name);
-    strcpy(newName + (s - name), ext);
-    return newName;
-}
 
-#ifndef _MSC_VER
-char *strlwr(char *str) {
-    for (char *s = str; *s; s++)
-        *s = tolower(*s);
-    return str;
+// utility function to concat strings, last arg is NULL to signal end
+char const *concat(const char *s, ...) {
+    size_t slen = strlen(s) + 1;       // length of final string, init with first string & '\0'
+    va_list args;
+    char const *t;
+
+    va_start(args, s);          // get length of final string
+    while (t = va_arg(args, char const *))
+        slen += strlen(t);
+    va_end(args);
+
+    char *cStr = sAlloc(slen);
+    strcpy(cStr, s);
+    va_start(args, s);          // now build the rest of the string
+    while (t = va_arg(args, char const *))
+        strcat(cStr, t);
+    va_end(args);
+    return cStr;
 }
-#endif

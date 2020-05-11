@@ -34,6 +34,7 @@
 #define RSTCOD 0x101		/*special code for adaptive reset*/
 #define NULCOD 0x102		/*special filler code*/
 #define SPRCOD 0x103		/*spare special code*/
+#define RESERVEDCODES 4
 
 #define REPEAT_CHARACTER 0x90	/*following byte is repeat count*/
 
@@ -60,6 +61,53 @@ static uint16_t lastpr;    // previous predecessor
 static bool corrupt = false;
 static bool isV2;                  // true if V2 of Crunch
 static int endcode;                // code to mark end of input stream
+
+
+/*
+    Crunch time is stored in 3 fields
+    createTime  0-4
+    accessTime  5-9
+    modifyTime  10-14
+
+    each field is encoded in bcd
+    year     - assume < 78 is 2000 onwards
+    month
+    day
+    hour
+    minute
+    0xff -> 0
+*/
+static int bcd2Int(uint8_t n) {
+    if (n == 0xff)
+        return 0;
+    if (n > 0x99 || n % 16 > 9)
+        return -1;
+    return (n / 16) * 10 + n % 16;
+}
+
+time_t getCrunchTime(uint8_t const *dateStamp) {
+    struct tm timebuf;
+    static struct { uint8_t low, high; } check[] = { {0, 99}, {1, 12}, {1, 31}, {0, 23}, {0, 59} };
+    int16_t dateValue[5];
+
+    if (bcd2Int(dateStamp[11]) > 0)     // is modify specified
+        dateStamp += 10;                // is so use it as the base
+
+    for (int i = 0; i < 5; i++)
+        if ((dateValue[i] = bcd2Int(dateStamp[i])) < check[i].low || dateValue[i] > check[i].high)
+            return 0;
+    timebuf.tm_year = dateValue[0] + (dateValue[0] < 78 ? 100 : 0);
+    timebuf.tm_mon = dateValue[1] - 1;
+    timebuf.tm_mday = dateValue[2];
+    timebuf.tm_hour = dateValue[3];
+    timebuf.tm_min = dateValue[4];
+    timebuf.tm_sec = 0;
+    timebuf.tm_isdst = -1;
+    return _mkgmtime(&timebuf);
+}
+
+
+
 
 /*hash pred/suff into xlatbl pointer*/
 /*duplicates the hash algorithm used by CRUNCH 2.3*/
@@ -169,7 +217,7 @@ static void initDecoder() {
     for (int i = 0; i < 0x100; i++)
         enterx(isV2 ? NOPRED : IMPRED, i);
     if (isV2)                   // enter the 4 reserve codes
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < RESERVEDCODES; i++)
             enterx(IMPRED, 0);	/*reserved codes*/
 }
 
@@ -269,13 +317,13 @@ static bool uncrunchData(content_t *content) {
 }
 
 /*uncrunch a single file return true for successful uncrunch */
-bool uncrunch(content_t *content) {
+int uncrunch(content_t *content) {
     uint8_t reflevel;		/*ref rev level from input file*/
     uint8_t siglevel;		/*sig rev level from input file*/
     uint8_t errdetect;	/*error detection flag from input file*/
 
     if (!parseHeader(content))		// shared header processing
-        return false;
+        return BADHEADER;
 
 
     /*read the four info bytes*/
@@ -283,28 +331,30 @@ bool uncrunch(content_t *content) {
     siglevel = inU8(content);
     errdetect = inU8(content);
     if (inU8(content) < 0) /*skip spare but check for eof*/
-        return false;
+        return BADHEADER;
 
     // check uncrunch version is supported
     if (siglevel < 0x10 || siglevel > 0x2f) {
         printf("%s unsupported version of crunch\n", content->in.fname);
-        return false;
+        return BADHEADER;
     }
 
     isV2 = siglevel >= 0x20;                    // file global that reflects version of crunch
 
-    content->type = isV2 ? crunchV2 : crunchV1; // update the type to reflect we know the version
+    content->type = isV2 ? CrunchV2 : CrunchV1; // update the type to reflect we know the version
 
     if (!uncrunchData(content))                 // go do the decode
-        return false;
+        return CORRUPT;
 
     /*verify checksum if required*/
     int fileCrc = inU16(content);
     if (fileCrc < 0)
-        return false;
+        return CORRUPT;
+    // tests below will return BADCRC or GOOD
     if (errdetect == 1)
         return crc16(content->out.buf, content->out.pos) == fileCrc;
-    else if (errdetect == 0)
+    if (errdetect == 0)
         return crc(content->out.buf, content->out.pos) == fileCrc;
-    return true;
+    return GOOD;
+
 }

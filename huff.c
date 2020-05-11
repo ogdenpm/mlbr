@@ -23,16 +23,16 @@ static int usqU8(content_t *content) {
 }
 
 
-bool unsqueeze(content_t *content) {
+int unsqueeze(content_t *content) {
     int nodeCnt;
     int c;
 
     if (!parseHeader(content))
-        return false;
+        return BADHEADER;
 
     nodeCnt = inU16(content);
     if (nodeCnt < 0 || nodeCnt > MAXNODE)
-        return false;
+        return BADHEADER;
     // put in minimal node (EOF)
     node[0].child[0] = node[0].child[1] = -(MAXNODE + 1);
     
@@ -41,7 +41,7 @@ bool unsqueeze(content_t *content) {
         node[i].child[1] = inI16(content); //-V656
     }
     if (isEof(content))
-        return false;
+        return CORRUPT;
 
     outRle(-1, content);           // reset engine
     while ((c = usqU8(content)) != EOF)
@@ -49,6 +49,6 @@ bool unsqueeze(content_t *content) {
 
     inSeek(content, 2);                 // locate the CRC
     /*verify checksum*/
-    return crc(content->out.buf, content->out.pos) == inU16(content);
+    return crc(content->out.buf, content->out.pos) == inU16(content);   // returns BADCRC or GOOD
 }
 
