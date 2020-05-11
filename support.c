@@ -213,7 +213,7 @@ bool parseHeader(content_t *content) {
     // one example I have seen has \b chars after the 3rd ext char
     // so some extra code to truncate ext if it contains <= ' '
     if (s = strchr(buf, '.')) {
-        while (*++s && (*s & 0x7f) >= ' ')
+        while (*++s && (*s & 0x7f) > ' ')
             ;
         *s = 0;
     }
