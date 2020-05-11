@@ -130,7 +130,6 @@ bool saveContent(content_t const *content, char const *targetDir) {
                 printf("%s%s\n", content->savePath, err);
 
         }
-        xfree((void *)savePath);
     }
     return ok;
 }
