@@ -134,7 +134,7 @@ bool recursiveMkdir(char const *dir) {
     } else
         s = ISDIRSEP(*partdir) ? partdir + 1 : partdir;     // leading / or \ for root
 #else
-    s = ISDIRSEP(*partdir) ? partdir : partdir + 1;         // leading / for root
+    s = ISDIRSEP(*partdir) ? partdir + 1 : partdir;         // leading / for root
 #endif
     bool ok = true;
     struct stat info;

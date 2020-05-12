@@ -1,0 +1,4530 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Solution_Path">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SolutionPath" type="xs:string" minOccurs="0" />
+                <xs:element name="SolutionVersion" type="xs:string" minOccurs="0" />
+                <xs:element name="PlogVersion" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="ModificationDate" msdata:DateTimeMode="Utc" type="xs:dateTime" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PVS-Studio_Analysis_Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FavIcon" type="xs:boolean" minOccurs="0" msdata:Ordinal="0" />
+                <xs:element name="Level" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="DefaultOrder" type="xs:int" minOccurs="0" msdata:Ordinal="2" />
+                <xs:element name="ErrorCode" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+                <xs:element name="Message" type="xs:string" msdata:Ordinal="4" />
+                <xs:element name="Project" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+                <xs:element name="ShortFile" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+                <xs:element name="Line" type="xs:int" msdata:Ordinal="7" />
+                <xs:element name="FalseAlarm" type="xs:boolean" minOccurs="0" msdata:Ordinal="8" />
+                <xs:element name="File" type="xs:string" msdata:Ordinal="9" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="10" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="11" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="12" />
+                <xs:element name="TrialMessage" type="xs:boolean" minOccurs="0" msdata:Ordinal="13" />
+                <xs:element name="Analyzer" type="xs:int" minOccurs="0" msdata:Ordinal="14" />
+                <xs:element name="LineExtension" type="xs:string" minOccurs="0" msdata:Ordinal="15" />
+                <xs:element name="Retired" type="xs:boolean" default="false" minOccurs="0" msdata:Ordinal="16" />
+                <xs:element name="AnalyzedSourceFiles" type="xs:string" minOccurs="0" msdata:Ordinal="17" />
+                <xs:element name="CWECode" type="xs:string" minOccurs="0" msdata:Ordinal="18" />
+                <xs:element name="MISRA" type="xs:string" minOccurs="0" msdata:Ordinal="19" />
+              </xs:sequence>
+              <xs:attribute name="ErrorCodeNumeric" msdata:ReadOnly="true" msdata:Expression="IIF(LEN(ErrorCode) &lt; 2 OR (SUBSTRING(ErrorCode, 1, 1) &lt;&gt; 'V'), 0, CONVERT(SUBSTRING(ErrorCode, 2, LEN(ErrorCode) - 1), 'System.UInt32'))" type="xs:unsignedInt" use="prohibited" />
+              <xs:attribute name="CWECodeNumeric" msdata:ReadOnly="true" msdata:Expression="ISNULL(IIF(LEN(CWECode) &lt; 4 + 1 OR (SUBSTRING(CWECode, 1, 4) &lt;&gt; 'CWE-'), 4294967295, CONVERT(SUBSTRING(CWECode, 4 + 1, LEN(CWECode) - 4), 'System.UInt32')), 4294967295)" type="xs:unsignedInt" use="prohibited" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//PVS-Studio_Analysis_Log" />
+        <xs:field xpath="Line" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="File" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Solution_Path>
+    <SolutionPath>D:\Projects\mlbr\mlbr.sln</SolutionPath>
+    <SolutionVersion>16.0</SolutionVersion>
+    <PlogVersion>5</PlogVersion>
+    <ModificationDate>2020-03-07T10:19:40.0047073Z</ModificationDate>
+  </Solution_Path>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>1</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>89</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>9361</CodePrev>
+    <CodeCurrent>164137</CodeCurrent>
+    <CodeNext>2274285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>2</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>90</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>164137</CodePrev>
+    <CodeCurrent>2274285</CodeCurrent>
+    <CodeNext>172499</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>3</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>91</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>2274285</CodePrev>
+    <CodeCurrent>172499</CodeCurrent>
+    <CodeNext>11879</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>4</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>87</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>757207</CodePrev>
+    <CodeCurrent>147681</CodeCurrent>
+    <CodeNext>9361</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>5</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>88</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>147681</CodePrev>
+    <CodeCurrent>9361</CodeCurrent>
+    <CodeNext>164137</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>6</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>95</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>193843651</CodePrev>
+    <CodeCurrent>49952443</CodeCurrent>
+    <CodeNext>399619103</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>7</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>96</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>49952443</CodePrev>
+    <CodeCurrent>399619103</CodeCurrent>
+    <CodeNext>1440761</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>8</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>102</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>3499479642</CodePrev>
+    <CodeCurrent>2185934853</CodeCurrent>
+    <CodeNext>268659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>9</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>103</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>2185934853</CodePrev>
+    <CodeCurrent>268659</CodeCurrent>
+    <CodeNext>16947</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>10</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>114</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2459136810</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>11</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>116</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2727555364</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>12</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>147</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>2769859300</CodePrev>
+    <CodeCurrent>93178159</CodeCurrent>
+    <CodeNext>2999761502</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>13</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>157</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>1364654363</CodePrev>
+    <CodeCurrent>3394111932</CodeCurrent>
+    <CodeNext>936069013</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>mlbr.h</ShortFile>
+    <Line>158</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\mlbr.h</File>
+    <CodePrev>3394111932</CodePrev>
+    <CodeCurrent>936069013</CodeCurrent>
+    <CodeNext>3744399981</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\huff.c*D:\Projects\mlbr\uncrunch.c*D:\Projects\mlbr\ulbr.c*D:\Projects\mlbr\main.c*D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\memory.c*D:\Projects\mlbr\memio.c*D:\Projects\mlbr\lzhuf.c*D:\Projects\mlbr\support.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>15</DefaultOrder>
+    <ErrorCode>V656</ErrorCode>
+    <Message>Variables 'node[i].child[0]', 'node[i].child[1]' are initialized through the call to the same function. It's probably an error or un-optimized code. Consider inspecting the 'inI16(content)' expression. Check lines: 40, 41.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>huff.c</ShortFile>
+    <Line>41</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\huff.c</File>
+    <CodePrev>3659388220</CodePrev>
+    <CodeCurrent>3659519292</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>40,41</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>16</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...i = 0; i &lt; 4; i++).</Message>
+    <Project>mlbr</Project>
+    <ShortFile>uncrunch.c</ShortFile>
+    <Line>173</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\uncrunch.c</File>
+    <CodePrev>80038743</CodePrev>
+    <CodeCurrent>20126251</CodeCurrent>
+    <CodeNext>494754417</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>17</DefaultOrder>
+    <ErrorCode>V781</ErrorCode>
+    <Message>The value of the 'code' index is checked after it was used. Perhaps there is a mistake in program logic.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>uncrunch.c</ShortFile>
+    <Line>204</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\uncrunch.c</File>
+    <CodePrev>392152479</CodePrev>
+    <CodeCurrent>4277236047</CodeCurrent>
+    <CodeNext>1622699666</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>204,204</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>18</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0x20 used: ...siglevel &gt;= 0x20;...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>uncrunch.c</ShortFile>
+    <Line>295</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\uncrunch.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3078789199</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>19</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'off' to memsize type in an arithmetic expression: lbrBuf + off</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>67</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>1882484767</CodePrev>
+    <CodeCurrent>2394997043</CodeCurrent>
+    <CodeNext>1222906516</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>20</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'off' to memsize type in an arithmetic expression: lbrBuf + off</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>68</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>2394997043</CodePrev>
+    <CodeCurrent>1222906516</CodeCurrent>
+    <CodeNext>1365265813</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>21</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'u16At(lbrBuf + off, Index) * 128' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>68</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>2394997043</CodePrev>
+    <CodeCurrent>1222906516</CodeCurrent>
+    <CodeNext>1365265813</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>22</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'off' to memsize type in an arithmetic expression: lbrBuf + off</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>69</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>1222906516</CodePrev>
+    <CodeCurrent>1365265813</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>23</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'off' to memsize type in an arithmetic expression: lbrBuf + off</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>71</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3093578191</CodeCurrent>
+    <CodeNext>1025652317</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>24</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'off' to memsize type in an arithmetic expression: lbrBuf + off</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>72</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>3093578191</CodePrev>
+    <CodeCurrent>1025652317</CodeCurrent>
+    <CodeNext>2571510679</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>25</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'off' to memsize type in an arithmetic expression: lbrBuf + off</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>77</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2267201605</CodeCurrent>
+    <CodeNext>3943556771</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>26</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>53</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>209165638</CodePrev>
+    <CodeCurrent>2702650631</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>27</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>ulbr.c</ShortFile>
+    <Line>69</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\ulbr.c</File>
+    <CodePrev>1222906516</CodePrev>
+    <CodeCurrent>1365265813</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>28</DefaultOrder>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'usage' with variable number of arguments. Second argument has memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>main.c</ShortFile>
+    <Line>231</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\main.c</File>
+    <CodePrev>768679745</CodePrev>
+    <CodeCurrent>3886818835</CodeCurrent>
+    <CodeNext>1913116922</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>29</DefaultOrder>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'usage' with variable number of arguments. Second argument has memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>main.c</ShortFile>
+    <Line>268</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\main.c</File>
+    <CodePrev>9050</CodePrev>
+    <CodeCurrent>3886818835</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>30</DefaultOrder>
+    <ErrorCode>V111</ErrorCode>
+    <Message>Call of function 'usage' with variable number of arguments. Second argument has memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>main.c</ShortFile>
+    <Line>292</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\main.c</File>
+    <CodePrev>170623739</CodePrev>
+    <CodeCurrent>203665758</CodeCurrent>
+    <CodeNext>1226041219</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>31</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>337</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3655433553</CodePrev>
+    <CodeCurrent>3825157015</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>32</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>465</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1550779321</CodePrev>
+    <CodeCurrent>1523755821</CodeCurrent>
+    <CodeNext>1542199263</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>33</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>469</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1739216727</CodeCurrent>
+    <CodeNext>1599341966</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>34</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>473</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>126948412</CodeCurrent>
+    <CodeNext>4171109536</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>35</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>474</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>126948412</CodePrev>
+    <CodeCurrent>4171109536</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>36</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>477</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>324619</CodePrev>
+    <CodeCurrent>3578965087</CodeCurrent>
+    <CodeNext>1667602751</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>37</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>478</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3578965087</CodePrev>
+    <CodeCurrent>1667602751</CodeCurrent>
+    <CodeNext>349304050</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>38</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>479</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1667602751</CodePrev>
+    <CodeCurrent>349304050</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>39</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>664</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>4119371</CodePrev>
+    <CodeCurrent>329453</CodeCurrent>
+    <CodeNext>100</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>40</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>715</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>166216769</CodeCurrent>
+    <CodeNext>41116373</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>41</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>716</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>166216769</CodePrev>
+    <CodeCurrent>41116373</CodeCurrent>
+    <CodeNext>2615220865</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>42</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>717</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>41116373</CodePrev>
+    <CodeCurrent>2615220865</CodeCurrent>
+    <CodeNext>91685885</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>43</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>718</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2615220865</CodePrev>
+    <CodeCurrent>91685885</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>44</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>720</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1334428479</CodeCurrent>
+    <CodeNext>1041581864</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>45</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>721</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1334428479</CodePrev>
+    <CodeCurrent>1041581864</CodeCurrent>
+    <CodeNext>1168395822</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>46</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>722</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1041581864</CodePrev>
+    <CodeCurrent>1168395822</CodeCurrent>
+    <CodeNext>11455485</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>47</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>723</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1168395822</CodePrev>
+    <CodeCurrent>11455485</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>48</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>725</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>510648730</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>49</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ..._raw_header[4],.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>872</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>4288727827</CodePrev>
+    <CodeCurrent>649806238</CodeCurrent>
+    <CodeNext>4082155739</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>50</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>870</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1391087363</CodePrev>
+    <CodeCurrent>1604498138</CodeCurrent>
+    <CodeNext>4288727827</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>51</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>982</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>757207</CodePrev>
+    <CodeCurrent>1094369974</CodeCurrent>
+    <CodeNext>91670883</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>52</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>983</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1094369974</CodePrev>
+    <CodeCurrent>91670883</CodeCurrent>
+    <CodeNext>2100754450</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>53</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>987</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1936620261</CodePrev>
+    <CodeCurrent>1490509093</CodeCurrent>
+    <CodeNext>566359099</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>54</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>994</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3513718575</CodePrev>
+    <CodeCurrent>35970371</CodeCurrent>
+    <CodeNext>2865539</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>55</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>995</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>35970371</CodePrev>
+    <CodeCurrent>2865539</CodeCurrent>
+    <CodeNext>1127165310</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>56</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>996</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2865539</CodePrev>
+    <CodeCurrent>1127165310</CodeCurrent>
+    <CodeNext>22713295</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>57</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>998</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>22713295</CodePrev>
+    <CodeCurrent>71602445</CodeCurrent>
+    <CodeNext>2669636871</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>58</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>999</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>71602445</CodePrev>
+    <CodeCurrent>2669636871</CodeCurrent>
+    <CodeNext>1072405335</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zipfile.c*D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>59</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'p-&gt;out.pos' of function 'zip_entry_write' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zipfile.c</ShortFile>
+    <Line>40</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zipfile.c</File>
+    <CodePrev>23885</CodePrev>
+    <CodeCurrent>1462715416</CodeCurrent>
+    <CodeNext>72866011</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>60</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>18</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>12115431</CodePrev>
+    <CodeCurrent>3125819</CodeCurrent>
+    <CodeNext>678465</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>61</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>19</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>3125819</CodePrev>
+    <CodeCurrent>678465</CodeCurrent>
+    <CodeNext>676769</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>62</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>20</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>678465</CodePrev>
+    <CodeCurrent>676769</CodeCurrent>
+    <CodeNext>8985077</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>63</DefaultOrder>
+    <ErrorCode>V701</ErrorCode>
+    <Message>realloc() possible leak: when realloc() fails in allocating memory, original pointer 'p' is lost. Consider assigning realloc() to a temporary pointer.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>68</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>1707726154</CodePrev>
+    <CodeCurrent>16100317</CodeCurrent>
+    <CodeNext>1481</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>64</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (int)(s ? (s - fn) : strlen(fn))</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>107</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>1299562715</CodePrev>
+    <CodeCurrent>970423518</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>65</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: nameList[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>141</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>2576006957</CodePrev>
+    <CodeCurrent>4244025084</CodeCurrent>
+    <CodeNext>88117</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>66</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of '(nameCnt + 256)' to memsize type in an arithmetic expression: (nameCnt + 256) * sizeof (char *)</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>147</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>754747493</CodePrev>
+    <CodeCurrent>1033190111</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>67</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: nameList[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>149</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2673976493</CodeCurrent>
+    <CodeNext>176909</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>68</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (int)(ext - fname)</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memory.c</ShortFile>
+    <Line>193</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memory.c</File>
+    <CodePrev>4023382604</CodePrev>
+    <CodeCurrent>2603505629</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>69</DefaultOrder>
+    <ErrorCode>V525</ErrorCode>
+    <Message>The code contains the collection of similar blocks. Check items 'strrchr', 'strrchr', 'strchr' in lines 11, 16, 18.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>11</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2874474572</CodeCurrent>
+    <CodeNext>34269</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>11,16,18</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>70</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion first argument 'file-&gt;bufSize' of function 'xmalloc' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>41</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>3888901129</CodePrev>
+    <CodeCurrent>223924122</CodeCurrent>
+    <CodeNext>1804840043</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>71</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'file-&gt;bufSize' of function 'fread' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>42</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>223924122</CodePrev>
+    <CodeCurrent>1804840043</CodeCurrent>
+    <CodeNext>948790651</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>72</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'file-&gt;bufSize' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>42</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>223924122</CodePrev>
+    <CodeCurrent>1804840043</CodeCurrent>
+    <CodeNext>948790651</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>73</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'length' to memsize type in an arithmetic expression: start + length</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>71</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>425270221</CodeCurrent>
+    <CodeNext>2851476284</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>74</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'file-&gt;bufSize' to memsize type in an arithmetic expression: file-&gt;buf + file-&gt;bufSize</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>71</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>425270221</CodeCurrent>
+    <CodeNext>2851476284</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>75</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'file-&gt;bufSize' to memsize type in an arithmetic expression: file-&gt;buf + file-&gt;bufSize</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>72</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>425270221</CodePrev>
+    <CodeCurrent>2851476284</CodeCurrent>
+    <CodeNext>1487357905</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>76</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>72</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>425270221</CodePrev>
+    <CodeCurrent>2851476284</CodeCurrent>
+    <CodeNext>1487357905</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>77</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>63</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>93178223</CodeCurrent>
+    <CodeNext>559956616</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>78</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>72</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>425270221</CodePrev>
+    <CodeCurrent>2851476284</CodeCurrent>
+    <CodeNext>1487357905</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>79</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'content-&gt;out.pos' of function 'fwrite' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>109</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>23885</CodePrev>
+    <CodeCurrent>4221870261</CodeCurrent>
+    <CodeNext>71161</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>80</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'content-&gt;out.pos' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>109</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>23885</CodePrev>
+    <CodeCurrent>4221870261</CodeCurrent>
+    <CodeNext>71161</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>81</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion second argument 'content-&gt;out.bufSize' of function 'xrealloc' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>150</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>2935236209</CodePrev>
+    <CodeCurrent>421217236</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>82</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: content-&gt;out.buf[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>152</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>879106877</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>83</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: content-&gt;in.buf[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>186</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>712440152</CodePrev>
+    <CodeCurrent>1515093539</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>84</DefaultOrder>
+    <ErrorCode>V656</ErrorCode>
+    <Message>Variables 'low', 'high' are initialized through the call to the same function. It's probably an error or un-optimized code. Consider inspecting the 'inU8(content)' expression. Check lines: 195, 196.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>196</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>79322393</CodePrev>
+    <CodeCurrent>155704601</CodeCurrent>
+    <CodeNext>1464608161</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>195,196</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>85</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>200</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>936069077</CodeCurrent>
+    <CodeNext>1991889381</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>86</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: content-&gt;in.buf[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>211</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>44355</CodePrev>
+    <CodeCurrent>2598917560</CodeCurrent>
+    <CodeNext>72580775</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>87</DefaultOrder>
+    <ErrorCode>V1019</ErrorCode>
+    <Message>Compound assignment expression 'content-&gt;bitStream &gt;&gt;= 1' is used inside condition.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>220</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>4162255179</CodePrev>
+    <CodeCurrent>129076487</CodeCurrent>
+    <CodeNext>11699467</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>88</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: content-&gt;in.buf[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>223</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>44355</CodePrev>
+    <CodeCurrent>1742722597</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>89</DefaultOrder>
+    <ErrorCode>V809</ErrorCode>
+    <Message>Verifying that a pointer value is not NULL is not required. The 'if (content-&gt;out.buf)' check can be removed.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>memio.c</ShortFile>
+    <Line>229</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\memio.c</File>
+    <CodePrev>3754359754</CodePrev>
+    <CodeCurrent>2493251734</CodeCurrent>
+    <CodeNext>311583033</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>90</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0x20 used: ...siglevel &lt; 0x20;.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>lzhuf.c</ShortFile>
+    <Line>279</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\lzhuf.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>79014483</CodeCurrent>
+    <CodeNext>711227554</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>91</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0x20 used: ...siglevel &lt; 0x20 ? CrLzhV1 :...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>lzhuf.c</ShortFile>
+    <Line>280</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\lzhuf.c</File>
+    <CodePrev>79014483</CodePrev>
+    <CodeCurrent>711227554</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>92</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to underflow of the buffer 'text_buf'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>lzhuf.c</ShortFile>
+    <Line>284</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>D:\Projects\mlbr\lzhuf.c</File>
+    <CodePrev>235643</CodePrev>
+    <CodeCurrent>166359889</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>93</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ..._uint32) == 4 ? 1 : -1];.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1064</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2795207466</CodePrev>
+    <CodeCurrent>2795206698</CodeCurrent>
+    <CodeNext>1721441834</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>94</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'i + 7' to memsize type in an arithmetic expression: i + 7 &lt; block_len</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1125</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1358489</CodePrev>
+    <CodeCurrent>4072614383</CodeCurrent>
+    <CodeNext>12996429</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>95</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'i' to memsize type in an arithmetic expression: i &lt; block_len</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1135</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>76045631</CodeCurrent>
+    <CodeNext>13474637</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>96</DefaultOrder>
+    <ErrorCode>V101</ErrorCode>
+    <Message>Implicit assignment type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1261</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>728251769</CodePrev>
+    <CodeCurrent>56678938</CodeCurrent>
+    <CodeNext>2126623947</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>97</DefaultOrder>
+    <ErrorCode>V101</ErrorCode>
+    <Message>Implicit assignment type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1262</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>56678938</CodePrev>
+    <CodeCurrent>2126623947</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>98</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) in_bytes</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1267</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2130362240</CodePrev>
+    <CodeCurrent>1840332938</CodeCurrent>
+    <CodeNext>3498133023</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>99</DefaultOrder>
+    <ErrorCode>V102</ErrorCode>
+    <Message>Usage of non memsize type for pointer arithmetic.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1267</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2130362240</CodePrev>
+    <CodeCurrent>1840332938</CodeCurrent>
+    <CodeNext>3498133023</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>100</DefaultOrder>
+    <ErrorCode>V220</ErrorCode>
+    <Message>Suspicious sequence of types castings: memsize -&gt; 32-bit integer -&gt; memsize. The value being cast: 'in_bytes'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1267</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2130362240</CodePrev>
+    <CodeCurrent>1840332938</CodeCurrent>
+    <CodeNext>3498133023</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>101</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) in_bytes</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1268</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1840332938</CodePrev>
+    <CodeCurrent>3498133023</CodeCurrent>
+    <CodeNext>1051805215</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>102</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) in_bytes</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1269</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3498133023</CodePrev>
+    <CodeCurrent>1051805215</CodeCurrent>
+    <CodeNext>422601331</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>103</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) out_bytes</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1272</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3089269300</CodeCurrent>
+    <CodeNext>1279432802</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>104</DefaultOrder>
+    <ErrorCode>V102</ErrorCode>
+    <Message>Usage of non memsize type for pointer arithmetic.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1272</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3089269300</CodeCurrent>
+    <CodeNext>1279432802</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>105</DefaultOrder>
+    <ErrorCode>V220</ErrorCode>
+    <Message>Suspicious sequence of types castings: memsize -&gt; 32-bit integer -&gt; memsize. The value being cast: 'out_bytes'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1272</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3089269300</CodeCurrent>
+    <CodeNext>1279432802</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>106</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) out_bytes</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1273</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3089269300</CodePrev>
+    <CodeCurrent>1279432802</CodeCurrent>
+    <CodeNext>4095907937</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>107</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) out_bytes</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1274</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1279432802</CodePrev>
+    <CodeCurrent>4095907937</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>108</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1326</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>8934169</CodePrev>
+    <CodeCurrent>2808410795</CodeCurrent>
+    <CodeNext>912542716</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>109</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pSyms0[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1610</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>668250477</CodePrev>
+    <CodeCurrent>1847433303</CodeCurrent>
+    <CodeNext>9586825</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>110</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pCur_syms[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1624</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>334125195</CodePrev>
+    <CodeCurrent>726423672</CodeCurrent>
+    <CodeNext>285101</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>111</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNew_syms[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1624</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>334125195</CodePrev>
+    <CodeCurrent>726423672</CodeCurrent>
+    <CodeNext>285101</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>112</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pCur_syms[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1625</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>726423672</CodePrev>
+    <CodeCurrent>285101</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>113</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1649</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1729526495</CodePrev>
+    <CodeCurrent>481724372</CodeCurrent>
+    <CodeNext>4158388566</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>114</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1650</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>481724372</CodePrev>
+    <CodeCurrent>4158388566</CodeCurrent>
+    <CodeNext>173293799</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>115</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1651</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>4158388566</CodePrev>
+    <CodeCurrent>173293799</CodeCurrent>
+    <CodeNext>1483</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>116</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1653</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1483</CodePrev>
+    <CodeCurrent>3748418138</CodeCurrent>
+    <CodeNext>2991156288</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>117</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1654</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3748418138</CodePrev>
+    <CodeCurrent>2991156288</CodeCurrent>
+    <CodeNext>2952944191</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>118</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1655</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2991156288</CodePrev>
+    <CodeCurrent>2952944191</CodeCurrent>
+    <CodeNext>173293799</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>119</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1656</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2952944191</CodePrev>
+    <CodeCurrent>173293799</CodeCurrent>
+    <CodeNext>1483</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>120</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1658</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1483</CodePrev>
+    <CodeCurrent>3222144671</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>121</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1660</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>1891607</CodeCurrent>
+    <CodeNext>1714895941</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>122</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1662</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1714895941</CodePrev>
+    <CodeCurrent>3577642739</CodeCurrent>
+    <CodeNext>4973</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>123</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1668</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>679065</CodePrev>
+    <CodeCurrent>2579299824</CodeCurrent>
+    <CodeNext>5777</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>124</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: A[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1673</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>5433473</CodePrev>
+    <CodeCurrent>1632703383</CodeCurrent>
+    <CodeNext>4885</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>125</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNum_codes[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1692</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2691798228</CodePrev>
+    <CodeCurrent>3233122258</CodeCurrent>
+    <CodeNext>1916861501</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>126</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNum_codes[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1694</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1916861501</CodePrev>
+    <CodeCurrent>3902070525</CodeCurrent>
+    <CodeNext>472515119</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>127</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNum_codes[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1696</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>472515119</CodePrev>
+    <CodeCurrent>33424879</CodeCurrent>
+    <CodeNext>3372431414</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>128</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNum_codes[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1698</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3372431414</CodePrev>
+    <CodeCurrent>11538309</CodeCurrent>
+    <CodeNext>2105229</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>129</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNum_codes[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1699</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>11538309</CodePrev>
+    <CodeCurrent>2105229</CodeCurrent>
+    <CodeNext>16835907</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>130</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pNum_codes[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1700</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2105229</CodePrev>
+    <CodeCurrent>16835907</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>131</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pSym_count[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1722</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>668338091</CodePrev>
+    <CodeCurrent>11756837</CodeCurrent>
+    <CodeNext>2857503273</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>132</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pSym_count[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1723</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>11756837</CodePrev>
+    <CodeCurrent>2857503273</CodeCurrent>
+    <CodeNext>877852643</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>133</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pSyms[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1731</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2102103177</CodePrev>
+    <CodeCurrent>66658651</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>134</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: pSyms[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1740</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>950522518</CodePrev>
+    <CodeCurrent>1929656403</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>135</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...hs = MZ_MAX(4, (num_bit_l...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1887</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2337</CodePrev>
+    <CodeCurrent>3389743056</CodeCurrent>
+    <CodeNext>3200689848</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>136</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...t_lengths - 4, 4);.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1888</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3389743056</CodePrev>
+    <CodeCurrent>3200689848</CodeCurrent>
+    <CodeNext>413356148</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>137</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to underflow of the buffer 'd-&gt;m_huff_code_sizes[1]'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>1918</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3926034216</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>2461599783</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>138</DefaultOrder>
+    <ErrorCode>V206</ErrorCode>
+    <Message>Explicit conversion from 'unsigned char *' to 'unsigned __int64 *'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2003</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1055996625</CodePrev>
+    <CodeCurrent>2206463413</CodeCurrent>
+    <CodeNext>2312615461</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>139</DefaultOrder>
+    <ErrorCode>V102</ErrorCode>
+    <Message>Usage of non memsize type for pointer arithmetic.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2004</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2206463413</CodePrev>
+    <CodeCurrent>2312615461</CodeCurrent>
+    <CodeNext>68113</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>140</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'd-&gt;m_total_lz_bytes' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2120</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>89495464</CodePrev>
+    <CodeCurrent>4009597137</CodeCurrent>
+    <CodeNext>1006018358</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>141</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2186</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>818339119</CodePrev>
+    <CodeCurrent>398037125</CodeCurrent>
+    <CodeNext>3775924992</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>142</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: (size_t) n</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2192</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2805347980</CodePrev>
+    <CodeCurrent>3468784764</CodeCurrent>
+    <CodeNext>3110270217</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>143</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2192</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2805347980</CodePrev>
+    <CodeCurrent>3468784764</CodeCurrent>
+    <CodeNext>3110270217</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>144</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'bytes_to_copy' of function 'memcpy' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2194</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3110270217</CodePrev>
+    <CodeCurrent>1238749</CodeCurrent>
+    <CodeNext>3056120666</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>145</DefaultOrder>
+    <ErrorCode>V101</ErrorCode>
+    <Message>Implicit assignment type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2196</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3056120666</CodePrev>
+    <CodeCurrent>2782293361</CodeCurrent>
+    <CodeNext>1613476059</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>146</DefaultOrder>
+    <ErrorCode>V101</ErrorCode>
+    <Message>Implicit assignment type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2202</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>62612219</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>147</DefaultOrder>
+    <ErrorCode>V761</ErrorCode>
+    <Message>Three identical blocks of text were found.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2237</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>213281</CodePrev>
+    <CodeCurrent>213281</CodeCurrent>
+    <CodeNext>213281</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>2237,2238,2239</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>148</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint)(p - s)</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2255</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2996117399</CodePrev>
+    <CodeCurrent>3554185326</CodeCurrent>
+    <CodeNext>2298848782</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>149</DefaultOrder>
+    <ErrorCode>V658</ErrorCode>
+    <Message>A value is being subtracted from the unsigned variable. This can result in an overflow. In such a case, the '&lt;' comparison operation can potentially behave unexpectedly.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2330</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>922875429</CodePrev>
+    <CodeCurrent>2489987073</CodeCurrent>
+    <CodeNext>2613291438</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+    <CWECode>CWE-190</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>150</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit type conversion to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2330</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>922875429</CodePrev>
+    <CodeCurrent>2489987073</CodeCurrent>
+    <CodeNext>2613291438</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>151</DefaultOrder>
+    <ErrorCode>V105</ErrorCode>
+    <Message>Third operand of '?:' operation: implicit type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2330</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>922875429</CodePrev>
+    <CodeCurrent>2489987073</CodeCurrent>
+    <CodeNext>2613291438</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>152</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2330</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>922875429</CodePrev>
+    <CodeCurrent>2489987073</CodeCurrent>
+    <CodeNext>2613291438</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>153</DefaultOrder>
+    <ErrorCode>V101</ErrorCode>
+    <Message>Implicit assignment type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2333</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>384413622</CodePrev>
+    <CodeCurrent>2280231166</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>154</DefaultOrder>
+    <ErrorCode>V127</ErrorCode>
+    <Message>An overflow of the 32-bit 'lookahead_size' variable is possible inside a long cycle which utilizes a memsize-type loop counter.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2334</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2280231166</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>2526226575</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension>2326,2334</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>155</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'n' of function 'memcpy' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2338</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3624908933</CodePrev>
+    <CodeCurrent>1478039152</CodeCurrent>
+    <CodeNext>3663539327</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>156</DefaultOrder>
+    <ErrorCode>V102</ErrorCode>
+    <Message>Usage of non memsize type for pointer arithmetic.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2342</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>487675</CodePrev>
+    <CodeCurrent>4029474450</CodeCurrent>
+    <CodeNext>541893611</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>157</DefaultOrder>
+    <ErrorCode>V206</ErrorCode>
+    <Message>Explicit conversion from 'unsigned char *' to 'unsigned int *'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2354</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>707843295</CodePrev>
+    <CodeCurrent>159273</CodeCurrent>
+    <CodeNext>692845264</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>158</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2377</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2648752513</CodePrev>
+    <CodeCurrent>127249868</CodeCurrent>
+    <CodeNext>668241</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>159</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit type conversion to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2553</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2489987073</CodePrev>
+    <CodeCurrent>1382644857</CodeCurrent>
+    <CodeNext>1206770946</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>160</DefaultOrder>
+    <ErrorCode>V105</ErrorCode>
+    <Message>Third operand of '?:' operation: implicit type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2553</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2489987073</CodePrev>
+    <CodeCurrent>1382644857</CodeCurrent>
+    <CodeNext>1206770946</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>161</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2553</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2489987073</CodePrev>
+    <CodeCurrent>1382644857</CodeCurrent>
+    <CodeNext>1206770946</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>162</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'num_bytes_to_process' to memsize type in an arithmetic expression: pSrc + num_bytes_to_process</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2555</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1206770946</CodePrev>
+    <CodeCurrent>384406814</CodeCurrent>
+    <CodeNext>2280225374</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>163</DefaultOrder>
+    <ErrorCode>V101</ErrorCode>
+    <Message>Implicit assignment type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2556</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>384406814</CodePrev>
+    <CodeCurrent>2280225374</CodeCurrent>
+    <CodeNext>174051769</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>164</DefaultOrder>
+    <ErrorCode>V127</ErrorCode>
+    <Message>An overflow of the 32-bit 'd-&gt;m_lookahead_size' variable is possible inside a long cycle which utilizes a memsize-type loop counter.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2557</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2280225374</CodePrev>
+    <CodeCurrent>174051769</CodeCurrent>
+    <CodeNext>10140825</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension>2542,2557</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>165</DefaultOrder>
+    <ErrorCode>V127</ErrorCode>
+    <Message>An overflow of the 32-bit 'ins_pos' variable is possible inside a long cycle which utilizes a memsize-type loop counter.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2567</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>39401</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>3053</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension>2558,2567</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>166</DefaultOrder>
+    <ErrorCode>V127</ErrorCode>
+    <Message>An overflow of the 32-bit 'd-&gt;m_lookahead_pos' variable is possible inside a long cycle which utilizes a memsize-type loop counter.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2656</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2380900762</CodePrev>
+    <CodeCurrent>931257971</CodeCurrent>
+    <CodeNext>465791446</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension>2542,2656</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>167</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2664</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1984103344</CodePrev>
+    <CodeCurrent>251504424</CodeCurrent>
+    <CodeNext>338494437</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>168</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of '(d-&gt;m_output_flush_remaining)' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2686</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1909144640</CodePrev>
+    <CodeCurrent>1958745106</CodeCurrent>
+    <CodeNext>1394456921</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>169</DefaultOrder>
+    <ErrorCode>V105</ErrorCode>
+    <Message>Third operand of '?:' operation: implicit type conversion to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2686</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1909144640</CodePrev>
+    <CodeCurrent>1958745106</CodeCurrent>
+    <CodeNext>1394456921</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>170</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) n</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2690</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2550661645</CodePrev>
+    <CodeCurrent>10541381</CodeCurrent>
+    <CodeNext>62612219</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>171</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint) n</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2691</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>10541381</CodePrev>
+    <CodeCurrent>62612219</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>172</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to underflow of the buffer '&amp; d-&gt;m_huff_count[0][0]'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2809</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>31306103</CodePrev>
+    <CodeCurrent>3853055507</CodeCurrent>
+    <CodeNext>2296039117</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>173</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2824</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>757207</CodePrev>
+    <CodeCurrent>693632449</CodeCurrent>
+    <CodeNext>2527635</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>174</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2825</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>693632449</CodePrev>
+    <CodeCurrent>2527635</CodeCurrent>
+    <CodeNext>41476033</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>175</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'len' to memsize type in an arithmetic expression: p-&gt;m_size + len</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2832</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1249163812</CodePrev>
+    <CodeCurrent>754827014</CodeCurrent>
+    <CodeNext>1744493532</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>176</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'len' of function 'memcpy' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2847</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>722055738</CodeCurrent>
+    <CodeNext>26198465</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>177</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3095</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>757207</CodePrev>
+    <CodeCurrent>22319</CodeCurrent>
+    <CodeNext>693632449</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>178</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3096</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>22319</CodePrev>
+    <CodeCurrent>693632449</CodeCurrent>
+    <CodeNext>163487617</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>179</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3119</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>16347</CodePrev>
+    <CodeCurrent>3961129</CodeCurrent>
+    <CodeNext>1109861335</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>180</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3122</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>179133</CodeCurrent>
+    <CodeNext>5419073</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>181</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3123</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>179133</CodePrev>
+    <CodeCurrent>5419073</CodeCurrent>
+    <CodeNext>86709697</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>182</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3124</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>5419073</CodePrev>
+    <CodeCurrent>86709697</CodeCurrent>
+    <CodeNext>193</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>183</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion third argument 'pArray-&gt;m_element_size' of function 'm_pRealloc' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3152</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>1163399290</CodeCurrent>
+    <CodeNext>1339604951</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>184</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'pArray-&gt;m_element_size' to memsize type in an arithmetic expression: orig_size * pArray-&gt;m_element_size</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3201</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1418381</CodePrev>
+    <CodeCurrent>3431157628</CodeCurrent>
+    <CodeNext>3179363602</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>185</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'pArray-&gt;m_element_size' to memsize type in an arithmetic expression: n * pArray-&gt;m_element_size</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3202</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3431157628</CodePrev>
+    <CodeCurrent>3179363602</CodeCurrent>
+    <CodeNext>709589</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>186</DefaultOrder>
+    <ErrorCode>V206</ErrorCode>
+    <Message>Explicit conversion from 'void *' to 'unsigned int *'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3249</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2085545650</CodePrev>
+    <CodeCurrent>1311807090</CodeCurrent>
+    <CodeNext>127162638</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>187</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: ((mz_uint32*)((pCentral_dir_offsets)-&gt;m_p))[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3249</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2085545650</CodePrev>
+    <CodeCurrent>1311807090</CodeCurrent>
+    <CodeNext>127162638</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>188</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: ((mz_uint8*)((pCentral_dir_array)-&gt;m_p))[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3249</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2085545650</CodePrev>
+    <CodeCurrent>1311807090</CodeCurrent>
+    <CodeNext>127162638</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>189</DefaultOrder>
+    <ErrorCode>V206</ErrorCode>
+    <Message>Explicit conversion from 'void *' to 'unsigned int *'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3255</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1093703282</CodePrev>
+    <CodeCurrent>127162638</CodeCurrent>
+    <CodeNext>4014378272</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>190</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: ((mz_uint32*)((pCentral_dir_offsets)-&gt;m_p))[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3255</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1093703282</CodePrev>
+    <CodeCurrent>127162638</CodeCurrent>
+    <CodeNext>4014378272</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>191</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: ((mz_uint8*)((pCentral_dir_array)-&gt;m_p))[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3255</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1093703282</CodePrev>
+    <CodeCurrent>127162638</CodeCurrent>
+    <CodeNext>4014378272</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>192</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3404</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>757207</CodePrev>
+    <CodeCurrent>160422927</CodeCurrent>
+    <CodeNext>2416412875</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>193</DefaultOrder>
+    <ErrorCode>V106</ErrorCode>
+    <Message>Implicit type conversion fourth argument 'len' of function 'm_pWrite' to memsize type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3412</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>4312</CodePrev>
+    <CodeCurrent>2697888451</CodeCurrent>
+    <CodeNext>2163284230</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>194</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3412</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>4312</CodePrev>
+    <CodeCurrent>2697888451</CodeCurrent>
+    <CodeNext>2163284230</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>195</DefaultOrder>
+    <ErrorCode>V684</ErrorCode>
+    <Message>A value of the variable 'version_made_by' is not modified. Consider inspecting the expression. It is possible that '1' should be present instead of '0'.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3450</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>621832500</CodePrev>
+    <CodeCurrent>2211926700</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>196</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: (mz_uint32) pState-&gt;m_central_dir.m_size</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3479</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>4288096836</CodePrev>
+    <CodeCurrent>3252512460</CodeCurrent>
+    <CodeNext>2009257557</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>197</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0xFFFFFFFF used: ...eader_ofs &gt; 0xFFFFFFFF) ||.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3484</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>9371450</CodePrev>
+    <CodeCurrent>1312304787</CodeCurrent>
+    <CodeNext>3845117330</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>198</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0xFFFFFFFF used: ...ent_size) &gt; 0xFFFFFFFF)).</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3487</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>3729516899</CodePrev>
+    <CodeCurrent>2364610419</CodeCurrent>
+    <CodeNext>1418381</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>199</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0xFFFFFFFF used: ...(buf_size &gt; 0xFFFFFFFF) || (uncomp...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3587</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>9371450</CodePrev>
+    <CodeCurrent>1620522031</CodeCurrent>
+    <CodeNext>1418381</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>200</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of '0xFFFFFFFF' to memsize type in an arithmetic expression: buf_size &gt; 0xFFFFFFFF</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3587</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>9371450</CodePrev>
+    <CodeCurrent>1620522031</CodeCurrent>
+    <CodeNext>1418381</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>201</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0xFFFFFFFF used: ...ame_size) &gt; 0xFFFFFFFF)).</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3611</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2617570788</CodePrev>
+    <CodeCurrent>3775603881</CodeCurrent>
+    <CodeNext>1418381</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>202</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'num_alignment_padding_bytes' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3638</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>1943340248</CodePrev>
+    <CodeCurrent>60289387</CodeCurrent>
+    <CodeNext>1095936708</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>203</DefaultOrder>
+    <ErrorCode>V107</ErrorCode>
+    <Message>Implicit type conversion third argument of function 'mz_zip_writer_write_zeros' to 32-bit type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3637</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1943340248</CodeCurrent>
+    <CodeNext>60289387</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>204</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'num_alignment_padding_bytes' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>3650</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2253620555</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>577022647</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>205</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'd' might take place. The potential null pointer is passed into 'tdefl_init' function. Inspect the first argument. Check lines: 2781, 3689.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>miniz.h</ShortFile>
+    <Line>2781</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\miniz.h</File>
+    <CodePrev>2015708872</CodePrev>
+    <CodeCurrent>840124442</CodeCurrent>
+    <CodeNext>844155156</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>2781,3689</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>D:\Projects\mlbr\zip.c</AnalyzedSourceFiles>
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>206</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>86</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>19135</CodePrev>
+    <CodeCurrent>33773</CodeCurrent>
+    <CodeNext>80878849</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>207</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>97</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>323533535</CodePrev>
+    <CodeCurrent>329453</CodeCurrent>
+    <CodeNext>193</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>208</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0xFFFFFFFF used: entrylen) &gt; 0xFFFFFFFF)) {.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>221</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>2617570788</CodePrev>
+    <CodeCurrent>288534173</CodeCurrent>
+    <CodeNext>9371450</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>209</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'num_alignment_padding_bytes' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>226</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>1245952044</CodePrev>
+    <CodeCurrent>60289387</CodeCurrent>
+    <CodeNext>2205107911</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>210</DefaultOrder>
+    <ErrorCode>V107</ErrorCode>
+    <Message>Implicit type conversion third argument of function 'mz_zip_writer_write_zeros' to 32-bit type.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>225</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>1245952044</CodeCurrent>
+    <CodeNext>60289387</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>211</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'num_alignment_padding_bytes' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>238</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>3558201496</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>3413197798</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>212</DefaultOrder>
+    <ErrorCode>V1029</ErrorCode>
+    <Message>Numeric Truncation Error. Return value of the 'strlen' function is written to the 16-bit variable.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>303</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>261411415</CodePrev>
+    <CodeCurrent>11468602</CodeCurrent>
+    <CodeNext>1452788385</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-197</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>0</Level>
+    <DefaultOrder>213</DefaultOrder>
+    <ErrorCode>V002</ErrorCode>
+    <Message>Some diagnostic messages may contain incorrect line number in this file.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>zip.c</ShortFile>
+    <Line>1</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\zip.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>0</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>214</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>31</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>100</CodePrev>
+    <CodeCurrent>2459136874</CodeCurrent>
+    <CodeNext>44963</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>215</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>43</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2727555428</CodeCurrent>
+    <CodeNext>720503</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>216</DefaultOrder>
+    <ErrorCode>V108</ErrorCode>
+    <Message>Incorrect index type: buf[not a memsize-type]. Use memsize type instead.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>95</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>3394111996</CodePrev>
+    <CodeCurrent>1392054625</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>217</DefaultOrder>
+    <ErrorCode>V126</ErrorCode>
+    <Message>Be advised that the size of the type 'long' varies between LLP64/LP64 data models.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>94</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3394111996</CodeCurrent>
+    <CodeNext>1392054625</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>218</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'cpmDay * (24 * 3600)' to memsize type in an arithmetic expression: timeZero + cpmDay * (24 * 3600)</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>154</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>187762011</CodePrev>
+    <CodeCurrent>1043715462</CodeCurrent>
+    <CodeNext>539</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>219</DefaultOrder>
+    <ErrorCode>V104</ErrorCode>
+    <Message>Implicit conversion of 'timeInSecs' to memsize type in an arithmetic expression.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>154</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>187762011</CodePrev>
+    <CodeCurrent>1043715462</CodeCurrent>
+    <CodeNext>539</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>220</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...AX_HEADER + 4];...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>233</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>3679909955</CodePrev>
+    <CodeCurrent>407128096</CodeCurrent>
+    <CodeNext>1229</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>221</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...Squeezed ? 4 : 2);.</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>237</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3550283847</CodeCurrent>
+    <CodeNext>45757651</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>222</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...en(stamp) &gt; 4) {...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>247</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>689351</CodePrev>
+    <CodeCurrent>1787022375</CodeCurrent>
+    <CodeNext>700314969</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>223</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: stamp += 4;...</Message>
+    <Project>mlbr</Project>
+    <ShortFile>support.c</ShortFile>
+    <Line>248</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>D:\Projects\mlbr\support.c</File>
+    <CodePrev>1787022375</CodePrev>
+    <CodeCurrent>700314969</CodeCurrent>
+    <CodeNext>1970129653</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+</NewDataSet>
