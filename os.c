@@ -63,7 +63,7 @@ void setFileTime(char const *path, time_t ftime) {
 
     // open the  file to allow update of the attributes
     HANDLE hFile = CreateFile(wPath,
-        GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_WRITE_ATTRIBUTES,
+        GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
         NULL,
         OPEN_EXISTING,
         FILE_FLAG_BACKUP_SEMANTICS,
