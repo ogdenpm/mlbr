@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <version.h>
-// note because version.h is generated in $(intDir) it may not be
-// picked up by the editor which will show errors
-// build should still be ok
+
 
 #ifdef GIT_APPID
 #define APPNAME GIT_APPID
