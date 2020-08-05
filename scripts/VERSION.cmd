@@ -107,7 +107,7 @@ if [%GIT_SHA1%] == [] (
         )
         set GIT_SHA1=%defGIT_SHA1%
         set GIT_VERSION=%defGIT_VERSION%
-        set GIT_QUALIFIER=%defGIT_QUALIFIER%
+        set GIT_BUILDTYPE=%defGIT_BUILDTYPE%
         set GIT_BRANCH=%defGIT_BRANCH%
         set curGMT=%defGIT_CTIME%
     )
