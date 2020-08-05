@@ -160,7 +160,7 @@ bool chkClash(char const *fname) {
 #if _DEBUG
 // for debugging show what names have been used
 void dumpNames() {
-    for (size_t i = 0; i < HASHSIZE; i++)
+    for (unsigned i = 0; i < HASHSIZE; i++)
         if (hashTable[i]) {
             printf("%-5d", i);
             for (name_t *p = hashTable[i]; p; p = p->next) {

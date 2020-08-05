@@ -5,6 +5,7 @@
 // Copyright (c) 2020 Mark Ogden
 #include "mlbr.h"
 #include <stdarg.h>
+#include "version.h"
 
 bool keepCase = false;
 bool ignoreCorrupt = false;
@@ -153,11 +154,15 @@ void list(content_t *content, time_t defDate, int depth) {
     }
 }
 
+
+
+
 void usage(char const *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
-    fprintf(stderr, "mlbr 1.0 - copyright (c) 2020 Mark Ogden.\n\n** ");
+    showVersion(stderr, false);
+    fputs("\n** ", stderr);
     vfprintf(stderr, fmt, args);
     fprintf(stderr, "\n"
         "Usage: mlbr [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
@@ -172,6 +177,7 @@ void usage(char const *fmt, ...) {
         "   -k  keep original case of file names (default is to lower case)\n"
         "   -n  don't expand compressed files\n"
         "   -r  recursively extract lbr, creates nested sub directories for -d or -z\n"
+        "   -v  show verison details and exit\n"
         "   --  terminates args to support files with a leading -\n\n"
 
         " file+ one or more lbr, squeezed, crunched or crLzhed files\n"
@@ -240,6 +246,9 @@ int parseOptions(int argc, char **argv) {
             break;
         }
         switch (argv[arg][1]) {
+        case 'v':
+            showVersion(stdout, true);
+            exit(0);
         case 'x':
             flags |= EXTRACT;
             saveOpt++;

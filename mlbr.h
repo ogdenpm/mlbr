@@ -114,6 +114,7 @@ enum {
     CrLzh, CrLzhV1, CrLzhV2, Library, Skipped, Missing, Mapping
 };
 
+void showVersion(FILE *fp, bool full);
 
 uint16_t crc16(uint8_t const *data, long len);
 
