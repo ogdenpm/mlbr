@@ -108,8 +108,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +119,7 @@
       <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h</Outputs>
+      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -148,8 +147,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,7 +158,7 @@
       <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h</Outputs>
+      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -191,8 +189,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -205,7 +202,7 @@
       <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h</Outputs>
+      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -236,8 +233,7 @@
       <ConformanceMode>true</ConformanceMode>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -255,7 +251,7 @@
       <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h</Outputs>
+      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -304,7 +300,7 @@
     <None Include="mlbr.sln.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="mlbr.rc">
+    <ResourceCompile Include="version.rc">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>

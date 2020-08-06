@@ -128,9 +128,10 @@ REM ====================
 :: load the defaults from the %DEFAULTS_FILE% file
 :: line #define VAR VALUE gets a new variable defVAR with the VALUE (quotes are removed)
 if exist %DEFAULTS_FILE% (
-    for /f "tokens=1,2,*" %%A in (%DEFAULTS_FILE%) do if [%%A] == [#define] (call :setVar %%B %%C)
+    for /f "tokens=1,2,3,4" %%A in (%DEFAULTS_FILE%) do if [%%A] == [#define] (call :setVar %%B %%C %%D)
 )
 :: Application directory
+
 for %%I in (%CD%) do set GIT_APPDIR=%%~nxI
 GOTO :EOF
 
@@ -217,9 +218,9 @@ if [%defGIT_APPID%] neq [] (
 ECHO #define GIT_APPID       "%defGIT_APPID%">>"%HEADER_OUT_FILE%"
 )
 ECHO #define GIT_VERSION     "%GIT_VERSION%">>"%HEADER_OUT_FILE%"
-ECHO #define GIT_VERSION_RC  %GIT_VERSION_RC%>>"%HEADER_OUT_FILE%"
+ECHO #define GIT_VERSION_RC  %GIT_VERSION_RC% >>"%HEADER_OUT_FILE%"
 ECHO #define GIT_SHA1        "%GIT_SHA1%">>"%HEADER_OUT_FILE%"
-echo #define GIT_BUILDTYPE   %GIT_BUILDTYPE%>>"%HEADER_OUT_FILE%"
+echo #define GIT_BUILDTYPE   %GIT_BUILDTYPE% >>"%HEADER_OUT_FILE%"
 ECHO #define GIT_APPDIR      "%GIT_APPDIR%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_CTIME       "%GIT_CTIME%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_YEAR        "%GIT_CTIME:~,4%">>"%HEADER_OUT_FILE%"
@@ -237,9 +238,11 @@ ECHO Committed:            %GIT_CTIME%
 GOTO :EOF
 
 
-:setVar
+:setVar var valpart1 valpar2
     set _var=%1
-    set _value=%2
+    set _value=%~2
+    if [%3] neq [] set _value=%2 %3
+    set _value=%_value:" =%
     set def!_var!=!_value:"=!
 goto :eof
 
