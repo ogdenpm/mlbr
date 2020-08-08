@@ -75,7 +75,7 @@
     <IntDir>Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
     <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(intDir)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -83,7 +83,7 @@
     <IntDir>Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
     <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(intDir)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -91,7 +91,7 @@
     <IntDir>Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
     <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(intDir)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -99,7 +99,7 @@
     <IntDir>Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
     <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(intDir)</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,7 +108,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,10 +117,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
-      <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
+      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
+      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -133,7 +134,7 @@
       </Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
+      <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>
@@ -147,7 +148,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,10 +157,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
-      <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
+      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
+      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -172,7 +174,7 @@
       </Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
+      <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>
@@ -189,7 +191,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -199,10 +202,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
-      <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
+      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
+      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -216,7 +219,7 @@
       </Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>$(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
+      <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>
@@ -233,7 +236,8 @@
       <ConformanceMode>true</ConformanceMode>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(intDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -243,15 +247,15 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
+      <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
       <Message>
       </Message>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>scripts\version.cmd $(intDir) $(intDir)version.h</Command>
+      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
     </CustomBuildStep>
     <CustomBuildStep>
-      <Outputs>$(intDir)version.h $(intDir)GIT_VERSION_INFO</Outputs>
+      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
       <Message>
       </Message>
       <Inputs>.force</Inputs>
@@ -301,10 +305,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="version.rc">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;$(intDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

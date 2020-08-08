@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <version.h>
+#include "Generated/version.h"
 
 
 #ifdef GIT_APPID

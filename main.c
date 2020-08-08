@@ -5,7 +5,6 @@
 // Copyright (c) 2020 Mark Ogden
 #include "mlbr.h"
 #include <stdarg.h>
-#include "version.h"
 
 bool keepCase = false;
 bool ignoreCorrupt = false;
