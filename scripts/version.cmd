@@ -42,50 +42,58 @@ set DEFAULTS_FILE=version.in
 :: Console output only
 IF [%1] == [] GOTO START
 
-IF "%~1" == "--help" GOTO USAGE
+IF "%~1" == "-h" GOTO USAGE
 :optloop
-IF "%~1" == "--quiet" SET fQUIET=1& SHIFT & goto :optloop
-IF "%~1" == "--force" SET fFORCE=1& SHIFT & goto :optloop
+IF "%~1" == "-q" SET fQUIET=1& SHIFT & goto :optloop
+IF "%~1" == "-f" SET fFORCE=1& SHIFT & goto :optloop
+if "%~1" neq "-a" (goto :endopt) else if [%~2] == [] goto USAGE
+set GIT_APPID=%~2
+SHIFT & SHIFT & goto :optloop
 
-IF EXIST %~1\NUL (
-  :: %1 is a path
-  SET CACHE_FILE=%~s1\GIT_VERSION_INFO
-  SHIFT
-)
+:endopt
+if [%~1] == [] if defined fQUIET (goto USAGE) else goto START
+set CACHE_DIR=%~df1\
+if [%~2] == [] goto USAGE
+set HEADER_OUT_FILE=%~df2
+set HEADER_DIR=%~dp2
+if [%3] neq [] goto USAGE
 
-IF [%~nx1] NEQ [] (
-  :: %1 is a file
-  SET HEADER_OUT_FILE=%~fs1
-  SHIFT
+:: above CACHE_DIR is forced to have a trailing \, fixup if now \\
+set CACHE_DIR=%CACHE_DIR:\\=\%
+:: make sure directory exists
+if not exist %CACHE_DIR% (
+    mkdir %CACHE_DIR%
+    if not exist %CACHE_DIR% goto USAGE
 )
-:: This should always be the last
-:: Some basic sanity checks
-IF DEFINED fQUIET (
-  IF NOT DEFINED HEADER_OUT_FILE GOTO USAGE
-)
+SET CACHE_FILE=%CACHE_DIR%GIT_VERSION_INFO
 
-IF DEFINED CACHE_FILE (
-  SET CACHE_FILE=%CACHE_FILE:\\=\%
-  IF NOT DEFINED HEADER_OUT_FILE GOTO USAGE
+:: make sure the HEADER_OUT_FILE directory exists
+set HEADER_DIR=%HEADER_DIR:\\=\%
+if not exist %HEADER_DIR% (
+    mkdir %HEADER_DIR%
+    if not exist %HEADER_DIR% goto USAGE
 )
-GOTO START
+:: for some reason doing the inverse test fails!!!
+:: check we aren't trying to write to a directory rather than a file
+if not exist %HEADER_OUT_FILE%\ goto START
 
 :: --------------------
 :USAGE
 :: --------------------
-ECHO usage: [--help] ^| [--quiet] [--force] [CACHE_PATH OUT_FILE]
+ECHO usage: [-h] ^| [-q] [-f] [-a appid] [CACHE_PATH OUT_FILE]
 ECHO.
 ECHO  When called without arguments version information writes to console
 ECHO.
-ECHO  --help      - displays this output
+ECHO  -h          - displays this output
 ECHO.
-ECHO  --quiet     - Suppress console output
-ECHO  --force     - Ignore cached version information
+ECHO  -q          - Suppress console output
+ECHO  -f          - Ignore cached version information
+ECHO  -a appid    - set appid. An appid of . is replaced by parent directory name
 ECHO  CACHE_PATH  - Path for non-tracked file to store git version info used
 ECHO  OUT_FILE    - Path to writable file where the generated information is saved
 ECHO.
 ECHO  Example pre-build event:
-ECHO  CALL $(SolutionDir)..\tools\VERSION.cmd "$(IntDir)" "$(ProjectDir)version.h"
+ECHO  CALL $(SolutionDir)scipts\version.cmd "Generated" "Generated\version.h"
 ECHO.
 GOTO :EOF
 
@@ -133,6 +141,8 @@ if exist %DEFAULTS_FILE% (
 :: Application directory
 
 for %%I in (%CD%) do set GIT_APPDIR=%%~nxI
+if not defined GIT_APPID if defined defGIT_APPID set GIT_APPID=%defGIT_APPID%
+if [%GIT_APPID%] == [.] set GIT_APPID=%GIT_APPDIR%
 GOTO :EOF
 
 :: --------------------
@@ -161,24 +171,29 @@ if [%GIT_BRANCH%] neq [master] set GIT_QUALIFIER=%GIT_QUALIFIER%-%GIT_BRANCH%
 :: get the current SHA1 and commit time for items in this directory
 for /f "tokens=1,2" %%A in ('git log -1 "--format=%%h %%ct" -- .') do (
     set GIT_SHA1=%%A
-    call :gmTime GIT_CTIME %%B
+    set UNIX_CTIME=%%B
 )
-if defined defGIT_APPID set strPREFIX=%defGIT_APPID%-
+call :gmTime GIT_CTIME UNIX_CTIME
+
+if defined GIT_APPID set strPREFIX=%GIT_APPID%-
 :: Use git tag to get the lastest tag applicable to the contents of this directory
-for /f "tokens=1"  %%A in ('"git tag -l %strPREFIX%[0-9]*.*[0-9] --sort=-v:refname --merged %GIT_SHA1% 2>NUL"') do (
+for /f "tokens=1"  %%A in ('git tag -l %strPREFIX%[0-9]*.*[0-9] --sort=-v:refname --merged %GIT_SHA1%') do (
     set strTAG=%%A
-    goto :haveTag
+    goto gotTag
 )
-:haveTag
+:gotTag
 
 if [%strTAG%] neq [] set strFROM=%strTAG%..
 :: get the commits in play
+:: two options for calculating commits
+:: option 1 allows for all commits on all branches
+:: option 2 only shows commits for the current branch
+:: for /f "tokens=1" %%A in ('git rev-list --branches --count %strFROM%HEAD --until=%UNIX_CTIME% -- .') do set GIT_COMMITS=%%A
 for /f "tokens=1" %%A in ('git rev-list --count %strFROM%HEAD -- .') do set GIT_COMMITS=%%A
 
-:: remove any appid prefix
-if defined defGIT_APPID set strTAG=%strTAG:*-=%
-:: use 0.0 if no tag found
-if [%strTAG%] == [] set strTAG=0.0
+
+:: remove any appid prefix or provide default
+if [%strTAG%] neq [] (set strTAG=%strTAG:*-=%) else (set strTAG=0.0)
 set GIT_VERSION_RC=%strTAG:.=,%,%GIT_COMMITS%,%GIT_BUILDTYPE%
 set GIT_VERSION=%strTAG%.%GIT_COMMITS%%GIT_QUALIFIER%
 goto :EOF
@@ -191,8 +206,8 @@ goto :EOF
 IF EXIST "%HEADER_OUT_FILE%" (
     IF EXIST "%CACHE_FILE%" (
       if [%fFORCE%] == [1] goto :overwrite
-      FOR /F "tokens=*" %%A IN (%CACHE_FILE%) DO (
-        IF "%%A" == "%GIT_VERSION%-%GIT_SHA1%" (
+      FOR /F "tokens=* usebackq" %%A IN ("%CACHE_FILE%") DO (
+        IF "%%A" == "%GIT_APPID%-%GIT_VERSION%-%GIT_SHA1%" (
           IF NOT DEFINED fQUIET (
             ECHO Build version is assumed unchanged from: %GIT_VERSION%
           )
@@ -202,7 +217,7 @@ IF EXIST "%HEADER_OUT_FILE%" (
     )
 )
 :overwrite
-ECHO %GIT_VERSION%-%GIT_SHA1%> "%CACHE_FILE%"
+ECHO %GIT_APPID%-%GIT_VERSION%-%GIT_SHA1%> "%CACHE_FILE%"
 
 GOTO :EOF
 
@@ -214,8 +229,8 @@ set GUARD=v%GIT_VERSION_RC:,=_%
 ECHO // Autogenerated version file>"%HEADER_OUT_FILE%"
 ECHO #ifndef %GUARD%>>"%HEADER_OUT_FILE%"
 ECHO #define %GUARD%>>"%HEADER_OUT_FILE%"
-if [%defGIT_APPID%] neq [] (
-ECHO #define GIT_APPID       "%defGIT_APPID%">>"%HEADER_OUT_FILE%"
+if [%GIT_APPID%] neq [] (
+ECHO #define GIT_APPID       "%GIT_APPID%">>"%HEADER_OUT_FILE%"
 )
 ECHO #define GIT_VERSION     "%GIT_VERSION%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_VERSION_RC  %GIT_VERSION_RC% >>"%HEADER_OUT_FILE%"
@@ -229,11 +244,11 @@ ECHO #endif>>"%HEADER_OUT_FILE%"
 :CON_OUT
 :: --------------------
 IF DEFINED fQUIET GOTO :EOF
-ECHO Git App Id:           %defGIT_APPID%
-ECHO Git version:          %GIT_VERSION%
+ECHO Git App Id:           %GIT_APPID%
+ECHO Git Version:          %GIT_VERSION%
 ECHO Build type:           %GIT_BUILDTYPE%
 ECHO SHA1:                 %GIT_SHA1%
-ECHO App dir:              %GIT_APPDIR%
+ECHO App Dir:              %GIT_APPDIR%
 ECHO Committed:            %GIT_CTIME%
 GOTO :EOF
 
