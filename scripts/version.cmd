@@ -38,7 +38,7 @@ set DEFAULTS_FILE=version.in
 :: --------------------
 :CHECK_ARGS
 :: --------------------
-
+set SCRIPTNAME=%0
 :: Console output only
 IF [%1] == [] GOTO START
 
@@ -80,7 +80,7 @@ if not exist %HEADER_OUT_FILE%\ goto START
 :: --------------------
 :USAGE
 :: --------------------
-ECHO usage: [-h] ^| [-q] [-f] [-a appid] [CACHE_PATH OUT_FILE]
+ECHO usage: %SCRIPTNAME% [-h] ^| [-q] [-f] [-a appid] [CACHE_PATH OUT_FILE]
 ECHO.
 ECHO  When called without arguments version information writes to console
 ECHO.
@@ -113,11 +113,11 @@ if [%GIT_SHA1%] == [] (
             echo copying %DEFAULTS_FILE% to %HEADER_OUT_FILE%
             copy /y/b "%DEFAULTS_FILE%" "%HEADER_OUT_FILE%" & exit /b 0
         )
-        set GIT_SHA1=%defGIT_SHA1%
+        set GIT_SHA1=untracked
         set GIT_VERSION=%defGIT_VERSION%
-        set GIT_BUILDTYPE=%defGIT_BUILDTYPE%
+        set GIT_BUILDTYPE=3
         set GIT_BRANCH=%defGIT_BRANCH%
-        set curGMT=%defGIT_CTIME%
+        set GIT_CTIME=%defGIT_CTIME%
     )
 )
 if DEFINED CACHE_FILE CALL :CHECK_CACHE
