@@ -160,12 +160,10 @@ void usage(char const *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
-    showVersion(stderr, false);
-    fputs("\n** ", stderr);
     vfprintf(stderr, fmt, args);
     fprintf(stderr, "\n"
-        "Usage: mlbr [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
-
+        "Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
+        "   -v / -V show version information and exit\n"
         "   -x  extract to directory\n"
         "   -d  extract lbr to sub directory {name} - see below\n"
         "   -z  convert to zip file {name}.zip\n"
@@ -245,9 +243,6 @@ int parseOptions(int argc, char **argv) {
             break;
         }
         switch (argv[arg][1]) {
-        case 'v':
-            showVersion(stdout, true);
-            exit(0);
         case 'x':
             flags |= EXTRACT;
             saveOpt++;
@@ -293,6 +288,10 @@ int parseOptions(int argc, char **argv) {
 int main(int argc, char **argv) {
     bool ok = true;
 
+    if (argc == 2 && _stricmp(argv[1], "-v") == 0) {
+        showVersion(stdout, argv[1][1] == 'V');
+        exit(0);
+    }
     int arg = parseOptions(argc, argv);
 
     if (arg >= argc)
