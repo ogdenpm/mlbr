@@ -9,24 +9,24 @@ REM  the following values are generated.  appid comes from the file %DEFAULTS_FI
 REM  it may be null
 REM
 REM  GIT_VERSION: Major.Minor.Commits [qualifier]       where Major and Minor come from a user tag of the format
-REM                                                     where qualifier is [.P | .X] [-branch] 
-REM                                                       .P - using uncommited files
-REM                                                       .X - externally tracked i.e. no git
-REM                                                       -branch is present if branch is not master
+REM                                                     where qualifier is [+ | X] [-branch] 
+REM                                                       + - using uncommited files
+REM                                                       X - externally tracked i.e. no git
+REM                                                       -branch is present if branch is not master or main
 REM  GIT_BUILDTYPE n                                    where n is
-REM                                                     0 for normal build on master branch
-REM                                                     1 for normal build not on master branch
-REM                                                     2 for build using uncommited files
-REM                                                     3 for build using untracked files 
+REM                                                     0 for normal build
+REM                                                     1 for build using uncommited files
+REM                                                     2 for build using untracked files 
 REM  Note a windows resource version is also generated as Major,Minor,Commits,buildtype
 REM  The tag used is chosen as highest parent version tag applicable to the current directory
 REM  ** For some scenarios this may not always be the desired outcome, but for my usage it is fine **
 REM  Commits is the count of commit applicable to this directory since the tag or when git was first used if no tag
 REM  GIT_APPID:   Application name from file %DEFAULTS_FILE%  - omitted if no prefix
+REM  GIT_PORT:    Optional, used to show version and copyright of ported software. e.g. 2.2 (C) Whitesmiths
 REM  GIT_SHA1:    SHA1 value of current commit or 'untracked' if outside git
 REM  GIT_CTIME:   DATE & TIME of current commit (in UTC)
 REM  GIT_CYEAR:   Year of current commit (useful for Copyright)
-REM  GIT_APPDIR:  current directory, potentially useful for default app name
+REM  GIT_APPNAME: Application name defaults to parent directory
 REM
 REM  All generated values are strings, except for the windows resource value GIT_VERSION_RC
 REM
@@ -42,7 +42,7 @@ set SCRIPTNAME=%0
 :: Console output only
 IF [%1] == [] GOTO START
 
-if /I [%~1] == [-v] (echo %0: Rev 9 -- git d716973 [2020-08-12]) & goto :eof
+if /I [%~1] == [-v] (echo %~n0: Rev 14 -- git f5cd62e [2021-08-10]) & goto :eof
 IF "%~1" == "-h" GOTO USAGE
 :optloop
 IF "%~1" == "-q" SET fQUIET=1& SHIFT & goto :optloop
@@ -57,6 +57,7 @@ set CACHE_DIR=%~df1\
 if [%~2] == [] goto USAGE
 set HEADER_OUT_FILE=%~df2
 set HEADER_DIR=%~dp2
+IF /I [%~x2] neq [.cs] SET STDHDR=1
 if [%3] neq [] goto USAGE
 
 :: above CACHE_DIR is forced to have a trailing \, fixup if now \\
@@ -81,10 +82,11 @@ if not exist %HEADER_OUT_FILE%\ goto START
 :: --------------------
 :USAGE
 :: --------------------
-ECHO usage: %SCRIPTNAME% [-h] ^| [-q] [-f] [-a appid] [CACHE_PATH OUT_FILE]
+ECHO usage: %SCRIPTNAME% -v ^| -h ^| [-q] [-f] [-a appid] [CACHE_PATH OUT_FILE]
 ECHO.
 ECHO  When called without arguments version information writes to console
 ECHO.
+ECHO  -v          - displays script version information
 ECHO  -h          - displays this output
 ECHO.
 ECHO  -q          - Suppress console output
@@ -96,6 +98,8 @@ ECHO.
 ECHO  Example pre-build event:
 ECHO  CALL $(SolutionDir)scipts\version.cmd "Generated" "Generated\version.h"
 ECHO.
+ECHO  If OUT_FILE ends in .cs then C# version file is written else C/C++ include file
+ECHO.
 GOTO :EOF
 
 
@@ -104,25 +108,14 @@ REM Entry Point
 REM ===================
 :START
 CALL :LOAD_DEFAULTS
-CALL :GET_VERSION_STRING
+CALL :GET_VERSION_ID
 if [%GIT_SHA1%] == [] (
-    if [%defGIT_SHA1%] == [] (
-        echo No Git information and no "%DEFAULTS_FILE%" file
+        echo No Git information
         exit /b 1
-    ) else (
-        if defined HEADER_OUT_FILE (
-            echo copying %DEFAULTS_FILE% to %HEADER_OUT_FILE%
-            copy /y/b "%DEFAULTS_FILE%" "%HEADER_OUT_FILE%" & exit /b 0
-        )
-        set GIT_SHA1=untracked
-        set GIT_VERSION=%defGIT_VERSION%
-        set GIT_BUILDTYPE=3
-        set GIT_BRANCH=%defGIT_BRANCH%
-        set GIT_CTIME=%defGIT_CTIME%
-    )
 )
 if DEFINED CACHE_FILE CALL :CHECK_CACHE
 if DEFINED fDONE exit /b 0
+call :GET_VERSION_STRING
 call :WRITE_OUT
 exit /b 0
 
@@ -137,28 +130,30 @@ REM ====================
 :: load the defaults from the %DEFAULTS_FILE% file
 :: line #define VAR VALUE gets a new variable defVAR with the VALUE (quotes are removed)
 if exist %DEFAULTS_FILE% (
-    for /f "tokens=1,2,3,4" %%A in (%DEFAULTS_FILE%) do if [%%A] == [#define] (call :setVar %%B %%C %%D)
+    for /f "tokens=1,2,*" %%A in (%DEFAULTS_FILE%) do if [%%A] == [#define] (call :setVar %%B %%C)
 )
-:: Application directory
-
+:: Application name defaults to parent directory
 for %%I in (%CD%) do set GIT_APPDIR=%%~nxI
+:: if verison.rc had GIT_APPNAME use it else define as GIT_APPDIR
+if defined defGIT_APPNAME (set GIT_APPNAME=%defGIT_APPNAME%) ELSE (set GIT_APPNAME=%GIT_APPDIR%)
+:: user didn't specific APPID then use the one in version.rc
 if not defined GIT_APPID if defined defGIT_APPID set GIT_APPID=%defGIT_APPID%
+:: replace a name of . with the parent directory name
 if [%GIT_APPID%] == [.] set GIT_APPID=%GIT_APPDIR%
 GOTO :EOF
 
 :: --------------------
-:GET_VERSION_STRING
+:GET_VERSION_ID
 :: --------------------
 set GIT_BUILDTYPE=0
 :: Get which branch we are on and whether any outstanding commits in current tree
 for /f "tokens=1,2 delims=. " %%A in ('"git status -s -b -uno -- . 2>NUL"') do (
     if [%%A] == [##] (
         set GIT_BRANCH=%%B
-        if [%%B] neq [master] set GIT_BUILDTYPE=1
     ) else (
         if [%%A%%B] neq [] (
-            set GIT_QUALIFIER=.P
-            set GIT_BUILDTYPE=2
+            set GIT_QUALIFIER=+
+            set GIT_BUILDTYPE=1
             goto :gotQualifier
         )
     )
@@ -167,13 +162,16 @@ for /f "tokens=1,2 delims=. " %%A in ('"git status -s -b -uno -- . 2>NUL"') do (
 :: error then no git or not in a repo (ERRORLEVEL not reliable)
 IF not defined GIT_BRANCH goto :EOF
 
-if [%GIT_BRANCH%] neq [master] set GIT_QUALIFIER=%GIT_QUALIFIER%-%GIT_BRANCH%
 ::
 :: get the current SHA1 and commit time for items in this directory
 for /f "tokens=1,2" %%A in ('git log -1 "--format=%%h %%ct" -- .') do (
     set GIT_SHA1=%%A
     set UNIX_CTIME=%%B
 )
+if [%GIT_BRANCH%] neq [master] if [%GIT_BRANCH%] neq [main] set GIT_QUALIFIER=%GIT_QUALIFIER%-%GIT_BRANCH%
+goto :EOF
+
+:GET_VERSION_STRING
 call :gmTime GIT_CTIME UNIX_CTIME
 
 if defined GIT_APPID set strPREFIX=%GIT_APPID%-
@@ -195,7 +193,11 @@ for /f "tokens=1" %%A in ('git rev-list --count %strFROM%HEAD -- .') do set GIT_
 
 :: remove any appid prefix or provide default
 if [%strTAG%] neq [] (set strTAG=%strTAG:*-=%) else (set strTAG=0.0)
+
 set GIT_VERSION_RC=%strTAG:.=,%,%GIT_COMMITS%,%GIT_BUILDTYPE%
+
+if [%GIT_BRANCH%] neq [master] if [%GIT_BRANCH%] neq [main] set GIT_VERSION_RC=0,0,0,0
+
 set GIT_VERSION=%strTAG%.%GIT_COMMITS%%GIT_QUALIFIER%
 goto :EOF
 
@@ -208,9 +210,13 @@ IF EXIST "%HEADER_OUT_FILE%" (
     IF EXIST "%CACHE_FILE%" (
       if [%fFORCE%] == [1] goto :overwrite
       FOR /F "tokens=* usebackq" %%A IN ("%CACHE_FILE%") DO (
-        IF "%%A" == "%GIT_APPID%-%GIT_VERSION%-%GIT_SHA1%" (
+        IF "%%A" == "%GIT_SHA1%%GIT_QUALIFIER%" (
           IF NOT DEFINED fQUIET (
-            ECHO Build version is assumed unchanged from: %GIT_VERSION%
+              if %GIT_BUILDTYPE% == 1 (
+                  ECHO Build version is assumed unchanged - WARNING uncommited files
+              ) else (
+                  ECHO Build version is assumed unchanged
+              )
           )
           SET fDONE=1
         )
@@ -218,46 +224,62 @@ IF EXIST "%HEADER_OUT_FILE%" (
     )
 )
 :overwrite
-ECHO %GIT_APPID%-%GIT_VERSION%-%GIT_SHA1%> "%CACHE_FILE%"
+ECHO %GIT_SHA1%%GIT_QUALIFIER%> "%CACHE_FILE%"
 
 GOTO :EOF
 
 :WRITE_OUT
 :: -------
 IF NOT DEFINED HEADER_OUT_FILE goto :CON_OUT
-set GUARD=v%GIT_VERSION_RC:,=_%
 :: create header file
 ECHO // Autogenerated version file>"%HEADER_OUT_FILE%"
+set GUARD=v%GIT_VERSION_RC:,=_%
+IF DEFINED STDHDR (
 ECHO #ifndef %GUARD%>>"%HEADER_OUT_FILE%"
 ECHO #define %GUARD%>>"%HEADER_OUT_FILE%"
-if [%GIT_APPID%] neq [] (
-ECHO #define GIT_APPID       "%GIT_APPID%">>"%HEADER_OUT_FILE%"
-)
+if [%GIT_APPID%] neq [] ECHO #define GIT_APPID       "%GIT_APPID%">>"%HEADER_OUT_FILE%"
+if [%GIT_PORTVER%] neq [] ECHO #define GIT_PORTVER     "%PORTVER%">>"%HEADER_OUT_FILE%"
+
+ECHO #define GIT_APPNAME     "%GIT_APPNAME%">>"%HEADER_OUT_FILE%"
+if defined defGIT_PORT      ECHO #define GIT_PORT        "%defGIT_PORT%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_VERSION     "%GIT_VERSION%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_VERSION_RC  %GIT_VERSION_RC% >>"%HEADER_OUT_FILE%"
 ECHO #define GIT_SHA1        "%GIT_SHA1%">>"%HEADER_OUT_FILE%"
 echo #define GIT_BUILDTYPE   %GIT_BUILDTYPE% >>"%HEADER_OUT_FILE%"
-ECHO #define GIT_APPDIR      "%GIT_APPDIR%">>"%HEADER_OUT_FILE%"
+if [%defGIT_APPDIR%] neq [] ECHO #define GIT_APPDIR      "%GIT_APPDIR%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_CTIME       "%GIT_CTIME%">>"%HEADER_OUT_FILE%"
 ECHO #define GIT_YEAR        "%GIT_CTIME:~,4%">>"%HEADER_OUT_FILE%"
 ECHO #endif>>"%HEADER_OUT_FILE%"
+) ELSE (
+ECHO namespace GitVersionInfo {>>"%HEADER_OUT_FILE%"
+ECHO   public partial class VersionInfo {>>"%HEADER_OUT_FILE%"
+ECHO     public const string GIT_APPNAME    = "%GIT_APPNAME%";>>"%HEADER_OUT_FILE%"
+if defined defGIT_PORT ECHO     public const string GIT_PORT    = "%defGIT_PORT%";>>"%HEADER_OUT_FILE%"
+ECHO     public const string GIT_VERSION    = "%GIT_VERSION%";>>"%HEADER_OUT_FILE%"
+ECHO     public const string GIT_VERSION_RC = "%GIT_VERSION_RC:,=.%";>>"%HEADER_OUT_FILE%"
+ECHO     public const string GIT_SHA1       = "%GIT_SHA1%";>>"%HEADER_OUT_FILE%"
+ECHO     public const int    GIT_BUILDTYPE  = %GIT_BUILDTYPE%;>>"%HEADER_OUT_FILE%"
+ECHO     public const string GIT_CTIME      = "%GIT_CTIME%";>>"%HEADER_OUT_FILE%"
+ECHO     public const string GIT_YEAR       = "%GIT_CTIME:~,4%";>>"%HEADER_OUT_FILE%"
+ECHO   }>>"%HEADER_OUT_FILE%"
+ECHO }>>"%HEADER_OUT_FILE%"
+)
 :: --------------------
 :CON_OUT
 :: --------------------
 IF DEFINED fQUIET GOTO :EOF
-ECHO Git App Id:           %GIT_APPID%
+ECHO Git App Id:           %GIT_APPID% %defGIT_PORT%
 ECHO Git Version:          %GIT_VERSION%
 ECHO Build type:           %GIT_BUILDTYPE%
 ECHO SHA1:                 %GIT_SHA1%
-ECHO App Dir:              %GIT_APPDIR%
+ECHO App Name              %GIT_APPNAME%
 ECHO Committed:            %GIT_CTIME%
 GOTO :EOF
 
 
-:setVar var valpart1 valpar2
+:setVar var valpart1
     set _var=%1
     set _value=%~2
-    if [%3] neq [] set _value=%2 %3
     set _value=%_value:" =%
     set def!_var!=!_value:"=!
 goto :eof
