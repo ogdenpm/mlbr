@@ -33,7 +33,8 @@ char *sAlloc(size_t n) {
             return str;
         }
         if (!p->next) {
-            p->next = xcalloc(1, sizeof(str_t) + (n > STRALLOC ? n : 0));    // for long string allocate big buffer
+            p->next          = xcalloc(1, sizeof(str_t) +
+                                              (n > STRALLOC ? n : 0)); // for long string allocate big buffer
             p->next->strSize = STRALLOC + (n > STRALLOC ? n : 0);
         }
     }
@@ -46,7 +47,7 @@ void sFree() {
         xfree(p);
     }
     stringMem.lastLoc = 0;
-    stringMem.next = NULL;
+    stringMem.next    = NULL;
 }
 
 // simple wrappers to standard malloc, calloc, realloc calls to check for out of memory
@@ -55,8 +56,9 @@ void *xmalloc(size_t size) {
     allocCnt++;
 #endif
     void *p = malloc(size);
-    if (p)
+    if (p) {
         return p;
+    }
     fprintf(stderr, "Fatal Error: Out of memory\n");
     exit(1);
 }
@@ -66,8 +68,9 @@ void *xcalloc(size_t count, size_t size) {
     allocCnt++;
 #endif
     void *p = calloc(count, size);
-    if (p)
+    if (p) {
         return p;
+    }
     fprintf(stderr, "Fatal Error: Out of memory\n");
     exit(1);
 }
@@ -102,9 +105,10 @@ char *xstrdup(char const *s) {
 
 // create a new sAlloced based string that replaces the extent in name with ext
 char *replaceExt(char const *name, char const *ext) {
-    const char *s = strrchr(name, '.');         // start of extent
-    if (!s)
-        s = strchr(name, '\0');                 // no extent so end of name
+    const char *s = strrchr(name, '.'); // start of extent
+    if (!s) {
+        s = strchr(name, '\0'); // no extent so end of name
+    }
     char *newName = sAlloc(s - name + strlen(ext) + 1);
     strncpy(newName, name, s - name);
     strcpy(newName + (s - name), ext);
@@ -120,14 +124,15 @@ typedef struct _name {
     char const *fname;
 } name_t;
 
-#define HASHSIZE   4096
+#define HASHSIZE 4096
 static name_t *hashTable[HASHSIZE];
 
 // frees all of the names currently allocated
 void freeHashTable() {
-    for (size_t i = 0; i < HASHSIZE; i++)
+    for (size_t i = 0; i < HASHSIZE; i++) {
         if (hashTable[i]) {
-            name_t *p, *q;
+            name_t *p;
+            name_t *q;
             for (p = hashTable[i]; p; p = q) {
                 q = p->next;
                 xfree((void *)(p->fname));
@@ -135,6 +140,7 @@ void freeHashTable() {
             }
             hashTable[i] = NULL;
         }
+    }
 }
 
 /*
@@ -143,19 +149,20 @@ void freeHashTable() {
     else adds the name to the used names and returns false
 */
 bool chkClash(char const *fname) {
-    uint16_t hash = crc16(fname, (long)strlen(fname)) % HASHSIZE;  // use crc 16 to hash name
+    uint16_t hash = crc16(fname, (long)strlen(fname)) % HASHSIZE; // use crc 16 to hash name
     if (hashTable[hash]) {
-        for (name_t *p = hashTable[hash]; p; p = p->next)
-            if (nameCmp(p->fname, fname) == 0)              // already exists?
+        for (name_t *p = hashTable[hash]; p; p = p->next) {
+            if (nameCmp(p->fname, fname) == 0) { // already exists?
                 return true;
+            }
+        }
     }
-    name_t *p = xmalloc(sizeof(name_t));                    // no clash so insert into hash table
-    p->fname = fname;
-    p->next = hashTable[hash];
+    name_t *p       = xmalloc(sizeof(name_t)); // no clash so insert into hash table
+    p->fname        = fname;
+    p->next         = hashTable[hash];
     hashTable[hash] = p;
-    return false;                                           // no clash
+    return false; // no clash
 }
-
 
 #if _DEBUG
 // for debugging show what names have been used
@@ -170,5 +177,3 @@ void dumpNames() {
         }
 }
 #endif
-
-

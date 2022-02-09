@@ -27,18 +27,17 @@
 #define DIRTY
 #endif
 
-// generate the main version string
+// the generate the normal version string
 // there are two flavours depending on whether the code is a port
 // if it is add a #define GIT_PORT "string" in version.in
 // string would typically be of the form
 // "x.y (C) company"
 // e.g. "2.2 (C) Whitesmiths"
 #ifdef GIT_PORT
-static const char *git_ver = GIT_APPNAME " " GIT_PORT
-           " - port " GIT_VERSION " " BUILD " (C)" GIT_YEAR " Mark Ogden";
+static const char *git_ver =
+    GIT_APPNAME " " GIT_PORT " - port " GIT_VERSION " " BUILD " (C)" GIT_YEAR " Mark Ogden";
 #else
-static const char *git_ver = GIT_APPNAME
-           " - " GIT_VERSION " " BUILD " (C)" GIT_YEAR " Mark Ogden";
+static const char *git_ver = GIT_APPNAME " - " GIT_VERSION " " BUILD " (C)" GIT_YEAR " Mark Ogden";
 #endif
 
 typedef struct {
@@ -48,8 +47,7 @@ typedef struct {
     const char *time;
 } git_detail_t;
 
-git_detail_t git_detail = { GIT_APPNAME, GIT_VERSION, GIT_SHA1 DIRTY,
-                            GIT_CTIME };
+git_detail_t git_detail = { GIT_APPNAME, GIT_VERSION, GIT_SHA1 DIRTY, GIT_CTIME };
 
 // show version information
 
@@ -74,11 +72,12 @@ void showVersion(FILE *fp, bool full) {
     fputs(git_ver, fp);
     fputc('\n', fp);
     if (full) {
-        fputs("Detailed Version Information:\n", fp);
+        char *label = "Program:";
         // now print out the version information
         for (const git_detail_t **s = git_details; *s; s++) {
-            fprintf(fp, "%-8s %-8s %-8s [%s]\n", (*s)->name, (*s)->version,
-                    (*s)->sha1, (*s)->time);
+            fprintf(fp, "%s %-8s %-8s %-8s [%s]\n", label, (*s)->name, (*s)->version, (*s)->sha1,
+                    (*s)->time);
+            label = "Library:";
         }
     }
 }

@@ -33,6 +33,7 @@
 #define strlwr  _strlwr
 #define chdir   _chdir
 #define strncasecmp _strnicmp
+#define strcasecmp _stricmp
 #define alloca  _alloca
 #define realpath(path, resolved)    _fullpath(resolved, path, 0)
 #else
@@ -127,8 +128,8 @@ void setFileTime(char const *path, time_t ftime);
 
 
 
-time_t cpmToOsTime(unsigned lbrDay, unsigned lbrTime);
-time_t getCrunchTime(uint8_t const *pTime);
+time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs);
+time_t getCrunchTime(uint8_t const *dateStamp);
 
 void list(content_t *content, time_t defDate, int depth);
 
@@ -141,12 +142,12 @@ void *xmalloc(size_t size);
 void *xcalloc(size_t count, size_t size);
 void *xrealloc(void *p, size_t size);
 char *xstrdup(char const *s);
-char *sAlloc(size_t size);
+char *sAlloc(size_t n);
 void sFree();
 void dumpNames();
 bool safeMkdir(char const *dir);
 
-const char *uniqueName(char const *targetDir, char const *fname);
+const char *uniqueName(char const *subDir, char const *fname);
 
 file_t *loadFile(char const *name);
 content_t *makeDescriptor(file_t const *file, char const *name, uint8_t *start, long length);
@@ -163,7 +164,6 @@ int u16At(uint8_t const *buf, long offset);
 bool inSeek(content_t *content, long offset);
 int inBits(content_t *content, uint8_t count);
 int inBitRev(content_t *content);
-void *xcalloc(size_t count, size_t size);
 void unloadFile(file_t *file);
 void setStoreFile(content_t *content);
 
@@ -179,10 +179,8 @@ char *replaceExt(char const *name, char const *ext);
 char const *nameOnly(char const *fname);
 void protectSrc(const char *fname, const char *target);
 void freeHashTable();
-char const *makeFullPath(char const *dir, char const *name);
 bool chkClash(char const *fname);
-void freeHashTable();
-void displayDate(const time_t date);
+void displayDate(time_t date);
 void logErr(content_t *content, char const *fmt, ...);
 char const *concat(const char *s, ...);
 char const *makeFullPath(const char *targetDir, const char *fname);

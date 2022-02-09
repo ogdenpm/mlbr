@@ -6,11 +6,11 @@
 #include "mlbr.h"
 #include <stdarg.h>
 
-bool keepCase = false;
-bool ignoreCorrupt = false;
-bool ignoreCrc = false;
-bool srcDstSame = false;
-int flags = 0;
+bool keepCase         = false;
+bool ignoreCorrupt    = false;
+bool ignoreCrc        = false;
+bool srcDstSame       = false;
+int flags             = 0;
 char const *targetDir = ".";
 
 char *mapCase(char *s) {
@@ -19,33 +19,50 @@ char *mapCase(char *s) {
 
 char const *methodName(content_t *content) {
     switch (content->type) {
-    case Squeezed: return "Squeezed";
-    case Crunched: return "Crunched";
-    case CrunchV1: return "CrunchV1";
-    case CrunchV2: return "CrunchV2";
-    case CrLzh:    return "Cr-Lzh";
-    case CrLzhV1:  return "Cr-LzhV1";
-    case CrLzhV2:  return "Cr-LzhV2";
-    case Library:  return "Library";
-    case Stored:   return "Stored";
-    case Skipped:  return "Skipped";
-    case Missing:  return "No Data";
-    default:       return "Unknown";
+    case Squeezed:
+        return "Squeezed";
+    case Crunched:
+        return "Crunched";
+    case CrunchV1:
+        return "CrunchV1";
+    case CrunchV2:
+        return "CrunchV2";
+    case CrLzh:
+        return "Cr-Lzh";
+    case CrLzhV1:
+        return "Cr-LzhV1";
+    case CrLzhV2:
+        return "Cr-LzhV2";
+    case Library:
+        return "Library";
+    case Stored:
+        return "Stored";
+    case Skipped:
+        return "Skipped";
+    case Missing:
+        return "No Data";
+    default:
+        return "Unknown";
     }
 }
 
 int getMethod(content_t *content) {
     switch (inU16(content)) {
-    case 0xfd76: return CrLzh;
-    case 0xfe76: return Crunched;
-    case 0xff76: return Squeezed;
+    case 0xfd76:
+        return CrLzh;
+    case 0xfe76:
+        return Crunched;
+    case 0xff76:
+        return Squeezed;
     case 0x2000:
-        if (content->in.bufSize >= 128 && memcmp(content->in.buf, "\0           \0\0", 14) == 0)
+        if (content->in.bufSize >= 128 && memcmp(content->in.buf, "\0           \0\0", 14) == 0) {
             return Library;
+        }
         break;
     case EOF:
-        if (content->in.bufSize < 0)
+        if (content->in.bufSize < 0) {
             return Missing;
+        }
     }
     return Stored;
 }
@@ -67,42 +84,53 @@ int processFile(content_t *content, int flags, int depth) {
     case Library:
         if ((depth == 0 || (flags & RECURSE)) && parseLbr(content)) {
             int valid = 0;
-            for (content_t *p = content->lbrHead; p; p = p->next)
+            for (content_t *p = content->lbrHead; p; p = p->next) {
                 valid += processFile(p, flags, depth + 1);
-            if (content->out.fdate)
-                content->in.fdate = content->out.fdate;     // fixup the actual lbr date
-            setStoreFile(content);      // keep list happy with sensible filename & expected length
+            }
+            if (content->out.fdate) {
+                content->in.fdate = content->out.fdate; // fixup the actual lbr date
+            }
+            setStoreFile(content); // keep list happy with sensible filename & expected length
             return valid;
-        } else
-            content->type = Stored;     // not library or nested .lbr with no recurse
+        } else {
+            content->type = Stored; // not library or nested .lbr with no recurse
+        }
         break;
     case Stored:
         break;
     case Missing:
-        setStoreFile(content);      // keep list happy with sensible filename & expected length
+        setStoreFile(content); // keep list happy with sensible filename & expected length
         return 0;
     }
     char const *msg;
     if (content->type != Stored) {
         switch (result) {
         case GOOD:
-            if (flags & NOEXPAND)
+            if (flags & NOEXPAND) {
                 msg = "is valid";
-            else
+            } else {
                 return 1;
+            }
             break;
-        case BADCRC: msg = "has invalid CRC"; break;
-        case CORRUPT: msg = "is corrupt"; break;
-        default: msg = "invalid header"; break;
+        case BADCRC:
+            msg = "has invalid CRC";
+            break;
+        case CORRUPT:
+            msg = "is corrupt";
+            break;
+        default:
+            msg = "invalid header";
+            break;
         }
 
-        bool ignore = result == BADCRC && ignoreCrc || result == CORRUPT && ignoreCorrupt;
+        bool ignore   = (result == BADCRC && ignoreCrc) || (result == CORRUPT && ignoreCorrupt);
         bool lbrCrcOk = depth && !(content->status & (F_BADCRC | F_NOCRC | F_TRUNCATED));
-        logErr(content, "!! %s [%s %s] %s, %s%s\n", content->in.fname, methodName(content), content->out.fname,
-            msg, ignore ? "ignoring error" : "processing as normal file", lbrCrcOk ? ", LBR CRC Ok" : "");
-        if (ignore)
+        logErr(content, "!! %s [%s %s] %s, %s%s\n", content->in.fname, methodName(content),
+               content->out.fname, msg, ignore ? "ignoring error" : "processing as normal file",
+               lbrCrcOk ? ", LBR CRC Ok" : "");
+        if (ignore) {
             return 1;
-
+        }
     }
     setStoreFile(content);
     if ((!srcDstSame || depth) && (!(content->status & F_TRUNCATED) || (flags & FORCE))) {
@@ -115,83 +143,86 @@ int processFile(content_t *content, int flags, int depth) {
 
 void displayDate(const time_t date) {
     struct tm const *timeptr = gmtime(&date);
-    printf("%04d-%02d-%02d %02d:%02d", 1900 + timeptr->tm_year, timeptr->tm_mon + 1, timeptr->tm_mday, timeptr->tm_hour, timeptr->tm_min);
+    printf("%04d-%02d-%02d %02d:%02d", 1900 + timeptr->tm_year, timeptr->tm_mon + 1,
+           timeptr->tm_mday, timeptr->tm_hour, timeptr->tm_min);
 }
-
 
 void list(content_t *content, time_t defDate, int depth) {
     for (content_t *p = content; p; p = p->next) {
-        if (p->msg)
+        if (p->msg) {
             printf("%s", p->msg);
+        }
         printf("%*s", depth * 2, "");
         printf("%-*s %7ld %-9s", 19 - depth * 2, p->out.fname, p->out.pos, methodName(p));
         switch (p->type) {
-        case Crunched: case Squeezed: case CrLzh:
-        case CrunchV1: case CrunchV2: case CrLzhV1: case CrLzhV2:
+        case Crunched:
+        case Squeezed:
+        case CrLzh:
+        case CrunchV1:
+        case CrunchV2:
+        case CrLzhV1:
+        case CrLzhV2:
             printf(" (%-12s %7ld) ", p->in.fname, p->in.bufSize);
             break;
         default:
-            printf("%-24c", ' '); break;
+            printf("%-24c", ' ');
+            break;
         }
         putchar((p->status & F_BADCRC) ? 'X' : (p->status & F_NOCRC) ? '-' : ' ');
         putchar(' ');
-        if (p->out.fdate)
+        if (p->out.fdate) {
             displayDate(p->out.fdate);
-        else {
+        } else {
             printf("<no date record>");
             p->out.fdate = defDate;
         }
-        if (p->comment)
+        if (p->comment) {
             printf(" %s", p->comment);
+        }
         putchar('\n');
         if (p->type == Library) {
             if (p->lbrHead) {
                 list(p->lbrHead, p->out.fdate, depth + 1);
-            } else
+            } else {
                 printf(" -- empty library --\n");
+            }
         }
     }
 }
-
-
-
 
 void usage(char const *fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
     vfprintf(stderr, fmt, args);
-    fprintf(stderr, "\n"
-        "Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
-        "   -v / -V show version information and exit\n"
-        "   -x  extract to directory\n"
-        "   -d  extract lbr to sub directory {name} - see below\n"
-        "   -z  convert to zip file {name}.zip\n"
-        "   -D  override target directory\n"
-        "   -f  forces write of skipped library content\n"
-        "   -i  ignore crc errors\n"
-        "   -I  ignore crc errors and corrupt decompression\n"
-        "   -k  keep original case of file names (default is to lower case)\n"
-        "   -n  don't expand compressed files\n"
-        "   -r  recursively extract lbr, creates nested sub directories for -d or -z\n"
-        "   -v  show verison details and exit\n"
-        "   --  terminates args to support files with a leading -\n\n"
+    fprintf(stderr,
+            "\n"
+            "Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
+            "   -v / -V show version information and exit\n"
+            "   -x  extract to directory\n"
+            "   -d  extract lbr to sub directory {name} - see below\n"
+            "   -z  convert to zip file {name}.zip\n"
+            "   -D  override target directory\n"
+            "   -f  forces write of skipped library content\n"
+            "   -i  ignore crc errors\n"
+            "   -I  ignore crc errors and corrupt decompression\n"
+            "   -k  keep original case of file names (default is to lower case)\n"
+            "   -n  don't expand compressed files\n"
+            "   -r  recursively extract lbr, creates nested sub directories for -d or -z\n"
+            "   -v  show verison details and exit\n"
+            "   --  terminates args to support files with a leading -\n\n"
 
-        " file+ one or more lbr, squeezed, crunched or crLzhed files\n"
-#ifdef _WIN32
-        "       names can include * or ? wildcard characters\n"
-#endif
-        "{name} is file with leading directory and extent removed\n"
-        "\n"
-        " Listing of file details, including validation checks is always done\n"
-        " The -x or -d options allow files to be extracted\n\n"
-        " When files contain comments or are renamed to avoid conflicts\n"
-        " the details are written to a file {name}.info\n"
-    );
+            " file+ one or more lbr, squeezed, crunched or crLzhed files\n"
+            "       names can include * or ? wildcard characters\n"
+            "{name} is file with leading directory and extent removed\n"
+            "\n"
+            " Listing of file details, including validation checks is always done\n"
+            " The -x or -d options allow files to be extracted\n\n"
+            " When files contain comments or are renamed to avoid conflicts\n"
+            " the details are written to a file {name}.info\n");
     va_end(args);
     exit(1);
 }
-
 
 // expands one file
 // cwd and targetDir should be in cannocial form
@@ -201,43 +232,43 @@ bool expandFile(char const *fname, char const *targetDir, int flags) {
     content_t *content;
 
     printf("%s:", fname);
-    if (!(file = loadFile(fname)))
+    if (!(file = loadFile(fname))) {
         return false;
+    }
     putchar('\n');
-    content = makeDescriptor(file, file->fname, file->buf, file->bufSize);
+    content     = makeDescriptor(file, file->fname, file->buf, file->bufSize);
 
     int saveCnt = processFile(content, flags, 0);
 
     list(content, file->fdate, 0);
-    putchar('\n');                                      // space from next block of info
+    putchar('\n'); // space from next block of info
     if (saveCnt != 0 && (flags & SAVEMASK)) {
         if (flags & (EXTRACT | SUBDIR)) {
             mkOsNames(content, "", flags);
             ok = saveContent(content, targetDir);
         } else if (flags & ZIP) {
             char const *zipFile = replaceExt(file->fname, ".zip");
-            zipFile = uniqueName("", zipFile);
+            zipFile             = uniqueName("", zipFile);
             mkOsNames(content, "", flags);
             ok = saveZip(content, targetDir, zipFile);
         }
-        putchar('\n');                                  // space from next block of info
+        putchar('\n'); // space from next block of info
     }
 
     freeAllDescriptors(content);
-    sFree();                             // clear all of the strings allocated
+    sFree(); // clear all of the strings allocated
     unloadFile(file);
     return true;
 }
-
-
 
 int parseOptions(int argc, char **argv) {
     int arg;
     int saveOpt = 0;
 
     for (arg = 1; arg < argc && argv[arg][0] == '-'; arg++) {
-        if (strlen(argv[arg]) != 2)
+        if (strlen(argv[arg]) != 2) {
             usage("Invalid option %s\n", argv[arg]);
+        }
         if (strcmp(argv[arg], "--") == 0) {
             arg++;
             break;
@@ -259,7 +290,7 @@ int parseOptions(int argc, char **argv) {
             flags |= FORCE;
             break;
         case 'I':
-            ignoreCorrupt = true;           // fall through to also ignoreCrc
+            ignoreCorrupt = true; // fall through to also ignoreCrc
         case 'i':
             ignoreCrc = true;
             break;
@@ -272,59 +303,68 @@ int parseOptions(int argc, char **argv) {
             flags |= RECURSE;
             break;
         case 'D':
-            if (++arg < argc)
+            if (++arg < argc) {
                 targetDir = argv[arg];
-            else
+            } else {
                 usage("Missing directory for -D option\n");
+            }
             break;
         default:
             usage("Invalid option %s\n", argv[arg]);
         }
     }
-    if (saveOpt > 1)
+    if (saveOpt > 1) {
         usage("only one of -x, -d and -z allowed\n");
+    }
     return arg;
 }
 int main(int argc, char **argv) {
     bool ok = true;
 
-    if (argc == 2 && _stricmp(argv[1], "-v") == 0) {
+    if (argc == 2 && strcasecmp(argv[1], "-v") == 0) {
         showVersion(stdout, argv[1][1] == 'V');
         exit(0);
     }
     int arg = parseOptions(argc, argv);
 
-    if (arg >= argc)
+    if (arg >= argc) {
         usage("No file specified\n");
+    }
 
-    char *cwd = realpath(".", NULL);          // used to restore to original directory
+    char *cwd = realpath(".", NULL); // used to restore to original directory
     if (!cwd) {
         fprintf(stderr, "cannot resolve current working directory\n");
         exit(1);
     }
     char *fullTargetDir;
 
-    if (strcmp(targetDir, ".") != 0 && (flags & SAVEMASK)) {     // create the target directory
-        if (!recursiveMkdir(targetDir))
+    if (strcmp(targetDir, ".") != 0 && (flags & SAVEMASK)) { // create the target directory
+        if (!recursiveMkdir(targetDir)) {
             usage("cannot create directory %s\n", targetDir);
+        }
         if ((fullTargetDir = realpath(targetDir, NULL)) == NULL) {
             fprintf(stderr, "cannot resolve %s\n", targetDir);
             exit(1);
         }
-    } else
+    } else {
         fullTargetDir = cwd;
+    }
 
     srcDstSame = nameCmp(fullTargetDir, cwd) == 0;
 
-    if (flags & SAVEMASK)               // will be saving to protect all of the source files if necessary
-        for (int i = arg; i < argc; i++)
+    if (flags & SAVEMASK) { // will be saving to protect all of the source files if necessary
+        for (int i = arg; i < argc; i++) {
             protectSrc(argv[i], fullTargetDir);
+        }
+    }
 
-    for (; arg < argc; arg++)
+    for (; arg < argc; arg++) {
         ok = ok && expandFile(argv[arg], fullTargetDir, flags);
+    }
 
-    if (fullTargetDir != cwd)
+    if (fullTargetDir != cwd) {
         free(fullTargetDir);
+    }
     free(cwd);
 #if _DEBUG
     dumpNames();
