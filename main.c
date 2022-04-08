@@ -209,7 +209,6 @@ void usage(char const *fmt, ...) {
             "   -k  keep original case of file names (default is to lower case)\n"
             "   -n  don't expand compressed files\n"
             "   -r  recursively extract lbr, creates nested sub directories for -d or -z\n"
-            "   -v  show verison details and exit\n"
             "   --  terminates args to support files with a leading -\n\n"
 
             " file+ one or more lbr, squeezed, crunched or crLzhed files\n"
