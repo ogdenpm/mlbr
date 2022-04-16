@@ -16,15 +16,15 @@
 static time_t getLbrTime(uint8_t const *lbrItem) {
     unsigned lbrDay;
     unsigned lbrTime;
-
-    if ((lbrDay = u16At(lbrItem, ChangeDate))) { // use modify time if valid
+// updated 2022-04-16  to ignore date of 0xffff
+    if ((lbrDay = u16At(lbrItem, ChangeDate)) && lbrDay != 0xffff) { // use modify time if valid
         lbrTime = u16At(lbrItem, ChangeTime);
     } else {
         lbrDay  = u16At(lbrItem, CreateDate); //  else create date
         lbrTime = u16At(lbrItem, ChangeTime);
     }
 
-    if (lbrDay) {
+    if (lbrDay && lbrDay != 0xffff) {
         lbrTime = (lbrTime >> 11) * 3600 + ((lbrTime >> 5) & 0x3f) * 60 +
                   (lbrTime & 0x1f) * 2; // convert to seconds
         return cpmToOsTime(lbrDay, lbrTime);
