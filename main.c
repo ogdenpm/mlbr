@@ -174,9 +174,10 @@ void list(content_t *content, time_t defDate, int depth) {
             if (p->out.fdate <= defDate)
                 displayDate(p->out.fdate);
             else {
-                if (p->type == Library)
+                if (p->type == Library) {
                     displayDate(defDate);
-                else
+                    putchar('*');
+                } else
                     printf("< invalid date >");
                 p->out.fdate = defDate;
             }
