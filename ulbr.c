@@ -25,7 +25,7 @@ static time_t getLbrTime(uint8_t const *lbrItem) {
     }
 // if lbrTime is invalid, return maximum time
     if ((lbrTime >> 11) > 23 || ((lbrTime >> 5) & 0x3f) > 59 || (lbrTime & 0x1f) > 29)
-        lbrTime = 0xffff;
+        lbrDay = 0xffff; // force invalid
     if (lbrDay) {
         lbrTime = (lbrTime >> 11) * 3600 + ((lbrTime >> 5) & 0x3f) * 60 +
                   (lbrTime & 0x1f) * 2; // convert to seconds
