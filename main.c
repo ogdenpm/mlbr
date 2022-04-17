@@ -171,7 +171,12 @@ void list(content_t *content, time_t defDate, int depth) {
         putchar((p->status & F_BADCRC) ? 'X' : (p->status & F_NOCRC) ? '-' : ' ');
         putchar(' ');
         if (p->out.fdate) {
-            displayDate(p->out.fdate);
+            if (p->out.fdate <= defDate)
+                displayDate(p->out.fdate);
+            else {
+                printf("< invalid date >");
+                p->out.fdate = defDate;
+            }
         } else {
             printf("<no date record>");
             p->out.fdate = defDate;
