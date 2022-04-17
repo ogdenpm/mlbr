@@ -240,7 +240,9 @@ int inBitRev(content_t *content) {
 void setStoreFile(content_t *content) {
     xfree(content->out.buf);
     content->comment = NULL;
+    time_t tmp         = content->out.fdate; // keep date info as list will use before fixing
     content->out     = content->in; // set up to store / skip the file
+    content->out.fdate = tmp;
     // set pos to real expected input length (skipped and missing) will not save using this
     content->out.pos = content->length;
 }

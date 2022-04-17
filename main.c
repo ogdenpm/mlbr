@@ -87,8 +87,8 @@ int processFile(content_t *content, int flags, int depth) {
             for (content_t *p = content->lbrHead; p; p = p->next) {
                 valid += processFile(p, flags, depth + 1);
             }
-            if (content->out.fdate) {
-                content->in.fdate = content->out.fdate; // fixup the actual lbr date
+            if (content->out.fdate > 0) {
+                content->in.fdate = content->out.fdate; // fixup the actual lbr date but not if invalid
             }
             setStoreFile(content); // keep list happy with sensible filename & expected length
             return valid;
@@ -171,7 +171,7 @@ void list(content_t *content, time_t defDate, int depth) {
         putchar((p->status & F_BADCRC) ? 'X' : (p->status & F_NOCRC) ? '-' : ' ');
         putchar(' ');
         if (p->out.fdate) {
-            if (p->out.fdate <= defDate)
+            if (0 < p->out.fdate && p->out.fdate <= defDate)
                 displayDate(p->out.fdate);
             else {
                 if (p->type == Library) {
@@ -182,7 +182,11 @@ void list(content_t *content, time_t defDate, int depth) {
                 p->out.fdate = defDate;
             }
         } else {
-            printf("<no date record>");
+            if (p->type == Library) {
+                displayDate(defDate);
+                putchar('=');
+            } else
+                printf("<no date record>");
             p->out.fdate = defDate;
         }
         if (p->comment) {
