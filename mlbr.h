@@ -1,20 +1,20 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-// Copyright (c) 2020 Mark Ogden 
+// Copyright (c) 2020-2022 Mark Ogden 
 #ifndef MLBR_H
 #define MLBR_H
 
+// make sure MSVC doesn't moan about names
 #define _CRT_SECURE_NO_WARNINGS
+#define _CRT_NONSTDC_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <ctype.h>
-#include <assert.h>
+
 
 
 #ifdef _MSC_VER
@@ -25,13 +25,8 @@
 #define OSDIRSEP   "\\"
 #define NEWLINE "\r\n"
 #define mkdir(path, mode)   _mkdir(path)
-#define fileno  _fileno
-#define futime  _futime
-#define strdup  _strdup
-#define unlink  _unlink
+
 #define nameCmp _stricmp
-#define strlwr  _strlwr
-#define chdir   _chdir
 #define strncasecmp _strnicmp
 #define strcasecmp _stricmp
 #define alloca  _alloca

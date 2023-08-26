@@ -8,11 +8,20 @@
 
 /*
     lbr time is encoded as follows
-    createDay   16bit le    days from 31/12/1977 i.e. 1  -> 1/1/1980
+    createDay   16bit le    days from 31/12/1977 i.e. 1  -> 1/1/1978
     changeDay   16bit le
-    createTime  16it  le    DOS format hhhhh mmmmmm sssss where ssss is seconds / 2
+    createTime  16it  le    DOS format hhhhh mmmmmm sssss where sssss is seconds / 2
     changeTime  16bit le
 */
+/* as dates were added to CP/M after the epoch and LBR is mainly for historic use
+   these defines allow for valid range checking
+   the current values are very broad and allow for LBR to add dated files for several years
+   also allow some historic dates to be added
+   they could be tightend up to detect more erroneous dates
+*/
+#define MAXDAY (2030 - 1978) * 365 // ~2030 (excluding leap years)
+#define MINDAY  1                  // date recording came after epoch so 0 is not valid
+
 static time_t getLbrTime(uint8_t const *lbrItem) {
     unsigned lbrDay;
     unsigned lbrTime;
@@ -23,10 +32,11 @@ static time_t getLbrTime(uint8_t const *lbrItem) {
         lbrDay  = u16At(lbrItem, CreateDate); //  else create date
         lbrTime = u16At(lbrItem, ChangeTime);
     }
-// if lbrTime is invalid, return maximum time
-    if ((lbrTime >> 11) > 23 || ((lbrTime >> 5) & 0x3f) > 59 || (lbrTime & 0x1f) > 29)
-        lbrDay = 0xffff; // force invalid
-    if (lbrDay) {
+    // as lbr is for historic use and the time fields were added later
+    // check for plausible date/time values, otherwise ignore
+    if (MINDAY <= lbrDay && lbrDay < MAXDAY && (lbrTime >> 11) < 24 && ((lbrTime >> 5) & 0x3f) < 60 &&
+        (lbrTime & 0x1f) < 30) {
+
         lbrTime = (lbrTime >> 11) * 3600 + ((lbrTime >> 5) & 0x3f) * 60 +
                   (lbrTime & 0x1f) * 2; // convert to seconds
         return cpmToOsTime(lbrDay, lbrTime);
