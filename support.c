@@ -1,8 +1,30 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+/* mlbr - extract .lbr archives and decompress Squeeze, Crunch (v1 & v2)
+ *        and Cr-Lzh(v1 & v2) files.
+ *	Comments and date stamps are supported as is conversion to .zip file
+ *	Copyright (C) - 2020-2023 Mark Ogden
+ *
+ * support.c - misc support functions
+ *
+ * NOET: Elements of the code have been derived from public shared
+ * source code and documentation.
+ * The source files note the owning copyright holders where known
+ * 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
-// Copyright (c) 2020 Mark Ogden
 #include "mlbr.h"
 #include <stdarg.h>
 #if 0
@@ -73,7 +95,7 @@ time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs) {
     if (timeZero == 0) { // get CP/M base time for this system
         struct tm timebuf = { 0, 0, 0, 31, 11, 77 };
 
-        timeZero          = _mkgmtime(&timebuf);
+        timeZero          = timegm(&timebuf);
     }
 
     if (cpmDay || timeInSecs) {

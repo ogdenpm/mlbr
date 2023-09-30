@@ -1,22 +1,49 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+/* mlbr - extract .lbr archives and decompress Squeeze, Crunch (v1 & v2)
+ *        and Cr-Lzh(v1 & v2) files.
+ *	Comments and date stamps are supported as is conversion to .zip file
+ *	Copyright (C) - 2020-2023 Mark Ogden
+ *
+ * uncrunch.c - 
+ *
+ * NOET: Elements of the code have been derived from public shared
+ * source code and documentation.
+ * The source files note the owning copyright holders where known
+ * 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/*----------------------------------------------------------------------------*/
+/*-----------Original Copyright information-----------------------------------*/
 /*  UNCRunch/C - LZW uncruncher compatible with Z-80 CP/M program CRUNCH 2.3  */
-/*			(C) Copyright 1986 - Frank Prindle		      */
-/*		    May be reproduced for non-profit use only		      */
+/*			(C) Copyright 1986 - Frank Prindle	                              */
+/*		    May be reproduced for non-profit use only		                  */
 /*----------------------------------------------------------------------------*/
 /* This program is largely based on the previous works of Steven Greenberg,   */
 /* Joe Orost, James Woods, Ken Turkowski, Steve Davies, Jim McKie, Spencer    */
 /* Thomas, Terry Welch, and (of course) Lempel and Zev (Ziv?), whoever they   */
-/* are.									      */
+/* are.									                                      */
+/* The original V1 hash algorithm Copyright (C) 2001 Russell Marks            */
+/* as used in his lbrate-1.1 program                                          */
 /*----------------------------------------------------------------------------*/
 /*
     Modified by Mark Ogden (Feb 2020) to work with mlbr and refector code
 
 */
 #include "mlbr.h"
+#include <limits.h>
 
 /*Macro definition - ensure letter is lower case*/
 #define MAXSTR           4096
@@ -127,10 +154,16 @@ static uint16_t hashV1(uint16_t pred, uint16_t chr) {
     if (pred == IMPRED && chr == 0) {
         hashval = 0x800; /* special case (leaving the zero code free for EOF) */
     } else {
-        /* normally we do a slightly awkward mid-square thing */
         uint16_t a = (((pred + chr) | 0x800) & 0x1fff);
-        uint16_t b = (a >> 1);
+#if UINT_MAX > 0x40000000
+        /* if intermediate calculations are > 8192 * 8192 then there is no need to
+         * prescale the numbers for multiply
+         */ 
+        hashval = (a * a >> 6) & 0xfff;
+#else   /* original V1 algorithm from lbrate-1.1 with scaling for intermediate calculations */
+        uint16_t b = a >> 1;
         hashval    = (((b * (b + (a & 1))) >> 4) & 0xfff);
+#endif
     }
 
     // use link chain to find free slot

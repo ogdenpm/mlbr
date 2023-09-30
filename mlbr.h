@@ -25,6 +25,7 @@
 #define OSDIRSEP   "\\"
 #define NEWLINE "\r\n"
 #define mkdir(path, mode)   _mkdir(path)
+#define timegm _mkgmtime
 
 #define nameCmp _stricmp
 #define strncasecmp _strnicmp
@@ -43,7 +44,6 @@ char *strlwr(char *str);
 #define _MAX_PATH   PATH_MAX
 #define nameCmp strcmp
 int _vscprintf(const char *fmt, va_list pargs);
-time_t _mkgmtime(struct tm *tm);
 #endif
 
 
@@ -110,8 +110,6 @@ enum {
     CrLzh, CrLzhV1, CrLzhV2, Library, Skipped, Missing, Mapping
 };
 
-void showVersion(FILE *fp, bool full);
-
 uint16_t crc16(uint8_t const *data, long len);
 
 uint16_t crc(uint8_t const *data, long len);
@@ -166,7 +164,7 @@ int unsqueeze(content_t *content);
 int uncrunch(content_t *content);
 int uncrLzh(content_t *content);
 bool parseHeader(content_t *content);
-bool recursiveMkdir(char const *dir);
+bool mkPath(char const *dir);
 void usage(char const *fmt, ...);
 char *mapCase(char *s);
 bool saveZip(content_t *content, char const *targetDir, char const *zipfile);

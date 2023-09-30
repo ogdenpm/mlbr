@@ -1,10 +1,33 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+/* mlbr - extract .lbr archives and decompress Squeeze, Crunch (v1 & v2)
+ *        and Cr-Lzh(v1 & v2) files.
+ *	Comments and date stamps are supported as is conversion to .zip file
+ *	Copyright (C) - 2020-2023 Mark Ogden
+ *
+ * main.c - top level option and file processing
+ *
+ * NOET: Elements of the code have been derived from public shared
+ * source code and documentation.
+ * The source files note the owning copyright holders where known
+ * 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
-// Copyright (c) 2020 Mark Ogden
 #include "mlbr.h"
 #include <stdarg.h>
+#include "showVersion.h"
 
 bool keepCase         = false;
 bool ignoreCorrupt    = false;
@@ -210,8 +233,9 @@ void usage(char const *fmt, ...) {
     vfprintf(stderr, fmt, args);
     fprintf(stderr,
             "\n"
-            "Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
+            "Usage: mlbr -v | -V | -h | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+\n"
             "   -v / -V show version information and exit\n"
+            "   -h  show this help and exit\n"
             "   -x  extract to directory\n"
             "   -d  extract lbr to sub directory {name} - see below\n"
             "   -z  convert to zip file {name}.zip\n"
@@ -233,7 +257,7 @@ void usage(char const *fmt, ...) {
             " When files contain comments or are renamed to avoid conflicts\n"
             " the details are written to a file {name}.info\n");
     va_end(args);
-    exit(1);
+    exit(*fmt ? 1 : 0);
 }
 
 // expands one file
@@ -333,10 +357,12 @@ int parseOptions(int argc, char **argv) {
 int main(int argc, char **argv) {
     bool ok = true;
 
-    if (argc == 2 && strcasecmp(argv[1], "-v") == 0) {
-        showVersion(stdout, argv[1][1] == 'V');
-        exit(0);
-    }
+    CHK_SHOW_VERSION(argc, argv);
+    if (argc == 2 && strcmp(argv[1], "-h") == 0)
+        usage("");
+
+
+
     int arg = parseOptions(argc, argv);
 
     if (arg >= argc) {
@@ -351,7 +377,7 @@ int main(int argc, char **argv) {
     char *fullTargetDir;
 
     if (strcmp(targetDir, ".") != 0 && (flags & SAVEMASK)) { // create the target directory
-        if (!recursiveMkdir(targetDir)) {
+        if (!mkPath(targetDir)) {
             usage("cannot create directory %s\n", targetDir);
         }
         if ((fullTargetDir = realpath(targetDir, NULL)) == NULL) {

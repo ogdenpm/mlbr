@@ -1,11 +1,9 @@
-﻿extensions: designer.cs generated.cs
-extensions: .cs .cpp .h .c
 /* mlbr - extract .lbr archives and decompress Squeeze, Crunch (v1 & v2)
  *        and Cr-Lzh(v1 & v2) files.
  *	Comments and date stamps are supported as is conversion to .zip file
  *	Copyright (C) - 2020-2023 Mark Ogden
  *
- * %FileName% - 
+ * appinfo.h - version static information
  *
  * NOET: Elements of the code have been derived from public shared
  * source code and documentation.
@@ -27,13 +25,9 @@ extensions: .cs .cpp .h .c
  * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-extensions: .aspx .ascx
-<%-- 
-Copyright (c) 2020 Mark Ogden
---%>
-extensions: .vb
-'Sample license text.
-extensions:  .xml .config .xsd
-<!--
-Sample license text.
--->
+// static version information
+
+#define APP_NAME        "mlbr"
+#define APP_DESCRIPTION "Extract files from .lbr libraries"
+#define APP_EMAIL       "support@mark-ogden.uk"
+#define APP_CONTRIBUTOR "Various - see source files"

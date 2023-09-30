@@ -108,8 +108,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);AUTOVER</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -149,8 +148,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);AUTOVER</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -193,8 +191,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -239,8 +236,7 @@
       <ConformanceMode>true</ConformanceMode>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -295,26 +291,24 @@
     <ClCompile Include="support.c" />
     <ClCompile Include="ulbr.c" />
     <ClCompile Include="uncrunch.c" />
-    <ClCompile Include="version.c" />
     <ClCompile Include="zip.c" />
     <ClCompile Include="zipfile.c" />
+    <ClCompile Include="_version.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="appinfo.h" />
     <ClInclude Include="miniz.h" />
     <ClInclude Include="mlbr.h" />
+    <ClInclude Include="showVersion.h" />
     <ClInclude Include="zip.h" />
+    <ClInclude Include="_version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mlbr.sln.licenseheader" />
     <None Include="version.in" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="version.rc">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories);$(VcpkgCurrentInstalledDir)include;Generated</AdditionalIncludeDirectories>
-    </ResourceCompile>
+    <ResourceCompile Include="_version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

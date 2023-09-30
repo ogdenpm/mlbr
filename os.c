@@ -1,42 +1,47 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-// Copyright (c) 2020 Mark Ogden
+/* mlbr - extract .lbr archives and decompress Squeeze, Crunch (v1 & v2)
+ *        and Cr-Lzh(v1 & v2) files.
+ *	Comments and date stamps are supported as is conversion to .zip file
+ *	Copyright (C) - 2020-2023 Mark Ogden
+ *
+ * os.c - most of the OS specific functions are contained in this file
+ *
+ * NOET: Elements of the code have been derived from public shared
+ * source code and documentation.
+ * The source files note the owning copyright holders where known
+ * 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 /*
-    most of the OS specific functions are contained in this file
-    They fall into the following groups
+    They functions here fall into the following groups
     file timestamps
     directory management
     filename management
     misc OS missing functions
-
 */
 
 #include "mlbr.h"
 #ifdef _WIN32
-#include <ShlObj_core.h>
+#define WINDOWS_LEAN_AND_MEAN
 #include <Windows.h>
 #else
 #include <stdarg.h>
 #endif
 
-#ifndef _WIN32
-// simulate windows _mkgmtime by seting env TZ to UTC, calling mktime & restoring TZ
-time_t _mkgmtime(struct tm *tm) {
-    time_t ret; // simulate windows _mkgmtime
-    char *tz;
 
-    tz = getenv("TZ");
-    setenv("TZ", "", 1);
-    tzset();
-    ret = mktime(tm);
-    if (tz)
-        setenv("TZ", tz, 1);
-    else
-        unsetenv("TZ");
-    tzset();
-    return ret;
-}
-#endif
 
 time_t getFileTime(FILE *fp) {
     struct stat buf;
@@ -44,7 +49,7 @@ time_t getFileTime(FILE *fp) {
     if (fstat(fileno(fp), &buf) != 0) {
         return 0;
     }
-    return buf.st_mtime;
+    return timegm(localtime(&buf.st_mtime));
 }
 
 #ifdef _WIN32
@@ -86,78 +91,27 @@ void setFileTime(char const *path, time_t ftime) {
 // or cannot create dir otherwise returns true
 bool safeMkdir(char const *dir) {
     struct stat info;
-    if (stat(dir, &info) == 0) {
-        return (info.st_mode & S_IFDIR) != 0;
-    }
+    if (stat(dir, &info) == 0)
+        return (info.st_mode & S_IFDIR);
     return mkdir(dir, 0774) == 0;
 }
 
 // mkPath is mkdir with all intermediate directories
 // created if necessary. Returns true if path created
-#ifdef _MSC_VER
-// under visual studio use the windows API
-// convert dir to full path name first
-bool recursiveMkdir(char const *dir) {
-    struct stat info;
-    // check if dir already exists also handles drive:\ which SHCreateDirectory fails on with access
-    // denied  !!
-
-    if (stat(dir, &info) == 0 && (info.st_mode & S_IFDIR)) {
-        return true;
+bool mkPath(char const *file) {
+    char dir[_MAX_PATH + 1];
+    char *s = dir;
+    while (1) {
+        while (*file && !strchr(DIRSEP, *file))
+            *s++ = *file++;
+        if (*file == 0)
+            return true;
+        *s = 0;
+        if (!safeMkdir(dir))
+            return false;
+        *s++ = *file++;
     }
-
-    wchar_t *wdir = xmalloc((strlen(dir) + 1) * sizeof(wchar_t));
-    MultiByteToWideChar(CP_ACP, 0, dir, -1, wdir, _MAX_PATH);
-
-    wchar_t *wpath = _wfullpath(NULL, wdir, 0);
-    xfree(wdir);
-    if (!wpath) {
-        return false;
-    }
-    int code = SHCreateDirectory(NULL, wpath);
-    free(wpath);
-    return code == ERROR_SUCCESS || code == ERROR_ALREADY_EXISTS;
 }
-#else
-bool recursiveMkdir(char const *dir) {
-    char *s;
-    char *partdir =
-        alloca(strlen(dir) +
-               3); // allow for adding . on end of disk only spec for windows + terminating OSDIRSEP
-    strcpy(partdir, dir);
-#ifdef _WIN32
-    if ((s = strchr(partdir, ':')) && !s[1] ||
-        (ISDIRSEP(s[1]) &&
-         !s[2])) { // if disk only specified add '.' to check current dir on disk (else mkdir fails)
-        strcat(s, ".");
-        s = strchr(partdir, '\0');
-    } else if (strncmp(partdir, "\\\\", 2) == 0) {
-        if ((s = strchr(partdir + 2, '\\')) == NULL ||
-            *++s == '\0') // skip past server name and check we have a host dir
-            return false; // only server name
-    } else
-        s = ISDIRSEP(*partdir) ? partdir + 1 : partdir; // leading / or \ for root
-#else
-    s = ISDIRSEP(*partdir) ? partdir + 1 : partdir; // leading / for root
-#endif
-    bool ok = true;
-    struct stat info;
-    strcat(s, OSDIRSEP); // make sure last part is processed
-
-    while (ok && (s = strpbrk(s, DIRSEP))) { // a dir of root will skip while but return ok
-        int c = *s;
-        *s    = '\0';                  // remove separator
-        if (stat(partdir, &info) == 0) // TODO: expand to handle symbolic links
-            ok = info.st_mode & S_IFDIR;
-        else
-            ok = mkdir(partdir, 0774) == 0;
-        *s = c;
-        while (ISDIRSEP(*++s))
-            ;
-    }
-    return ok;
-}
-#endif
 
 // check the file specified by fn for for windows, reserved words, also define illegal chars
 // note CPM 2.2 checks for the following illegal chars "=_:;<>?*" although many of DR's CPM apps

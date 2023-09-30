@@ -45,10 +45,10 @@
     <ClCompile Include="uncrunch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="version.c">
+    <ClCompile Include="zip.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zip.c">
+    <ClCompile Include="_version.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,14 +62,23 @@
     <ClInclude Include="zip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="appinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="showVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="mlbr.sln.licenseheader" />
     <None Include="version.in" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="version.rc">
-      <Filter>Source Files</Filter>
+    <ResourceCompile Include="_version.rc">
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>
