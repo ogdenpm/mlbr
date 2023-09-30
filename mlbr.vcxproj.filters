@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mlbr.sln.licenseheader" />
-    <None Include="version.in" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="_version.rc">

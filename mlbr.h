@@ -2,10 +2,6 @@
 #ifndef MLBR_H
 #define MLBR_H
 
-// make sure MSVC doesn't moan about names
-#define _CRT_SECURE_NO_WARNINGS
-#define _CRT_NONSTDC_NO_WARNINGS
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

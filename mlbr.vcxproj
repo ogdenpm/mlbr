@@ -58,22 +58,27 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Cbuild.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Cbuild.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Cbuild.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Cbuild.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Install\$(PlatformTarget)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
-    <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
@@ -81,7 +86,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Install\$(PlatformTarget)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
-    <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
@@ -89,7 +95,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Install\$(PlatformTarget)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
-    <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
@@ -97,7 +104,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Install\$(PlatformTarget)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
-    <CustomBuildBeforeTargets>BuildGenerateSources</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
     <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
@@ -117,21 +125,22 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
-      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
-      <Message>
-      </Message>
-      <Inputs>.force</Inputs>
-    </CustomBuildStep>
-    <PreBuildEvent>
       <Command>
       </Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
       <Message>
       </Message>
+      <Inputs>
+      </Inputs>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)\Scripts\getVersion.cmd $(VersionFlag)</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get Version ($(Configuration))</Message>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
@@ -157,21 +166,22 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
-      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
-      <Message>
-      </Message>
-      <Inputs>.force</Inputs>
-    </CustomBuildStep>
-    <PreBuildEvent>
       <Command>
       </Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
       <Message>
       </Message>
+      <Inputs>
+      </Inputs>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)\Scripts\getVersion.cmd $(VersionFlag)</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get Version ($(Configuration))</Message>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
@@ -202,21 +212,22 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;setargv.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
-      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
-      <Message>
-      </Message>
-      <Inputs>.force</Inputs>
-    </CustomBuildStep>
-    <PreBuildEvent>
       <Command>
       </Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
       <Message>
       </Message>
+      <Inputs>
+      </Inputs>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)\Scripts\getVersion.cmd $(VersionFlag)</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get Version ($(Configuration))</Message>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>if exist $(SolutionDir)install.cfg call $(SolutionDir)scripts\install.cmd $(TargetPath) $(SolutionDir)</Command>
@@ -252,21 +263,22 @@
       </Message>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>scripts\version.cmd "Generated\" "Generated\version.h"</Command>
-    </CustomBuildStep>
-    <CustomBuildStep>
-      <Outputs>Generated\version.h;Generated\GIT_VERSION_INFO</Outputs>
-      <Message>
-      </Message>
-      <Inputs>.force</Inputs>
-    </CustomBuildStep>
-    <PreBuildEvent>
       <Command>
       </Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
       <Message>
       </Message>
+      <Inputs>
+      </Inputs>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)\Scripts\getVersion.cmd $(VersionFlag)</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Get Version ($(Configuration))</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -305,7 +317,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mlbr.sln.licenseheader" />
-    <None Include="version.in" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="_version.rc" />
