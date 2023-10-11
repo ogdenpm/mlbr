@@ -3,9 +3,9 @@
  *	Comments and date stamps are supported as is conversion to .zip file
  *	Copyright (C) - 2020-2023 Mark Ogden
  *
- * zipfile.c - wrappers to safe zip content to files
+ * zipfile.c - interface to zip functionality
  *
- * NOET: Elements of the code have been derived from public shared
+ * NOTE: Elements of the code have been derived from public shared
  * source code and documentation.
  * The source files note the owning copyright holders where known
  * 
@@ -25,11 +25,9 @@
  * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 #include "mlbr.h"
-#define MINIZ_HEADER_FILE_ONLY
-#include "miniz.h"
 #include "zip.h"
+#define ZIP_BEST_COMPRESSION_LEVEL  9
 
 static bool saveZipContent(content_t *content, struct zip_t *zip) {
     bool ok = true;
@@ -68,9 +66,11 @@ static bool saveZipContent(content_t *content, struct zip_t *zip) {
             err = " - failed to write";
             zip_entry_close(zip, p->out.fdate);
             ok = false;
-        } else if (zip_entry_close(zip, p->out.fdate) != 0) {
-            err = " - failed to close";
-            ok  = false;
+        } else {
+            if (zip_entry_close(zip, p->out.fdate) != 0) {
+                err = " - failed to close";
+                ok  = false;
+            }
         }
         if (nameCmp(nameOnly(zpath), p->out.fname) != 0) {
             printf("%s -> %s%s\n", p->out.fname, zpath, err);

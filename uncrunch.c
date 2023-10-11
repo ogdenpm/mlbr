@@ -3,9 +3,9 @@
  *	Comments and date stamps are supported as is conversion to .zip file
  *	Copyright (C) - 2020-2023 Mark Ogden
  *
- * uncrunch.c - 
+ * uncrunch.c - implements crunch decompression
  *
- * NOET: Elements of the code have been derived from public shared
+ * NOTE: Elements of the code have been derived from public shared
  * source code and documentation.
  * The source files note the owning copyright holders where known
  * 
@@ -24,7 +24,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
-
 
 /*-----------Original Copyright information-----------------------------------*/
 /*  UNCRunch/C - LZW uncruncher compatible with Z-80 CP/M program CRUNCH 2.3  */
@@ -148,22 +147,15 @@ uint16_t hashV2(uint16_t pred, uint16_t suff) {
 }
 
 // hash function for V1
-// generatel initial hash, then get new hash value from xlatbl if already inuse
+// generate initial hash, then get new hash value from xlatbl if already inuse
 static uint16_t hashV1(uint16_t pred, uint16_t chr) {
     uint16_t hashval;
-    if (pred == IMPRED && chr == 0) {
+    if (pred == IMPRED && chr == 0)
         hashval = 0x800; /* special case (leaving the zero code free for EOF) */
-    } else {
+    else {
         uint16_t a = (((pred + chr) | 0x800) & 0x1fff);
-#if UINT_MAX > 0x40000000
-        /* if intermediate calculations are > 8192 * 8192 then there is no need to
-         * prescale the numbers for multiply
-         */ 
+        // calculation simplified to reflect intermediate calculations 32bit or better
         hashval = (a * a >> 6) & 0xfff;
-#else   /* original V1 algorithm from lbrate-1.1 with scaling for intermediate calculations */
-        uint16_t b = a >> 1;
-        hashval    = (((b * (b + (a & 1))) >> 4) & 0xfff);
-#endif
     }
 
     // use link chain to find free slot

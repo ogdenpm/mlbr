@@ -3,9 +3,9 @@
  *	Comments and date stamps are supported as is conversion to .zip file
  *	Copyright (C) - 2020-2023 Mark Ogden
  *
- * os.c - most of the OS specific functions are contained in this file
+ * os.c - interface to OS features
  *
- * NOET: Elements of the code have been derived from public shared
+ * NOTE: Elements of the code have been derived from public shared
  * source code and documentation.
  * The source files note the owning copyright holders where known
  * 
@@ -40,8 +40,6 @@
 #else
 #include <stdarg.h>
 #endif
-
-
 
 time_t getFileTime(FILE *fp) {
     struct stat buf;
@@ -101,6 +99,14 @@ bool safeMkdir(char const *dir) {
 bool mkPath(char const *file) {
     char dir[_MAX_PATH + 1];
     char *s = dir;
+#ifdef _WIN32
+    if (file[0] && file[1] == ':') { // skip drive
+        *s++ = *file++;
+        *s++ = *file++;
+    }
+#endif
+    if (*file)
+        *s++ = *file++; // avoid dir == ""
     while (1) {
         while (*file && !strchr(DIRSEP, *file))
             *s++ = *file++;

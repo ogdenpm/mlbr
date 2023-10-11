@@ -3,9 +3,9 @@
  *	Comments and date stamps are supported as is conversion to .zip file
  *	Copyright (C) - 2020-2023 Mark Ogden
  *
- * memio.c - support for in memory copies of files
+ * memio.c - in memory I/O functions
  *
- * NOET: Elements of the code have been derived from public shared
+ * NOTE: Elements of the code have been derived from public shared
  * source code and documentation.
  * The source files note the owning copyright holders where known
  * 
@@ -24,7 +24,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
-
 
 #include "mlbr.h"
 #include <stdarg.h>

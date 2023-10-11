@@ -3,9 +3,9 @@
  *	Comments and date stamps are supported as is conversion to .zip file
  *	Copyright (C) - 2020-2023 Mark Ogden
  *
- * miniz.h - miniz.c v1.15
+ * miniz.h - part of zip
  *
- * NOET: Elements of the code have been derived from public shared
+ * NOTE: Elements of the code have been derived from public shared
  * source code and documentation.
  * The source files note the owning copyright holders where known
  * 
@@ -25,10 +25,7 @@
  * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 /* Subset of the Miniz 1.15 code
- * Copyright 2013-2014 RAD Game Tools and Valve Software
- * Copyright 2010-2014 Rich Geldreich and Tenacious Software LLC
  *
  * All Rights Reserved.
  *
