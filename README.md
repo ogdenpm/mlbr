@@ -3,10 +3,13 @@ Lbr archive utility
 
 Simple utility to read lbr, squeeze, crunch and lzh files
 
-For windows there is a visual studio solution file
+For windows there is a visual studio solution file or alternatively the Microsoft Visual C compiler can be invoked using
 
-to compile under linux use
->gcc -o mlbr *.c
+cl /Fe:mlbr.exe *.c setargv.obj
+
+to compile using gcc (tested for Linux and MingW under Windows)
+
+gcc -o mlbr *.c
 
 ```
 Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+
@@ -36,4 +39,5 @@ Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] fil
 ```
 
 Mark
-9-Feb-2022
+
+13-Nov-2025

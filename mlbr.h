@@ -39,7 +39,7 @@
 
 
 
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include <sys/utime.h>
 #include <direct.h>
 #define ISDIRSEP(c) ((c) == '/' || (c) == '\\')
@@ -52,7 +52,9 @@
 #define nameCmp _stricmp
 #define strncasecmp _strnicmp
 #define strcasecmp _stricmp
+#ifndef alloca
 #define alloca  _alloca
+#endif
 #define realpath(path, resolved)    _fullpath(resolved, path, 0)
 #else
 #include <unistd.h>

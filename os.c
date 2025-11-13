@@ -58,17 +58,10 @@ void setFileTime(char const *path, time_t ftime) {
 
     ULARGE_INTEGER hiresTime = { .QuadPart = unixDay0 + (uint64_t)ftime * 10000000ULL };
     FILETIME filetm          = { hiresTime.LowPart, hiresTime.HighPart };
-
-    // CreateFile needs wchar path name so convert
-    int wsize      = MultiByteToWideChar(CP_ACP, 0, path, -1, NULL, 0);
-    wchar_t *wPath = xmalloc(wsize * sizeof(wchar_t));
-    MultiByteToWideChar(CP_ACP, 0, path, -1, wPath, wsize);
-
-    // open the  file to allow update of the attributes
     HANDLE hFile =
-        CreateFile(wPath, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+        CreateFile(path, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                    OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-    xfree(wPath);
+
     if (hFile == INVALID_HANDLE_VALUE) { // quietly ignore if we could not open
         return;
     }
@@ -254,7 +247,7 @@ char const *makeFullPath(const char *targetDir, const char *fname) {
 }
 
 // gcc does not have strlwr
-#ifndef _MSC_VER
+#ifndef _WIN32
 char *strlwr(char *str) {
     for (char *s = str; *s; s++)
         *s = tolower(*s);
