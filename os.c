@@ -47,7 +47,7 @@ time_t getFileTime(FILE *fp) {
     if (fstat(fileno(fp), &buf) != 0) {
         return 0;
     }
-    return timegm(localtime(&buf.st_mtime));
+    return xtimegm(localtime(&buf.st_mtime));
 }
 
 #ifdef _WIN32
@@ -178,7 +178,7 @@ char const *uniqueName(char const *subDir, char const *fname) {
         strcat(saveName++, "_"); // reserved names have _ prefix
     }
 
-    char *ext = strrchr(fname, '.'); // ext in original name if present
+    const char *ext = strrchr(fname, '.'); // ext in original name if present
     if (!ext) {
         ext = strchr(fname, '\0'); // no ext so point to end of name
     }
@@ -263,5 +263,27 @@ int _vscprintf(const char *fmt, va_list pargs) {
     retval = vsnprintf(NULL, 0, fmt, argcopy);
     va_end(argcopy);
     return retval;
+}
+#endif
+
+// portable timegm
+#ifndef _WIN32
+time_t xtimegm(struct tm *tm) {
+    char *tz;
+    time_t result;
+    tz = getenv("TZ");
+    if (tz)
+        tz = strdup(tz);
+    setenv("TZ", "UTC0", 1);
+    tzset();
+    result = mktime(tm);
+    if (tz) {
+        setenv("TZ", tz, 1);
+        free(tz);
+    } else {
+        unsetenv("TZ");
+    }
+    tzset();
+    return result;
 }
 #endif

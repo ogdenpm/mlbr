@@ -95,7 +95,7 @@ time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs) {
     if (timeZero == 0) { // get CP/M base time for this system
         struct tm timebuf = { 0, 0, 0, 31, 11, 77 };
 
-        timeZero          = timegm(&timebuf);
+        timeZero          = xtimegm(&timebuf);
     }
 
     if (cpmDay || timeInSecs) {

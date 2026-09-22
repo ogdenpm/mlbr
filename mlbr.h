@@ -47,7 +47,7 @@
 #define OSDIRSEP   "\\"
 #define NEWLINE "\r\n"
 #define mkdir(path, mode)   _mkdir(path)
-#define timegm _mkgmtime
+#define xtimegm _mkgmtime
 
 #define nameCmp _stricmp
 #define strncasecmp _strnicmp
@@ -68,6 +68,7 @@ char *strlwr(char *str);
 #define _MAX_PATH   PATH_MAX
 #define nameCmp strcmp
 int _vscprintf(const char *fmt, va_list pargs);
+time_t xtimegm(struct tm *tm);
 #endif
 
 
