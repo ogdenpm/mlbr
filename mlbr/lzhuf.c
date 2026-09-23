@@ -266,6 +266,7 @@ int uncrLzh(content_t *content) { /* Decoding/Uncompressing */
         return BADHEADER;
     }
     reflevel  = inU8(content);
+    (void)reflevel; // not used
     siglevel  = inU8(content);
     errdetect = inU8(content);
     if (inU8(content) < 0) { // skip spare but check for eof

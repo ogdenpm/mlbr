@@ -133,7 +133,7 @@ time_t getCrunchTime(uint8_t const *dateStamp) {
     timebuf.tm_min   = dateValue[4];
     timebuf.tm_sec   = 0;
     timebuf.tm_isdst = -1;
-    return timegm(&timebuf);
+    return xtimegm(&timebuf);
 }
 
 /*hash pred/suff into xlatbl pointer*/
@@ -366,6 +366,7 @@ int uncrunch(content_t *content) {
     reflevel  = inU8(content);
     siglevel  = inU8(content);
     errdetect = inU8(content);
+    (void)reflevel;          // not used
     if (inU8(content) < 0) { /*skip spare but check for eof*/
         return BADHEADER;
     }

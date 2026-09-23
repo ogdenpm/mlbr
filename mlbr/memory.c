@@ -172,7 +172,7 @@ void freeHashTable() {
     else adds the name to the used names and returns false
 */
 bool chkClash(char const *fname) {
-    uint16_t hash = crc16(fname, (long)strlen(fname)) % HASHSIZE; // use crc 16 to hash name
+    uint16_t hash = crc16((uint8_t const *)fname, (long)strlen(fname)) % HASHSIZE; // use crc 16 to hash name
     if (hashTable[hash]) {
         for (name_t *p = hashTable[hash]; p; p = p->next) {
             if (nameCmp(p->fname, fname) == 0) { // already exists?

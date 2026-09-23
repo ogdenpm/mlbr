@@ -76,7 +76,15 @@
 
 #endif
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 #include "miniz.h"
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
 #include "zip.h"
 
 #ifndef HAS_DEVICE

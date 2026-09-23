@@ -294,7 +294,7 @@ bool expandFile(char const *fname, char const *targetDir, int flags) {
     freeAllDescriptors(content);
     sFree(); // clear all of the strings allocated
     unloadFile(file);
-    return true;
+    return ok;
 }
 
 int parseOptions(int argc, char **argv) {
@@ -327,6 +327,7 @@ int parseOptions(int argc, char **argv) {
             break;
         case 'I':
             ignoreCorrupt = true; // fall through to also ignoreCrc
+            // fallthrough
         case 'i':
             ignoreCrc = true;
             break;
@@ -335,6 +336,7 @@ int parseOptions(int argc, char **argv) {
             break;
         case 'n':
             flags |= NOEXPAND;
+            break;
         case 'r':
             flags |= RECURSE;
             break;

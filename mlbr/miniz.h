@@ -2872,6 +2872,7 @@ typedef struct {
   mz_bool m_expandable;
 } tdefl_output_buffer;
 
+
 static mz_bool tdefl_output_buffer_putter(const void *pBuf, int len,
                                           void *pUser) {
   tdefl_output_buffer *p = (tdefl_output_buffer *)pUser;
@@ -3248,6 +3249,7 @@ static MZ_FORCEINLINE mz_bool mz_zip_array_push_back(mz_zip_archive *pZip,
          pElements, n * pArray->m_element_size);
   return MZ_TRUE;
 }
+
 
 #ifndef MINIZ_NO_TIME
 static time_t mz_zip_dos_to_time_t(int dos_time, int dos_date) {

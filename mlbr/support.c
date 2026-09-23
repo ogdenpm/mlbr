@@ -91,11 +91,12 @@ int u16At(uint8_t const *buf, long offset) {
 
 time_t cpmToOsTime(unsigned cpmDay, unsigned timeInSecs) {
     static time_t timeZero;
-
+    static struct tm timebuf;   // gcc complains of missing initializer, so set below
     if (timeZero == 0) { // get CP/M base time for this system
-        struct tm timebuf = { 0, 0, 0, 31, 11, 77 };
-
-        timeZero          = timegm(&timebuf);
+        timebuf.tm_year = 77; // 1977
+        timebuf.tm_mon  = 11; // December
+        timebuf.tm_mday = 31; // 31st
+        timeZero          = xtimegm(&timebuf);
     }
 
     if (cpmDay || timeInSecs) {
@@ -179,7 +180,7 @@ void mkOsNames(content_t *content, char const *targetDir, int flags) {
 }
 
 bool parseHeader(content_t *content) {
-    uint8_t buf[MAX_HEADER + 4]; // worst case is . at buf[MAX_HEADER - 1], we may set null at
+    char buf[MAX_HEADER + 4]; // worst case is . at buf[MAX_HEADER - 1], we may set null at
                                  // buf[MAX_HEADER + 3]
     int c;
     int len;
@@ -196,10 +197,10 @@ bool parseHeader(content_t *content) {
     buf[len <= MAX_HEADER ? len : MAX_HEADER] = 0; // terminate buffer
 
     if (content->type != Squeezed) {
-        uint8_t *stamp;
+        char *stamp;
         if ((stamp = strchr(buf, '.')) && strlen(stamp) > 4) { // if .xxx allow comment/date
             stamp += 4;                                        // standard says .xxx but be flexible
-            uint8_t *comment = strchr(stamp, '[');
+            char *comment = strchr(stamp, '[');
             if (comment == stamp) {
                 if ((stamp = strchr(comment, ']'))) { // allow for date to follow comment
                     stamp++;
@@ -214,7 +215,7 @@ bool parseHeader(content_t *content) {
                 }
                 if (strlen(stamp) >= 15) { // comment start is not a valid date field so
                                            // getCrunchTime will return 0 if there is overlap
-                    time_t fdate = getCrunchTime(stamp);
+                    time_t fdate = getCrunchTime((uint8_t *)stamp);
                     if (fdate) {
                         content->out.fdate = fdate;
                     }
@@ -227,7 +228,7 @@ bool parseHeader(content_t *content) {
             }
         }
     }
-    uint8_t *s;
+    char *s;
     // although chars < ' ' are not meant to be in the file name
     // one example I have seen has \b chars after the 3rd ext char
     // so some extra code to truncate ext if it contains <= ' '
@@ -287,3 +288,5 @@ char const *concat(const char *s, ...) {
     va_end(args);
     return cStr;
 }
+
+

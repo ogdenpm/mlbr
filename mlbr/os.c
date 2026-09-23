@@ -47,7 +47,7 @@ time_t getFileTime(FILE *fp) {
     if (fstat(fileno(fp), &buf) != 0) {
         return 0;
     }
-    return timegm(localtime(&buf.st_mtime));
+    return xtimegm(localtime(&buf.st_mtime));
 }
 
 #ifdef _WIN32
@@ -178,7 +178,7 @@ char const *uniqueName(char const *subDir, char const *fname) {
         strcat(saveName++, "_"); // reserved names have _ prefix
     }
 
-    char *ext = strrchr(fname, '.'); // ext in original name if present
+    char const *ext = strrchr(fname, '.'); // ext in original name if present
     if (!ext) {
         ext = strchr(fname, '\0'); // no ext so point to end of name
     }
@@ -213,7 +213,7 @@ void protectSrc(const char *fname, const char *targetDir) {
     }
     size_t dirlen = strlen(targetDir); // check for targetDir/... as prefix
     // see if target is a prefix path for fname
-    if (dirlen < strlen(fullname) && strncasecmp(targetDir, fullname, dirlen) == 0 &&
+    if (dirlen < strlen(fullname) && strnicmp(targetDir, fullname, dirlen) == 0 &&
         ISDIRSEP(fullname[dirlen])) {
         char *subDir = xmalloc(strlen(fullname) - dirlen - 1 +
                                1); // possible prefix so add the part past targetDir
@@ -231,7 +231,7 @@ char const *nameOnly(char const *fname) {
         fname = s + 1;
     }
 #else
-    while (s = strchr(fname, '/'))
+    while ((s = strchr(fname, '/')))
         fname = s + 1;
 #endif
     return fname;

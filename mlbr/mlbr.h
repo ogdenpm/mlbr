@@ -46,17 +46,12 @@
 #define DIRSEP  "/\\"
 #define OSDIRSEP   "\\"
 #define NEWLINE "\r\n"
-#define mkdir(path, mode)   _mkdir(path)
-#define timegm _mkgmtime
+#define mkdir(path, mode)   mkdir(path)
 
-#define nameCmp _stricmp
-#define strncasecmp _strnicmp
-#define strcasecmp _stricmp
-#ifndef alloca
-#define alloca  _alloca
-#endif
+#define nameCmp stricmp
 #define realpath(path, resolved)    _fullpath(resolved, path, 0)
-#else
+
+#elif defined(__unix__)
 #include <unistd.h>
 #include <utime.h>
 #include <limits.h>     // for PATH_MAX
@@ -68,7 +63,18 @@ char *strlwr(char *str);
 #define _MAX_PATH   PATH_MAX
 #define nameCmp strcmp
 int _vscprintf(const char *fmt, va_list pargs);
+#else
+#error "Unsupported platform"
 #endif
+
+#ifdef _POSIX_VERSION
+#define stricmp strcasecmp
+#define strnicmp strncasecmp
+#endif
+
+time_t xtimegm(struct tm * tm);
+
+
 
 
 #define CPMEOF  0x1a

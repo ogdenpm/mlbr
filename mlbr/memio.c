@@ -8,18 +8,18 @@
  * NOTE: Elements of the code have been derived from public shared
  * source code and documentation.
  * The source files note the owning copyright holders where known
- * 
+ *
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -44,7 +44,7 @@ file_t *loadFile(char const *name) {
         file          = xcalloc(1, sizeof(file_t));
         file->bufSize = statBuf.st_size;
         file->buf     = xmalloc((size_t)file->bufSize);
-        if (fread(file->buf, 1, (size_t)file->bufSize, fp) == file->bufSize) {
+        if ((long)fread(file->buf, 1, (size_t)file->bufSize, fp) == file->bufSize) {
             file->fdate = getFileTime(fp);
             file->fname = mapCase(xstrdup(nameOnly(name)));
         } else {
@@ -140,7 +140,7 @@ bool saveContent(content_t const *content, char const *targetDir) {
             if (fp == NULL) {
                 err = " - could not create file";
                 ok  = false;
-            } else if (fwrite(content->out.buf, 1, content->out.pos, fp) != content->out.pos) {
+            } else if ((long)fwrite(content->out.buf, 1, content->out.pos, fp) != content->out.pos) {
                 fclose(fp);
                 unlink(savePath);
                 err = " - problem writing file";
@@ -173,10 +173,13 @@ void outU8(uint8_t c, content_t *content) {
 }
 
 void outStr(content_t *content, char const *fmt, ...) {
+
     va_list args;
     va_start(args, fmt);
-    unsigned msgLen = _vscprintf(fmt, args) + 1; // length of new message
-    char *msg       = alloca(msgLen);            // use stack
+    unsigned msgLen = _vscprintf(fmt, args) + 1;                      // length of new message
+    char msgbuf[256];                                                 // short messages use stack
+    char *msg = (msgLen < sizeof(msgbuf)) ? msgbuf : xmalloc(msgLen); // use heap for large msgs
+
     vsprintf(msg, fmt, args);
     va_end(args);
     while (*msg) {
@@ -185,6 +188,10 @@ void outStr(content_t *content, char const *fmt, ...) {
         }
         outU8(*msg++, content);
     }
+    if (msgLen >= sizeof(msgbuf)) {
+        xfree(msg);
+    }
+    return;
 }
 
 void outRle(int val, content_t *content) {
@@ -260,9 +267,9 @@ int inBitRev(content_t *content) {
 
 void setStoreFile(content_t *content) {
     xfree(content->out.buf);
-    content->comment = NULL;
+    content->comment   = NULL;
     time_t tmp         = content->out.fdate; // keep date info as list will use before fixing
-    content->out     = content->in; // set up to store / skip the file
+    content->out       = content->in;        // set up to store / skip the file
     content->out.fdate = tmp;
     // set pos to real expected input length (skipped and missing) will not save using this
     content->out.pos = content->length;
