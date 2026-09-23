@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS</PreprocessorDefinitions>
+    </ClCompile>
+    <PreBuildEvent />
+    <PreBuildEvent />
+    <PostBuildEvent>
+      <Command>if exist "$(SolutionDir)install.cfg" "$(SolutionDir)Tools\install.exe" "$(TargetPath)" "$(SolutionDir)\"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Install</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+    <PropertyGroup >
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck> 
+    <VersionFlag Condition="'$(Configuration)' == 'Debug'">-w</VersionFlag>
+    <VersionFlag Condition="'$(Configuration)' != 'Debug'">-f</VersionFlag>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <PreBuildEvent>
+      <Message>Get Version ($(Configuration))</Message>
+      <Command>"$(SolutionDir)Tools\getversion.exe" $(VersionFlag)</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+   <PropertyGroup>
+    <IntDir>$(SolutionDir)Build\$(ProjectName)\$(PlatformTarget)-$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Install\$(PlatformTarget)-$(Configuration)\</OutDir>
+  </PropertyGroup> 
+</Project>
+
