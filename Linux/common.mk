@@ -48,42 +48,44 @@ endef
 SRCDIR=$(subst /Linux,,$(realpath .))
 ROOT:=$(realpath ../..)
 INSTALLDIR = $(ROOT)/Linux/Install
+GETVERSION = $(INSTALLDIR)/getVersion
+SRCGETVERSION = $(wildcard $(ROOT)/Linux/bootGetVersion/*.c)
+HDRGETVERSION = $(wildcard $(ROOT)/Linux/bootGetVersion/*.h)
+TARGET := $(INSTALLDIR)/$(TARGET)
 
-CC = gcc
-CFLAGS = -O3 -Wall -Wextra -I$(SRCDIR) $(addprefix -I,$(subst ^,$(ROOT),$(INCLUDES)))
-CXXFLAGS = $(CFLAGS)
+CC ?= gcc
+LINKER ?= $(CC)
+
+CFLAGS ?= -O3 -Wall -Wextra
+CFLAGS += -I$(SRCDIR) $(addprefix -I,$(subst ^,$(ROOT),$(INCLUDES)))
+
 VPATH = $(SRCDIR)
 
-LINKER ?= gcc
 
-all: $(TARGET) | $(INSTALLDIR)/getVersion
-	install -D -p -t $(INSTALLDIR) $(TARGET)
+all: $(GETVERSION) $(TARGET) | $(INSTALLDIR)
 
 publish: distclean mkversion
 	$(MAKE)
 
 # check version and force timestamp change so build
 # information is updated
-mkversion: $(INSTALLDIR)/getVersion 
-	$(INSTALLDIR)/getVersion -f $(SRCDIR) 
+mkversion: $(GETVERSION)
+	$(GETVERSION) -f $(SRCDIR) 
 
-$(INSTALLDIR)/getVersion: $(INSTALLDIR)
-	(cd $(ROOT)/Linux/bootGetVersion; sh mkGetVersion)
+$(GETVERSION): $(SRCGETVERSION) $(HDRGETVERSION) | $(INSTALLDIR)
+	$(CC) -o $@ $(SRCGETVERSION)
 
-$(SRCDIR)/_version.h: $(INSTALLDIR)/getVersion
-	$(INSTALLDIR)/getVersion -f $(SRCDIR)
+$(SRCDIR)/_version.h: $(GETVERSION)
+	$(GETVERSION) -f $(SRCDIR)
 
-ifndef OWNTARGET
 $(TARGET): $(OBJS) _version.o $(LIBS)
 	$(LINKER) -o $@ $^
-endif
 
 clean:
 	rm -f *.o
 
 distclean: clean
-	rm -f $(TARGET) _version.h
-	rm -fr $(INSTALLDIR)
+	rm -f $(TARGET)
 
 rebuild: distclean
 	$(MAKE)
