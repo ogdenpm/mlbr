@@ -53,14 +53,14 @@ SRCGETVERSION = $(wildcard $(ROOT)/Linux/bootGetVersion/*.c)
 HDRGETVERSION = $(wildcard $(ROOT)/Linux/bootGetVersion/*.h)
 TARGET := $(INSTALLDIR)/$(TARGET)
 
-CC ?= gcc
+CC ?= cc
 LINKER ?= $(CC)
 
 CFLAGS ?= -O3 -Wall -Wextra
 CFLAGS += -I$(SRCDIR) $(addprefix -I,$(subst ^,$(ROOT),$(INCLUDES)))
 
 VPATH = $(SRCDIR)
-
+export CC CFLAGS LINKER
 
 all: $(GETVERSION) $(TARGET) | $(INSTALLDIR)
 
