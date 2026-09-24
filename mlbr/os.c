@@ -37,9 +37,8 @@
 #ifdef _WIN32
 #define WINDOWS_LEAN_AND_MEAN
 #include <Windows.h>
-#else
-#include <stdarg.h>
 #endif
+#include <stdarg.h>
 
 time_t getFileTime(FILE *fp) {
     struct stat buf;

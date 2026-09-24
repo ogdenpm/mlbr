@@ -51,7 +51,7 @@
 #define nameCmp stricmp
 #define realpath(path, resolved)    _fullpath(resolved, path, 0)
 
-#elif defined(__unix__)
+#elif defined(__unix__) || defined(__HAIKU__)
 #include <unistd.h>
 #include <utime.h>
 #include <limits.h>     // for PATH_MAX
