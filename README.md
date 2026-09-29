@@ -3,13 +3,14 @@ Lbr archive utility
 
 Simple utility to read lbr, squeeze, crunch and lzh files
 
-For windows there is a visual studio solution file or alternatively the Microsoft Visual C compiler can be invoked using
+For windows there is a visual studio solution file or alternatively the Microsoft Visual C compiler can be invoked from the development command prompt by using
 
+```
 cl /Fe:mlbr.exe *.c setargv.obj
+```
 
-to compile using gcc (tested for Linux and MingW under Windows)
-
-gcc -o mlbr *.c
+For compilation on non Windows systems there is a makefile in the Linux directory that can be used to build mlbr. It has been tested using WSL (Ubuntu) on Windows by myself and on AIX, Solaris, Haiku, Illumos, and several flavours of BSD by Jeffrey Johnson.
+The makefile is written for gnu make, and the C compiler and flags can be overridden by setting the CC and CLFAG variables on the make command line. The compiled file is built in the Linux/Install directory. See the makefile for the various build targets.
 
 ```
 Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] file+
@@ -40,4 +41,4 @@ Usage: mlbr -v | -V | [-x | -d | -z]  [-D dir] [-f] [-i] [-k] [-n] [-r] [--] fil
 
 Mark
 
-13-Nov-2025
+29-Sept-2026
